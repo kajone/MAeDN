@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 
 # Folder to Ignore
 
 .settings/
 bin/
 
+=======
+>>>>>>> 4b8c3d9376dccd270e7b0d076ff43e97953eaa94
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -14,6 +17,7 @@ bin/
 *.war
 *.ear
 
+<<<<<<< HEAD
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -24,3 +28,7 @@ other stuff
 
 *.classpath
 *.project
+=======
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> 4b8c3d9376dccd270e7b0d076ff43e97953eaa94
