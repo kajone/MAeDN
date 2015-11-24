@@ -20,11 +20,26 @@ public class GameBoard {
 	
 	public void play(){					// Hauptmethode zum spielen
 		
+		/*
+		while(true){ // Abbruchkriterium: Bis einer gewonnen hat.
+			// Je Runde:
+			player[0].getPlayerMove();
+			boardUpdate();
+			player[1].getPlayerMove();
+			boardUpdate();
+			player[2].getPlayerMove();
+			boardUpdate();
+			player[3].getPlayerMove();
+			boardUpdate();
+			
+		
+		}
+		*/
 		
 	}
 	
 	
 	// Platz für Hilfmsmethoden
 	
-	
+	// void boardUpdate -> Sollte Spielbrett Updaten
 }
