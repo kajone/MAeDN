@@ -4,12 +4,17 @@ public class BotPlayer implements Player{
 	private int id;
 	private String name;
 	private String color;
+	private Token[] tokens;
 	
 	
 	public BotPlayer(String name, String color, int id){
 		this.name = name;
 		this.color = color;
 		this.id = id;
+		
+		for(int i = 0; i < 4; i++){
+			tokens[i] = new Token(id*10+1+i);
+		}
 	}
 	
 	
@@ -25,7 +30,11 @@ public class BotPlayer implements Player{
 		return id;
 	}
 	
+	public Token[] getTokens(){
+		return tokens;
+	}
 
+	
 	@Override
 	public int[] getPlayerMove(int[][] possibilities) {
 		// TODO Auto-generated method stub
