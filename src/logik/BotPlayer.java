@@ -37,9 +37,8 @@ public class BotPlayer implements Player{
 	}
 
 	
-	@Override
 	public int[] getPlayerMove(int[][] possibilities) {
-		// TODO Auto-generated method stub
+		tokens[0].setPosistion(8);
 		return null;
 	}
 

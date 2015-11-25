@@ -36,9 +36,9 @@ public class RealPlayer implements Player{
 		return tokens;
 	}
 	
-	@Override
+	
 	public int[] getPlayerMove(int[][] possibilities) {
-		// TODO Auto-generated method stub
+		tokens[0].setPosistion(5);
 		return null;
 	}
 

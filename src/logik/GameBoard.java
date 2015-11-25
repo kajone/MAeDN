@@ -25,9 +25,10 @@ public class GameBoard {
 	}
 	
      	public void play(){				// Hauptmethode zum spielen
-		int n = 0;
-		
-		while(n<2){ // Abbruchkriterium: Bis einer gewonnen hat. 
+     	System.out.println("Willkommen zu Mensch Aerger Dich Nicht!");
+     	boardViewUpdate();
+     	int n = 0;
+		while(n<5){ // Abbruchkriterium: Bis einer gewonnen hat. 
 					// (testweise zwei Runden)
 			// Pro Runde wird folgender Code ausgefuehrt:
 			for(int i = 0; i < 4; i++){
@@ -56,6 +57,21 @@ public class GameBoard {
 
 
 	public void boardViewUpdate(){
+		Token[] tempTokens;
+		for(int i = 0; i < 4; i++){
+			tempTokens=player[i].getTokens();
+			for(int j = 0; j < 4; j++){
+				if(tempTokens[j].getPosition() != -1){
+					board[tempTokens[j].getPosition()] = tempTokens[j];
+				}
+			}
+		}
+		
+		
+		for(int i = 0; i < 40; i++){
+			System.out.println(board[i]);
+		}
+		
 		// -> Sollte Spielbrettanzeige Updaten
 		System.out.println("Spielbrett update");
 		// fungiert zu Testzwecken erstmal als toString
@@ -106,7 +122,7 @@ public class GameBoard {
 	private int getRollResult(){
 		
 		Random randomize = new Random();
-		int rollResult = (randomize.nextInt(5)+1);
+		int rollResult = (randomize.nextInt(6)+1);
 		System.out.println("Du hast eine " + rollResult + " gewuerfelt!");
 		return rollResult;
 	}

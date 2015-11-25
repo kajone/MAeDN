@@ -13,7 +13,7 @@ public class MainClass {
 		
 		GameBoard mainBoard = new GameBoard(player);
 		
-		mainBoard.boardViewUpdate();
+		mainBoard.play();
 		
 	}
 
