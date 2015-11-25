@@ -59,37 +59,29 @@ public class GameBoard {
 		// -> Sollte Spielbrettanzeige Updaten
 		System.out.println("Spielbrett update");
 		// fungiert zu Testzwecken erstmal als toString
-		
 		String ausgabe = "";
-
-		
 		for(int i = 0; i < 11; i++){
 			for(int j = 0; j < 11; j++){
-				if(i < 4 && j < 4){
-					ausgabe += " ";
-				}
-				else if(i < 4 && j > 6){
-					ausgabe += " ";
-				}
-				else if(i > 6 && j < 4){
-					ausgabe += " ";
-				}
-				else if(i > 6 && j > 6){
-					ausgabe += " ";
-				}
-				else if(i == 5 && j == 5){
-					ausgabe += " ";
-				}
-				else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 5)  && j == 5){
-					ausgabe += "x";
-				}
-				
-				
+				if(i < 4 && j < 4){ausgabe += " ";}
+				else if(i < 4 && j > 6){ausgabe += " ";}
+				else if(i > 6 && j < 4){ausgabe += " ";}
+				else if(i > 6 && j > 6){ausgabe += " ";}
+				else if(i == 5 && j == 5){ausgabe += " ";}
+				else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 10 )  && j == 5){ausgabe += "x";}
+				else if(( j > 0 && j < 5)  && i == 5 || ( j > 5 && j < 10 )  && i == 5){ausgabe += "x";}
+				else{ausgabe += "o";}
 			}
 			ausgabe += "\n";
 		}
+		int[] positionArray = {18,19,20,17,21,16,22,15,23,10,11,12,13,14,24,25,26,27,28,9,29,8,7,6,5,4,34,33,32,31,30,3,35,2,36,1,37,0,39,38};
+		int oCounter = 0;
+		for(int i = 0; i < ausgabe.length(); i++){
+			if(ausgabe.charAt(i) == 'o'){
+				ausgabe = ausgabe.replaceFirst("o", printArrayElement(positionArray[oCounter]));
+				oCounter++;
+			}
+		}
 		System.out.println(ausgabe);
-		
 	}
 	
 	private String printArrayElement(int position){
