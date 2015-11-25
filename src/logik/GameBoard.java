@@ -35,25 +35,76 @@ public class GameBoard {
 				System.out.println("Spieler " + player[i].getId() + " " 
 						+ player[i].getName() + " ist an der Reihe");
 				
+				if(checkStartPosition(player[i])){
+					if(!rollDice3Times()) continue;
+					else{
+						player[i].getPlayerMove(getPossibilities(player[i],6));
+					}
+					
+				}else{
 				player[i].getPlayerMove(getPossibilities(player[i],
 						getRollResult()));
-				boardUpdate();
+				}
+				
+				boardViewUpdate();
 			}	
 			n++;
 		}	
 	}
 	// Platz fuer Hilfmsmethoden
 	
-	private void boardUpdate(){
+
+
+	public void boardViewUpdate(){
 		// -> Sollte Spielbrettanzeige Updaten
 		System.out.println("Spielbrett update");
 		// fungiert zu Testzwecken erstmal als toString
 		
+		String ausgabe = "";
+
+		
+		for(int i = 0; i < 11; i++){
+			for(int j = 0; j < 11; j++){
+				if(i < 4 && j < 4){
+					ausgabe += " ";
+				}
+				else if(i < 4 && j > 6){
+					ausgabe += " ";
+				}
+				else if(i > 6 && j < 4){
+					ausgabe += " ";
+				}
+				else if(i > 6 && j > 6){
+					ausgabe += " ";
+				}
+				else if(i == 5 && j == 5){
+					ausgabe += " ";
+				}
+				else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 5)  && j == 5){
+					ausgabe += "x";
+				}
+				
+				
+			}
+			ausgabe += "\n";
+		}
+		System.out.println(ausgabe);
+		
+	}
+	
+	private String printArrayElement(int position){
+		if(board[position] == null) return "o";
+		else{
+
+			return board[position].getColor().charAt(0) + "";
+		}
 	}
 	
 	private int[][] getPossibilities(Player player, int rollResult){
-		// braucht Wuerfelergebnis
-		// schlaegt vernuenftige Vorschlaege vor
+		// schlaegt alle vernuenftigen Vorschlaege vor
+		
+		// geht fuer jeden Token des Players die Moeglichkeiten durch
+		// bei einer 6 muss sich die Methode nach dem gegeangenen Zug nochmal aufrufen
 		
 
 
@@ -64,7 +115,7 @@ public class GameBoard {
 		
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(5)+1);
-		System.out.println("Es wird eine " + rollResult + " gewuerfelt!");
+		System.out.println("Du hast eine " + rollResult + " gewuerfelt!");
 		return rollResult;
 	}
 	
@@ -76,9 +127,19 @@ public class GameBoard {
 			}
 		}
 		if(checkStart){
-			System.out.println("Du hast alle Kollegen am Start!");
+			System.out.println("Du hast alle Kollegen auf der Startposition!");
 		}
 		
 		return checkStart;
+	}
+	
+	private boolean rollDice3Times() {
+		System.out.println("Du darfst 3 Mal wuerfeln:");
+		for(int i = 0; i < 3; i++){
+			if(getRollResult() == 6){
+				return true;
+			}
+		}
+		return false;
 	}
 }

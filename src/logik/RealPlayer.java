@@ -11,8 +11,10 @@ public class RealPlayer implements Player{
 		this.color = color;
 		this.id = id;
 		
+		tokens = new Token[4];
+		
 		for(int i = 0; i < 4; i++){
-			tokens[i] = new Token(id*10+1+i);
+			tokens[i] = new Token(id*10+1+i, color);
 		}
 		
 	}
