@@ -1,5 +1,7 @@
 package logik;
 
+
+
 public class MainClass {
 
 	public static void main(String[] args) {
@@ -12,7 +14,7 @@ public class MainClass {
 		GameBoard mainBoard = new GameBoard(player);
 		
 		mainBoard.play();
-
+		
 	}
 
 }
