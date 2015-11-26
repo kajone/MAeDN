@@ -35,22 +35,25 @@ public class GameBoard {
 				
 				System.out.println("Spieler " + player[i].getId() + " " 
 						+ player[i].getName() + " ist an der Reihe");
-				
+				int rollResult=0;
 				if(checkStartPosition(player[i])){
 					if(!rollDice3Times()) continue;
-					else{
-						player[i].getPlayerMove(getPossibilities(player[i],6));
-					}
-					
-				}else{
-				player[i].getPlayerMove(getPossibilities(player[i],
-						getRollResult()));
+					else rollResult = 6;	
 				}
 				
+				while(true){
+					if(rollResult == 0) rollResult = getRollResult();
+					if(!player[i].getPlayerMove(getPossibilities(player[i],rollResult))) break;
+					boardViewUpdate();
+					rollResult = getRollResult();
+				
+					
+				}
 				boardViewUpdate();
 			}	
 			n++;
 		}	
+		
 	}
 	// Platz fuer Hilfmsmethoden
 	
@@ -58,6 +61,9 @@ public class GameBoard {
 
 	public void boardViewUpdate(){
 		Token[] tempTokens;
+		for(int i = 0; i < 40; i ++){
+			board[i] = null;
+		}
 		for(int i = 0; i < 4; i++){
 			tempTokens=player[i].getTokens();
 			for(int j = 0; j < 4; j++){
@@ -66,8 +72,7 @@ public class GameBoard {
 				}
 			}
 		}
-		
-			
+				
 		// -> Sollte Spielbrettanzeige Updaten
 		System.out.println("Spielbrett update");
 		// fungiert zu Testzwecken erstmal als toString
@@ -104,15 +109,56 @@ public class GameBoard {
 		}
 	}
 	
-	private int[][] getPossibilities(Player player, int rollResult){
+	private int[] getPossibilities(Player player, int rollResult){
 		// schlaegt alle vernuenftigen Vorschlaege vor
 		
 		// geht fuer jeden Token des Players die Moeglichkeiten durch
 		// bei einer 6 muss sich die Methode nach dem gegeangenen Zug nochmal aufrufen
 		
+		int[] returnPossibilities = new int[5];
+		if(rollResult == 6)returnPossibilities[4] = 1;
+		// Aeusseres If kuemmern sich um Zugzwang
+		
+		// Wenn das erste Feld durch einen Spielstein der eigenen Farbe belegt ist gilt Zugzwang das Feld zu räumen
+		try{
+			if(board[0].getId()/10 == player.getId()){
+				for(int i = 0; i < 4; i++){
+					if(i == board[0].getId()-(player.getId()*10)-1){
+						System.out.println("ZUGZWANG: Feld raeumen, Spielstein " + board[0].getId() + " auf " + rollResult);
+						returnPossibilities[board[0].getId()-(player.getId()*10)-1] =  rollResult;
+					}
+					else{
+						returnPossibilities[i] = -1;
+					}
+				}	
+			}
+		}catch(NullPointerException e){
+			for(int i = 0; i < 4; i ++){
+				// Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewürfelt
+				if(player.getTokens()[i].getPosition() == -1 && rollResult != 6){
+					System.out.println("Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewürfelt");
+					returnPossibilities[i] = -1;
+				// Spezialfall: Spielstein steht im Haus und es wird eine 6 gewürfelt
 
+				}else if(player.getTokens()[i].getPosition() == -1 && rollResult == 6){
+					System.out.println("Spezialfall: Spielstein steht im Haus und es wird eine 6 gewürfelt");
+					// Spieler setzt Spielstein auf erstes Feld
+					returnPossibilities[i] = player.getTokens()[i].getPosition() + 1;
+					// Spieler ist jetzt nochmal dran
+				}
+				
+				else{
+				
+				// Normalfall, Spielstein steht auf dem Spielfeld und kann normal bewegt werden
+				returnPossibilities[i] = player.getTokens()[i].getPosition() + rollResult;	
+				}
+			}
+		}
+		
 
-		return null;		
+		
+
+		return returnPossibilities;		
 	}
 	
 	private int getRollResult(){

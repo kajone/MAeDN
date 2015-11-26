@@ -16,7 +16,6 @@ public class RealPlayer implements Player{
 		for(int i = 0; i < 4; i++){
 			tokens[i] = new Token(id*10+1+i, color);
 		}
-		
 	}
 	
 	
@@ -37,11 +36,28 @@ public class RealPlayer implements Player{
 	}
 	
 	
-	public int[] getPlayerMove(int[][] possibilities) {
-		tokens[0].setPosistion(5);
-		return null;
+	public boolean getPlayerMove(int[] possibilities) {
+		//tokens[0].setPosistion(5);
+		String s = "Array mit allen Moeglichkeiten: ";
+		for(int i = 0; i< 4; i++){
+			s += possibilities[i] + " ";			
+		}
+		System.out.println(s);
+		
+		boolean isItYourTurnAgain = false;
+		if(possibilities[4] == 1){
+			isItYourTurnAgain = true;
+		}
+		
+		
+		for(int i = 0; i < 4; i++){
+			if(possibilities[i] != -1){
+				tokens[i].setPosistion(possibilities[i]);
+				break;
+			}
+		}
+		return isItYourTurnAgain;
 	}
-
-
+	
 
 }
