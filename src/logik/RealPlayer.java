@@ -58,6 +58,13 @@ public class RealPlayer implements Player{
 		}
 		return isItYourTurnAgain;
 	}
+
+
+	@Override
+	public int getRollResult() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }

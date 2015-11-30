@@ -3,6 +3,7 @@ package logik;
 public class Token {
 
 	private int position;
+	private int moveCounter;
 	private int id;
 	private String color;
 	
@@ -28,5 +29,11 @@ public class Token {
 	public String getColor(){
 		return color;
 	}
+	
+	
+	public void move(int rollResult){
+		
+	}
 
+	
 }

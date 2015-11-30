@@ -1,32 +1,27 @@
 package logik;
 
 import java.util.Random;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class GameBoard {
+//	Diese Klasse zieht sich die Positionen der Tokens aus der GameTokens Klasse und kann sie vernünftig darstellen
+//	Gespeichert werden informationen jedoch zu keiner Zeit: Die Informationen liegen immer in den einzelenen Spielsteinen
 
-	private Token[] board = new Token[40];	// Legt Spielbrett mit 40 Feldern an
-	private Token[][] home = new Token[4][4]; // Sorgt sich um die Zielhaeuschen
-	private Player[] player = new Player[4]; // Verwaltet die 4 teilnehmenden Spieler									
 
-										
-	public GameBoard(Player[] player){					 					
-		
-										// Init board: Jedes Feld hat den Wert 0
-		for(int i = 0; i < 40; i++)board[i]=null; 
-										// Init home: Jedes Hausfeld Wert 0
-		for(int i = 0; i < 4; i++){
-			for(int j = 0; j < 4; j++){
-				home[i][j] = null;
-			}
-		}
-		
-										// Init Player[] 
-		this.player = player;	
-	}
 	
-     	public void play(){				// Hauptmethode zum spielen
+	private Player[] player = new Player[4]; // Verwaltet die 4 teilnehmenden Spieler											
+	public GameBoard(Player[] player){
+								// Init Player[] 
+		this.player = player;
+	}
+									// Hauptmethode zum spielen
+     	public void play(){		
+     		
      	System.out.println("Willkommen zu Mensch Aerger Dich Nicht!");
      	boardViewUpdate();
+     	
      	int n = 0;
 		while(n<5){ // Abbruchkriterium: Bis einer gewonnen hat. 
 					// (testweise zwei Runden)
@@ -37,17 +32,17 @@ public class GameBoard {
 						+ player[i].getName() + " ist an der Reihe");
 				int rollResult=0;
 				if(checkStartPosition(player[i])){
-					if(!rollDice3Times()) continue;
+					if(!rollDice3Times(player[i])) continue;
 					else rollResult = 6;	
 				}
 				
 				while(true){
-					if(rollResult == 0) rollResult = getRollResult();
+					// Muss n bisschen geändert werden, getPlayerMove ist nicht boolean
+					if(rollResult == 0) rollResult = player[i].getRollResult();
 					if(!player[i].getPlayerMove(getPossibilities(player[i],rollResult))) break;
 					boardViewUpdate();
-					rollResult = getRollResult();
+					rollResult = player[i].getRollResult();
 				
-					
 				}
 				boardViewUpdate();
 			}	
@@ -119,7 +114,7 @@ public class GameBoard {
 		if(rollResult == 6)returnPossibilities[4] = 1;
 		// Aeusseres If kuemmern sich um Zugzwang
 		
-		// Wenn das erste Feld durch einen Spielstein der eigenen Farbe belegt ist gilt Zugzwang das Feld zu räumen
+		// Wenn das erste Feld durch einen Spielstein der eigenen Farbe belegt ist gilt Zugzwang das Feld zu rï¿½umen
 		try{
 			if(board[0].getId()/10 == player.getId()){
 				for(int i = 0; i < 4; i++){
@@ -134,14 +129,14 @@ public class GameBoard {
 			}
 		}catch(NullPointerException e){
 			for(int i = 0; i < 4; i ++){
-				// Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewürfelt
+				// Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewï¿½rfelt
 				if(player.getTokens()[i].getPosition() == -1 && rollResult != 6){
-					System.out.println("Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewürfelt");
+					System.out.println("Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewï¿½rfelt");
 					returnPossibilities[i] = -1;
-				// Spezialfall: Spielstein steht im Haus und es wird eine 6 gewürfelt
+				// Spezialfall: Spielstein steht im Haus und es wird eine 6 gewï¿½rfelt
 
 				}else if(player.getTokens()[i].getPosition() == -1 && rollResult == 6){
-					System.out.println("Spezialfall: Spielstein steht im Haus und es wird eine 6 gewürfelt");
+					System.out.println("Spezialfall: Spielstein steht im Haus und es wird eine 6 gewï¿½rfelt");
 					// Spieler setzt Spielstein auf erstes Feld
 					returnPossibilities[i] = player.getTokens()[i].getPosition() + 1;
 					// Spieler ist jetzt nochmal dran
@@ -161,13 +156,7 @@ public class GameBoard {
 		return returnPossibilities;		
 	}
 	
-	private int getRollResult(){
-		
-		Random randomize = new Random();
-		int rollResult = (randomize.nextInt(6)+1);
-		System.out.println("Du hast eine " + rollResult + " gewuerfelt!");
-		return rollResult;
-	}
+
 	
 	private boolean checkStartPosition(Player player){
 		boolean checkStart = true;
@@ -183,13 +172,89 @@ public class GameBoard {
 		return checkStart;
 	}
 	
-	private boolean rollDice3Times() {
+	private boolean rollDice3Times(Player player) {
 		System.out.println("Du darfst 3 Mal wuerfeln:");
 		for(int i = 0; i < 3; i++){
-			if(getRollResult() == 6){
+			if(player.getRollResult() == 6){
 				return true;
 			}
 		}
 		return false;
 	}
+	private void kickToken(Token t1, Token t2){
+		int tmp;
+		tmp = t2.getPosition();
+		t1.setPosistion(tmp);
+		t2.setPosistion(-1);
+	}
+	private void colisionCheck(Token t, int diceRoll){
+		for (int i = 0; i < 4; i++) {
+			Player p = player[i];
+			Token [] tokens =p.getTokens();
+			for (int j = 0; j < 16; j++) {
+				Token t2 = tokens[j];
+				if(t.getPosition() + diceRoll == t2.getPosition())
+					colorCheck(t, t2);
+			}
+		}
+	}
+	private void colorCheck(Token t1, Token t2 ){
+		boolean colorcheck = false;
+		if(t1.getColor() == t2.getColor())
+			kickToken(t1,t2);
+		else{
+			System.out.println("Zug nicht moeglich. Waehle anderen Spielstein");
+			
+		} 
+			
+	}
+	public String printBoard(){
+		String s = "";
+		for(int i = 0; i < playBoard.length; i++){
+			for(int j = 0; j < playBoard[0].length; j++){
+				s+=playBoard[i][j];
+			}
+			s+="\n";
+		}
+		return s;
+	}
+	public void mergeBoards(){
+		for(int i = 0; i < playBoard.length; i++){
+			for(int j = 0; j < playBoard[0].length; j++){
+				if(playBoard[i][j] == 'o');
+					
+			}
+		}
+	}
 }
+
+
+
+/* 
+ * 
+ *
+ * 
+ * //	private File boardFile;
+ * 
+ * //		this.boardFile = f;
+//		this.playBoard = new char[11][11];
+//		try (Scanner sc = new Scanner(boardFile)) {
+//			while (sc.hasNext()) {
+//				for (int i = 0; i < 11; i++) {
+//					playBoard[i] = sc.nextLine().toCharArray();
+//
+//				}
+//			}
+//		}catch (FileNotFoundException e){
+//			System.out.println(e.getMessage());
+//		}
+//
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+

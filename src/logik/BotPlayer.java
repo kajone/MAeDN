@@ -1,21 +1,17 @@
 package logik;
 
+import java.util.Random;
+
 public class BotPlayer implements Player{
 	private int id;
 	private String name;
 	private String color;
-	private Token[] tokens;
 	
 	public BotPlayer(String name, String color, int id){
 		this.name = name;
 		this.color = color;
 		this.id = id;
 		
-		tokens = new Token[4];
-		
-		for(int i = 0; i < 4; i++){
-			tokens[i] = new Token(id*10+1+i, color);
-		}
 	}
 	
 	
@@ -31,9 +27,17 @@ public class BotPlayer implements Player{
 		return id;
 	}
 	
-	public Token[] getTokens(){
-		return tokens;
+
+	public int getRollResult(){
+		Random randomize = new Random();
+		int rollResult = (randomize.nextInt(6)+1);
+		System.out.println("Du hast eine " + rollResult + " gewuerfelt!");
+		return rollResult;
 	}
+	
+	
+	
+	
 
 	
 	public boolean getPlayerMove(int[] possibilities) {

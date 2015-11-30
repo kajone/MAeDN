@@ -1,5 +1,6 @@
 package logik;
 
+
 public interface Player {
 
 	
@@ -10,7 +11,8 @@ public interface Player {
 	
 	public int getId();
 	
-	public Token[] getTokens();
+	public int getRollResult();
+	
 	
 	public boolean getPlayerMove(int[] possibilities); 
 	// Uebergeben wird ein Feld aller Moeglichkeiten die wieder Felder sind int[{0-4}][2]

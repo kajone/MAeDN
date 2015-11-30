@@ -1,5 +1,7 @@
 package logik;
 
+import java.io.File;
+
 
 
 public class MainClass {
@@ -10,11 +12,12 @@ public class MainClass {
 		Player[] player = {new RealPlayer("Hans", "red",1), new RealPlayer("Kajo", "green",2),
 						   new BotPlayer("Bot1", "black",3), new BotPlayer("Bot2","violett",4)};
 		
-		
+//		File f = new File("file.txt");
 		GameBoard mainBoard = new GameBoard(player);
 		
-		mainBoard.play();
-		
+		//mainBoard.play();
+		mainBoard.mergeBoards();
+		System.out.println(mainBoard.printBoard());
 	}
 
 }
