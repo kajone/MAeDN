@@ -30,9 +30,12 @@ public class GameBoard {
 			for(int i = 0; i < player.length; i++){
 				
 				System.out.println("Spieler " + player[i].getId() + " " + player[i].getName() + " ist an der Reihe");
-				// ZUG: besteht aus würfeln, Ergebnisse vorschlagen, Ergebnis auswählen, (nochmal würfeln)
-				int rollResult = player[i].getRollResult();
+				// ZUG: besteht aus würfeln, Ergebnisse vorschlagen, Ergebnis auswählen, Ergebnis ausführen, (nochmal würfeln)
+				int rollResult = player[i].getRollResult(); 				
 				ArrayList<Token> listedPossibilities = gameTokens.checkPossibilities(rollResult);
+				Token choosenTurn = player[i].getPlayerDecision(listedPossibilities);
+				gameTokens.executePossibility(choosenTurn);
+				
 				
 			}	
 			n++;
