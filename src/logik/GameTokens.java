@@ -35,7 +35,12 @@ public class GameTokens {
 	}
 	
 	// Prüft die Möglichekiten für einen Spieler
-	public ArrayList<Token> checkPossibilities(int rollResult){
+	public ArrayList<Token> checkPossibilities(String color, int rollResult){
+		ArrayList<Token> listedPossibilities = new ArrayList<>();
+		
+		
+		
+		
 		return null;
 	}
 	
