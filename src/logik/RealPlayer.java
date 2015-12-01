@@ -1,5 +1,7 @@
 package logik;
 
+import java.util.ArrayList;
+
 public class RealPlayer implements Player{
 	private int id;
 	private String name;
@@ -36,27 +38,27 @@ public class RealPlayer implements Player{
 	}
 	
 	
-	public boolean getPlayerMove(int[] possibilities) {
+	public Token getPlayerDecision(ArrayList<Token> listedPossibilities) {
 		//tokens[0].setPosistion(5);
-		String s = "Array mit allen Moeglichkeiten: ";
-		for(int i = 0; i< 4; i++){
-			s += possibilities[i] + " ";			
-		}
-		System.out.println(s);
-		
-		boolean isItYourTurnAgain = false;
-		if(possibilities[4] == 1){
-			isItYourTurnAgain = true;
-		}
-		
-		
-		for(int i = 0; i < 4; i++){
-			if(possibilities[i] != -1){
-				tokens[i].setPosistion(possibilities[i]);
-				break;
-			}
-		}
-		return isItYourTurnAgain;
+//		String s = "Array mit allen Moeglichkeiten: ";
+//		for(int i = 0; i< 4; i++){
+//			s += possibilities[i] + " ";			
+//		}
+//		System.out.println(s);
+//		
+//		boolean isItYourTurnAgain = false;
+//		if(possibilities[4] == 1){
+//			isItYourTurnAgain = true;
+//		}
+//		
+//		
+//		for(int i = 0; i < 4; i++){
+//			if(possibilities[i] != -1){
+//				tokens[i].setPosistion(possibilities[i]);
+//				break;
+//			}
+//		}
+		return null;
 	}
 
 

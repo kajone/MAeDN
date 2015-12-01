@@ -13,12 +13,12 @@ public class MainClass {
 						   new BotPlayer("Bot1", "black",3), new BotPlayer("Bot2","violett",4)};
 		
 		
+		GameBoard mainBoard = new GameBoard(player);
+		mainBoard.play();
 		
-		GameTokens gameTokens = new GameTokens(player);
-		System.out.println(gameTokens.toString());
 		
 //		File f = new File("file.txt");
-//		GameBoard mainBoard = new GameBoard(player);
+//		
 		
 		//mainBoard.play();
 //		mainBoard.mergeBoards();

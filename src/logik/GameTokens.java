@@ -1,5 +1,7 @@
 package logik;
 
+import java.util.ArrayList;
+
 public class GameTokens {
 
 	private Token[] tokenArray = new Token[16];
@@ -19,23 +21,28 @@ public class GameTokens {
 	
 	// Ausgabe der 16 Spielsteine
 	public String toString(){
-		
 		String s = "";
-		
 		for(int i = 0; i < tokenArray.length; i++){
 			s += "Spielstein: " + tokenArray[i].getId() + " mit der Farbe " +  
 				  tokenArray[i].getColor() + " auf Position " + tokenArray[i].getPosition() + "\n";
 		}
-		
 		return s;
-		
 	}
 	
-//	public static void main(String[] args){
-//		
-//		
-//		
-//	}
+	// Getter für ein Token
+	public Token getToken(int i){
+		return tokenArray[i];
+	}
 	
+	// Prüft die Möglichekiten für einen Spieler
+	public ArrayList<Token> checkPossibilities(int rollResult){
+		return null;
+	}
+	
+	// Führt die Entscheidung eines Spielers aus
+	public void executePossibility(Token token){
+		
+	}
+
 	
 }
