@@ -1,4 +1,4 @@
-package MAeDN.src.GUI;
+package src.gui;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -7,12 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import javax.swing.*;
 public class MainMenue extends JFrame implements ActionListener {
 
 	
@@ -79,7 +74,9 @@ public class MainMenue extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == einstellungen ){
-			//auswahl();
+			Object[] options = { "OK"};
+			
+			JOptionPane.showOptionDialog(null, "Hier kommen irgendwann mal die Einstellungen hin!!", "Einstellungen", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 		}
 		
 		if(e.getSource() == hilfe){
@@ -91,9 +88,6 @@ public class MainMenue extends JFrame implements ActionListener {
 		if(e.getSource() == beenden) {
 			System.exit(0);
 		}
-	}
-	
-	public static void auswahl(){
 	}
 	
 }
