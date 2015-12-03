@@ -10,11 +10,9 @@ public class GameTokens {
 	public GameTokens(Player[] player){
 		
 		// 16 Spielsteine erstellen und im tokenArray abspeichern
-		int tokenCounter = 0;
 		for(int i = 1; i < 5; i++){
 			for(int j = 1; j < 5; j++){
-				tokenArray[tokenCounter] = new Token((i)*10+j, player[i-1].getColor());
-				tokenCounter++;
+				tokenArray[(i-1)*4+j-1] = new Token((i)*10+j, player[i-1].getColor());
 			}	
 		}	
 	}
@@ -29,24 +27,16 @@ public class GameTokens {
 		return s;
 	}
 	
-	// Getter für ein Token
+	// Getter fuer ein Token
 	public Token getToken(int i){
 		return tokenArray[i];
 	}
-	
-	// Prüft die Möglichekiten für einen Spieler
-	public ArrayList<Token> checkPossibilities(String color, int rollResult){
-		ArrayList<Token> listedPossibilities = new ArrayList<>();
-		
-		
-		
-		
-		return null;
-	}
-	
-	// Führt die Entscheidung eines Spielers aus
-	public void executePossibility(Token token){
-		
+	public Token[] getAllTokens(int id){
+		Token[] playerTokens = new Token[4];
+		for (int i = 0; i < 4; i++) {
+			playerTokens[i] = tokenArray[4*id+i];
+		}
+		return playerTokens;
 	}
 
 	
