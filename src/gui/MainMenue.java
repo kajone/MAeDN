@@ -1,4 +1,4 @@
-package src.gui;
+package gui;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -19,7 +19,7 @@ public class MainMenue extends JFrame implements ActionListener {
 	
 	public static void main(String[] args) {
 		
-		MainMenue mainMenue = new MainMenue("Menü");
+		MainMenue mainMenue = new MainMenue("MenÃ¼");
 		mainMenue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 //		try{
