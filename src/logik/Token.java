@@ -3,7 +3,7 @@ package logik;
 public class Token {
 
 	private int position;
-	private int moveCounter;
+//	private int moveCounter;
 	private int id;
 	private String color;
 	
@@ -11,6 +11,7 @@ public class Token {
 		this.id = id;
 		this.color = color;
 		position = -1;
+//		moveCounter = 0;
 		
 	}
 	
@@ -19,6 +20,7 @@ public class Token {
 	}
 	
 	public void setPosistion(int newPosition){
+		if(newPosition > getHouseEnd()) throw new RuntimeException("wrong bitch");
 		this.position = newPosition;
 	}
 	
@@ -30,10 +32,20 @@ public class Token {
 		return color;
 	}
 	
-	
-	public void move(int rollResult){
-		
+	public int getPlayerId(){
+		return getId()/10-1;
 	}
-
+	public int houseStart(){
+		return 40 + 4 * getPlayerId();
+	}
+	public int getHouseEnd(){
+		return houseStart()+3;
+	}
+	public boolean inHouse(){
+		return position >= houseStart() && position <= getHouseEnd();
+	}
+	public int getStart(){
+		return 10 * getPlayerId(); 
+	}
 	
 }

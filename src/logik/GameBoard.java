@@ -1,279 +1,130 @@
 package logik;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class GameBoard {
-//	Diese Klasse zieht sich die Positionen der Tokens aus der GameTokens Klasse und kann sie vernünftig darstellen
-//	Gespeichert werden informationen jedoch zu keiner Zeit: Die Informationen liegen immer in den einzelenen Spielsteinen
+	private GameTokens gTokens;
+	private Player[] players;
+	private Player currentPlayer;
+	private Token[] board;
 
-	private Player[] player = new Player[4]; // Verwaltet die 4 teilnehmenden Spieler		
-	private GameTokens gameTokens;
-	
-	
-	public GameBoard(Player[] player){
-								// Init Player[] 
-		this.player = player;
-		
-		this.gameTokens = new GameTokens(player);
-		
+	public GameBoard(Player[] players) {
+		this.players = players;
+		gTokens = new GameTokens(players);
+		board = new Token[56];
 	}
-									// Hauptmethode zum spielen
-     	public void play(){		
-     		
-     	System.out.println("Willkommen zu Mensch Aerger Dich Nicht!");
-     	boardViewUpdate();
-     	
-     	int n = 0;
-		while(n<5){ // Abbruchkriterium: Bis einer gewonnen hat. 
-					// (testweise zwei Runden)
-			// Pro Runde wird folgender Code ausgefuehrt:
-			for(int i = 0; i < player.length; i++){
-				
-				System.out.println("Spieler " + player[i].getId() + " " + player[i].getName() + " ist an der Reihe");
-				// ZUG: besteht aus würfeln, Ergebnisse vorschlagen, Ergebnis auswählen, Ergebnis ausführen, (nochmal würfeln)
-				int rollResult = player[i].getRollResult(); 				
-				ArrayList<Token> listedPossibilities = gameTokens.checkPossibilities(player[i].getColor(), rollResult);
-				Token choosenTurn = player[i].getPlayerDecision(listedPossibilities);
-				gameTokens.executePossibility(choosenTurn);
-				
-				
-			}	
-			n++;
-		}	
-		
+	
+	public void move(Token t, int position){
+		if(t.getPosition() != -1){
+			board[t.getPosition()] = null;
+		}
+		if(board[position] != null){
+			board[position].setPosistion(-1);
+		}
+		t.setPosistion(position);
+		board[position] = t;
+		System.out.println(t.getId()+" move to "+position);
 	}
-	// Platz fuer Hilfmsmethoden
-     	
-     	
-    	private boolean rollDice3Times(Player player) {
-		System.out.println("Du darfst 3 Mal wuerfeln:");
-		for(int i = 0; i < 3; i++){
-			if(player.getRollResult() == 6){
-				return true;
+
+	public int rollDice() {
+		return new Random().nextInt(6) + 1;
+	}
+
+	public LinkedList<Token> getAllMoves(int playerID, int rollResult) {
+		LinkedList<Token> result = new LinkedList<Token>();
+		HashMap <Token, Priority> mapping = new HashMap<Token, GameBoard.Priority>(); 
+		Token[] tokens = gTokens.getAllTokens(playerID);
+		int housePosition = ((playerID + 3) % 4) * 10 + 9;
+		for(Token t : tokens){
+			int pos = moveToken(t, rollResult);
+			if(pos==-2)continue;
+			MoveResult moveResult = checkMove(t, pos);
+			if(moveResult==MoveResult.OWN)
+				mapping.put(t, Priority.BLOCKED);
+			else if((housePosition + 1)%40 == t.getPosition()){ //TODO: check haus voll
+				mapping.put(t, Priority.MAKEFREE);
+				continue;
+			}
+			else if(pos == (housePosition+1)%40){
+				mapping.put(t, Priority.GETOUT);
+				continue;
+			}
+			else if(moveResult==MoveResult.OTHER)
+				mapping.put(t, Priority.HIT);
+			else if(moveResult==MoveResult.FREE)
+				mapping.put(t, Priority.RUN);
+		}
+		Priority max = Priority.BLOCKED;
+		for(Token t : mapping.keySet()){
+			result.add(t);
+			if(max.compareTo(mapping.get(t)) > 0){
+				max = mapping.get(t);
 			}
 		}
-		return false;
+		LinkedList<Token> toDelete = new LinkedList<Token>();
+		for(Token t : mapping.keySet()){
+			if(max.compareTo(mapping.get(t)) < 0){
+				toDelete.add(t);
+			}
+		}
+		result.removeAll(toDelete);
+		return result;
 	}
-    
-    	
-    	public void boardViewUpdate(){
-    	// Malt Ausgabe neu, zieht sich alle Daten neu	
-    		
-    		String ausgabe = "";
-    		for(int i = 0; i < 11; i++){
-    			for(int j = 0; j < 11; j++){
-    				if(i < 4 && j < 4){ausgabe += " ";}
-    				else if(i < 4 && j > 6){ausgabe += " ";}
-    				else if(i > 6 && j < 4){ausgabe += " ";}
-    				else if(i > 6 && j > 6){ausgabe += " ";}
-    				else if(i == 5 && j == 5){ausgabe += " ";}
-    				else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 10 )  && j == 5){ausgabe += "x";}
-    				else if(( j > 0 && j < 5)  && i == 5 || ( j > 5 && j < 10 )  && i == 5){ausgabe += "x";}
-    				else{ausgabe += "o";}
-    			}
-    			ausgabe += "\n";
-    		}
-    		  			
-    		System.out.println(gameTokens.toString());
-    	
-    	}
+
+	public int moveToken(Token t, int rollResult) {
+		int result;
+		int currentPosition = t.getPosition();
+		int playerNumber = t.getId() / 10 - 1;
+		int housePosition = ((playerNumber + 3) % 4) * 10 + 9;
+		if(currentPosition == -1){
+			if(rollResult == 6){
+				return (housePosition+1)%40;
+			}
+			else 
+				return -1;
+		}
+		int transform = (40 + currentPosition - t.getStart())%40;
+		if(t.inHouse()) 
+			transform = 40 + currentPosition - t.houseStart();
+		int newTokenPosition = (transform + rollResult);
+		if (newTokenPosition >= 40) {
+			int idHouse = newTokenPosition - 40;
+			if(idHouse > 3) return -2;
+			result = 40  + idHouse;
+		} else {
+			result = newTokenPosition;
+		}
+		if(newTokenPosition >=40) 
+			result = 40 + 4 * playerNumber + (newTokenPosition - 40);
+		else 
+			result = (40 + newTokenPosition + t.getStart())%40;
+		return result;
+	}
+
+	private enum MoveResult {
+		FREE, OWN, OTHER, HOUSEOVERJUMP, STAY
+	}
+	private enum Priority{
+		MAKEFREE, GETOUT, HIT, RUN, BLOCKED
+	}
+
+	private MoveResult checkMove(Token t, int newPosition) {
+		if(newPosition == -1)return MoveResult.STAY;
+		if (board[newPosition] == null) {
+			int playerNumber = t.getId() / 10 - 1;
+			int housePosition = 40 + ((playerNumber + 3) % 4) * 10 + 9;
+			for (int i = housePosition; i < newPosition; i++) {
+				if(board[i] != null)
+					return MoveResult.HOUSEOVERJUMP;
+			}
+			return MoveResult.FREE;
+		}
+		if (board[newPosition].getPlayerId() == t.getPlayerId()) {
+			return MoveResult.OWN;
+		}
+		return MoveResult.OTHER;
+	}
+
 }
-
-
-
-//	public void boardViewUpdate(){
-//		Token[] tempTokens;
-//		for(int i = 0; i < 40; i ++){
-//			board[i] = null;
-//		}
-//		for(int i = 0; i < 4; i++){
-//			tempTokens=player[i].getTokens();
-//			for(int j = 0; j < 4; j++){
-//				if(tempTokens[j].getPosition() != -1){
-//					board[tempTokens[j].getPosition()] = tempTokens[j];
-//				}
-//			}
-//		}
-//				
-//		// -> Sollte Spielbrettanzeige Updaten
-//		System.out.println("Spielbrett update");
-//		// fungiert zu Testzwecken erstmal als toString
-//		String ausgabe = "";
-//		for(int i = 0; i < 11; i++){
-//			for(int j = 0; j < 11; j++){
-//				if(i < 4 && j < 4){ausgabe += " ";}
-//				else if(i < 4 && j > 6){ausgabe += " ";}
-//				else if(i > 6 && j < 4){ausgabe += " ";}
-//				else if(i > 6 && j > 6){ausgabe += " ";}
-//				else if(i == 5 && j == 5){ausgabe += " ";}
-//				else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 10 )  && j == 5){ausgabe += "x";}
-//				else if(( j > 0 && j < 5)  && i == 5 || ( j > 5 && j < 10 )  && i == 5){ausgabe += "x";}
-//				else{ausgabe += "p";}
-//			}
-//			ausgabe += "\n";
-//		}
-//		int[] positionArray = {18,19,20,17,21,16,22,15,23,10,11,12,13,14,24,25,26,27,28,9,29,8,7,6,5,4,34,33,32,31,30,3,35,2,36,1,37,0,39,38};
-//		int oCounter = 0;
-//		for(int i = 0; i < ausgabe.length(); i++){
-//			if(ausgabe.charAt(i) == 'p'){
-//				ausgabe = ausgabe.replaceFirst("p", printArrayElement(positionArray[oCounter]));
-//				oCounter++;
-//			}
-//		}
-//		System.out.println(ausgabe);
-//	}
-//	
-//	private String printArrayElement(int position){
-//		if(board[position] == null) return "o";
-//		else{
-//
-//			return board[position].getColor().charAt(0) + "";
-//		}
-//	}
-//	
-//	private int[] getPossibilities(Player player, int rollResult){
-//		// schlaegt alle vernuenftigen Vorschlaege vor
-//		
-//		// geht fuer jeden Token des Players die Moeglichkeiten durch
-//		// bei einer 6 muss sich die Methode nach dem gegeangenen Zug nochmal aufrufen
-//		
-//		int[] returnPossibilities = new int[5];
-//		if(rollResult == 6)returnPossibilities[4] = 1;
-//		// Aeusseres If kuemmern sich um Zugzwang
-//		
-//		// Wenn das erste Feld durch einen Spielstein der eigenen Farbe belegt ist gilt Zugzwang das Feld zu rï¿½umen
-//		try{
-//			if(board[0].getId()/10 == player.getId()){
-//				for(int i = 0; i < 4; i++){
-//					if(i == board[0].getId()-(player.getId()*10)-1){
-//						System.out.println("ZUGZWANG: Feld raeumen, Spielstein " + board[0].getId() + " auf " + rollResult);
-//						returnPossibilities[board[0].getId()-(player.getId()*10)-1] =  rollResult;
-//					}
-//					else{
-//						returnPossibilities[i] = -1;
-//					}
-//				}	
-//			}
-//		}catch(NullPointerException e){
-//			for(int i = 0; i < 4; i ++){
-//				// Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewï¿½rfelt
-//				if(player.getTokens()[i].getPosition() == -1 && rollResult != 6){
-//					System.out.println("Spezialfall: Spielstein steht im Haus und es wurde keine 6 gewï¿½rfelt");
-//					returnPossibilities[i] = -1;
-//				// Spezialfall: Spielstein steht im Haus und es wird eine 6 gewï¿½rfelt
-//
-//				}else if(player.getTokens()[i].getPosition() == -1 && rollResult == 6){
-//					System.out.println("Spezialfall: Spielstein steht im Haus und es wird eine 6 gewï¿½rfelt");
-//					// Spieler setzt Spielstein auf erstes Feld
-//					returnPossibilities[i] = player.getTokens()[i].getPosition() + 1;
-//					// Spieler ist jetzt nochmal dran
-//				}
-//				
-//				else{
-//				
-//				// Normalfall, Spielstein steht auf dem Spielfeld und kann normal bewegt werden
-//				returnPossibilities[i] = player.getTokens()[i].getPosition() + rollResult;	
-//				}
-//			}
-//		}
-//		
-//
-//		
-//
-//		return returnPossibilities;		
-//	}
-//	
-//
-//	
-//	private boolean checkStartPosition(Player player){
-//		boolean checkStart = true;
-//		for(int i = 0; i < 4; i++){
-//			if(!(player.getTokens()[i].getPosition() == -1)){
-//				checkStart = false;
-//			}
-//		}
-//		if(checkStart){
-//			System.out.println("Du hast alle Kollegen auf der Startposition!");
-//		}
-//		
-//		return checkStart;
-//	}
-//	
-
-//	private void kickToken(Token t1, Token t2){
-//		int tmp;
-//		tmp = t2.getPosition();
-//		t1.setPosistion(tmp);
-//		t2.setPosistion(-1);
-//	}
-//	private void colisionCheck(Token t, int diceRoll){
-//		for (int i = 0; i < 4; i++) {
-//			Player p = player[i];
-//			Token [] tokens =p.getTokens();
-//			for (int j = 0; j < 16; j++) {
-//				Token t2 = tokens[j];
-//				if(t.getPosition() + diceRoll == t2.getPosition())
-//					colorCheck(t, t2);
-//			}
-//		}
-//	}
-//	private void colorCheck(Token t1, Token t2 ){
-//		boolean colorcheck = false;
-//		if(t1.getColor() == t2.getColor())
-//			kickToken(t1,t2);
-//		else{
-//			System.out.println("Zug nicht moeglich. Waehle anderen Spielstein");
-//			
-//		} 
-//			
-//	}
-//	public String printBoard(){
-//		String s = "";
-//		for(int i = 0; i < playBoard.length; i++){
-//			for(int j = 0; j < playBoard[0].length; j++){
-//				s+=playBoard[i][j];
-//			}
-//			s+="\n";
-//		}
-//		return s;
-//	}
-//	public void mergeBoards(){
-//		for(int i = 0; i < playBoard.length; i++){
-//			for(int j = 0; j < playBoard[0].length; j++){
-//				if(playBoard[i][j] == 'o');
-//					
-//			}
-//		}
-//	}
-//}
-
-
-
-/* 
- * 
- *
- * 
- * //	private File boardFile;
- * 
- * //		this.boardFile = f;
-//		this.playBoard = new char[11][11];
-//		try (Scanner sc = new Scanner(boardFile)) {
-//			while (sc.hasNext()) {
-//				for (int i = 0; i < 11; i++) {
-//					playBoard[i] = sc.nextLine().toCharArray();
-//
-//				}
-//			}
-//		}catch (FileNotFoundException e){
-//			System.out.println(e.getMessage());
-//		}
-//
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */
-
