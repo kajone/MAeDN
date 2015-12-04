@@ -126,5 +126,23 @@ public class GameBoard {
 		}
 		return MoveResult.OTHER;
 	}
+	public boolean threeTimeRoll(int id){
+		boolean isOK = true;
+		Token[] playerTokens = gTokens.getAllTokens(id);
+		for (int i = 0; i < 4; i++) {
+			if(playerTokens[i].getPosition() == -1)
+				continue;
+			if(playerTokens[i].inHouse())
+				for (int j = playerTokens[i].getPosition()+1; j < playerTokens[i].getHouseEnd(); j++) {
+					if(board[j]==null){ 
+						isOK = false;
+						break;
+					}
+				}
+			else 
+				isOK = false;
+		}
+		return isOK;
+	}
 
 }
