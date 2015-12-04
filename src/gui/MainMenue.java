@@ -19,7 +19,11 @@ public class MainMenue extends JFrame implements ActionListener {
 	
 	public static void main(String[] args) {
 		
+<<<<<<< HEAD
 		MainMenue mainMenue = new MainMenue("Men�");
+=======
+		MainMenue mainMenue = new MainMenue("Menü");
+>>>>>>> 7e6a2372173fd027e94920066dfef6857c1dc5ee
 		mainMenue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 //		try{
