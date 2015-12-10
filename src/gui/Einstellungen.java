@@ -61,7 +61,6 @@ public class Einstellungen extends JFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 		if(e.getSource() == speichern ){
 			String spielername = spielerNameEingabe.getText();

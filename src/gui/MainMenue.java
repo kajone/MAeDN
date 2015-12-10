@@ -59,25 +59,16 @@ public class MainMenue extends JFrame implements ActionListener {
 	}
 	
 	
-	public static void fenster(){
-		JFrame fenster = new JFrame();
-		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenster.setSize(650, 350);
-		fenster.setVisible(true);
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getSource() == spielStarten ){
-			fenster();
+			SpielLobby lobbyFenster = new SpielLobby("Lobby");
 		}
 		
 		if(e.getSource() == einstellungen ){
 			
 			Einstellungen einstellungsFenster = new Einstellungen("Einstellungen");
-			einstellungsFenster.setLayout(null);
-			einstellungsFenster.setVisible(true);
 			
 		}
 		
