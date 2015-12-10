@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,19 +18,9 @@ public class MainMenue extends JFrame implements ActionListener {
 	
 	public static void main(String[] args) {
 		
-<<<<<<< HEAD
-		MainMenue mainMenue = new MainMenue("Men�");
-=======
-		MainMenue mainMenue = new MainMenue("Menü");
->>>>>>> 7e6a2372173fd027e94920066dfef6857c1dc5ee
+		MainMenue mainMenue = new MainMenue("Menue");
 		mainMenue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		try{
-//		mainMenue.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:/Users/Florian/workspace/MAeDN/MAeDN/images/images.jpg")))));
-//		} catch(IOException e){
-//			System.out.println("Image can't find");
-//		}
-//		mainMenue.setResizable(false);
 		mainMenue.setSize(400, 400);
 		
 		mainMenue.setLayout(null);
@@ -40,6 +29,13 @@ public class MainMenue extends JFrame implements ActionListener {
 
 	public MainMenue(String titel){
 		super(titel);
+		
+		try{
+		this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("./images/MainBackground.jpg")))));
+		} catch(IOException e){
+			System.out.println("Image can't find");
+		}
+		this.setResizable(false);
 		
 		spielStarten = new JButton("Spiel starten");
 		spielStarten.setBounds(120, 40, 160, 40);
@@ -78,15 +74,18 @@ public class MainMenue extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == einstellungen ){
-			Object[] options = { "OK"};
 			
-			JOptionPane.showOptionDialog(null, "Hier kommen irgendwann mal die Einstellungen hin!!", "Einstellungen", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+			Einstellungen einstellungsFenster = new Einstellungen("Einstellungen");
+			einstellungsFenster.setLayout(null);
+			einstellungsFenster.setVisible(true);
+			
 		}
 		
 		if(e.getSource() == hilfe){
-			Object[] options = { "OK"};
-			
-			JOptionPane.showOptionDialog(null, "Hier kommt irgendwann mal die Hilfe hin!!", "Hilfe", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		
+			HilfeFenster hilfefenster = new HilfeFenster("Hilfe");
+			hilfefenster.setLayout(null);
+			hilfefenster.setVisible(true);
 		}
 		
 		if(e.getSource() == beenden) {
