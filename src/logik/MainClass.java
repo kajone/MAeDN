@@ -55,9 +55,15 @@ public class MainClass {
 					for (Token t : test) {
 						System.out.println(t.getId());
 					}
-					int choose = Integer.parseInt(sc.nextLine());
-					if (choose == -1)
+					if(test.size() == 0){
+						System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");
 						continue;
+					}
+					int choose = Integer.parseInt(sc.nextLine());
+					if (choose == -1){
+						continue;
+					}
+
 					Token t = test.get(choose);
 					mainBoard.move(t, mainBoard.moveToken(t, roll));
 					System.out.println("--------------------------");
