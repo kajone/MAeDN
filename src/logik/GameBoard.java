@@ -41,8 +41,9 @@ public class GameBoard {
 			int pos = moveToken(t, rollResult);
 			if(pos==-2)continue;
 			MoveResult moveResult = checkMove(t, pos);
-			if(moveResult==MoveResult.OWN)
+			if(moveResult==MoveResult.OWN || moveResult==MoveResult.HOUSEOVERJUMP){
 				mapping.put(t, Priority.BLOCKED);
+			}
 			else if((housePosition + 1)%40 == t.getPosition()){ //TODO: check haus voll
 				mapping.put(t, Priority.MAKEFREE);
 				continue;
@@ -113,11 +114,11 @@ public class GameBoard {
 	private MoveResult checkMove(Token t, int newPosition) {
 		if(newPosition == -1)return MoveResult.STAY;
 		if (board[newPosition] == null) {
-			int playerNumber = t.getId() / 10 - 1;
-			int housePosition = 40 + ((playerNumber + 3) % 4) * 10 + 9;
-			for (int i = housePosition; i < newPosition; i++) {
-				if(board[i] != null)
+			for (int i = newPosition; i > t.getHouseEnd()-4; i--) {
+				if(board[i] != null){
+					System.out.println(t.getId() + ": Kein Jump im eigenen Haus!");
 					return MoveResult.HOUSEOVERJUMP;
+				}
 			}
 			return MoveResult.FREE;
 		}
@@ -133,7 +134,7 @@ public class GameBoard {
 			if(playerTokens[i].getPosition() == -1)
 				continue;
 			if(playerTokens[i].inHouse())
-				for (int j = playerTokens[i].getPosition()+1; j < playerTokens[i].getHouseEnd(); j++) {
+				for (int j = playerTokens[i].getPosition()+1; j <= playerTokens[i].getHouseEnd(); j++) {
 					if(board[j]==null){ 
 						isOK = false;
 						break;

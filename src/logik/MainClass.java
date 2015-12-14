@@ -17,7 +17,7 @@ public class MainClass {
 		// mainBoard.play();
 		while (true) {
 			int roll;
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 1; i++) {
 				System.out.println("player" + i + " ist dran");
 				if (mainBoard.threeTimeRoll(i)) {
 					System.out.println("du darfst 3mal wuerfeln Player" + i);
