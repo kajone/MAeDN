@@ -74,15 +74,5 @@ public class MainClass {
 				}
 			}
 		}
-
 	}
-
-	// File f = new File("file.txt");
-	//
-
-	// mainBoard.play();
-	// mainBoard.mergeBoards();
-	// System.out.println(mainBoard.printBoard());
 }
-
-

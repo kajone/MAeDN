@@ -148,7 +148,7 @@ public class GameBoard {
 	
 	
 	public String toString(){
-		// Eine funktionierende toString Methode
+		// Eine funktionierende toString Methode, gibt sogar das Haus mit aus
 		String ausgabe = "";
 		for(int i = 0; i < 11; i++){
  			for(int j = 0; j < 11; j++){

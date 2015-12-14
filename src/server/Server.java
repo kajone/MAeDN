@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class Server {
@@ -164,5 +165,21 @@ public class Server {
 	public static void main(String[] args) throws IOException{
 		Server s = new Server(5000);
 		s.start();
+		
+		Scanner sc = new Scanner(System.in);
+		while(true){
+			String line = sc.nextLine();
+			if(line.charAt(0)=='a'){
+				System.out.println("Schreibe an alle Clienten: " + line.replaceFirst("a", ""));
+				s.writeToAll(line.replaceFirst("a", ""));
+			}
+			else if(line.charAt(0)=='o' && s.connectedClients.size() > 0){
+				//System.out.println(s.connectedClients.size());
+				//s.connectedClients.get();
+				//System.out.println("Schreibe an ersten Client "+ s.connectedClients.get(0).getSessionId() + ": " + line.replaceFirst("o", ""));
+				//s.writeToClient(line.replaceFirst("o", ""), s.connectedClients.get(0).getSessionId());
+			}
+		}
+		
 	}
 }
