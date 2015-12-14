@@ -56,7 +56,7 @@ public class GameBoard {
 			else if(moveResult==MoveResult.FREE)
 				mapping.put(t, Priority.RUN);
 		}
-		Priority max = Priority.BLOCKED;
+		Priority max = Priority.RUN;
 		for(Token t : mapping.keySet()){
 			result.add(t);
 			if(max.compareTo(mapping.get(t)) > 0){
@@ -122,6 +122,7 @@ public class GameBoard {
 			return MoveResult.FREE;
 		}
 		if (board[newPosition].getPlayerId() == t.getPlayerId()) {
+			System.out.println("OWN");
 			return MoveResult.OWN;
 		}
 		return MoveResult.OTHER;
