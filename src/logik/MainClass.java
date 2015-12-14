@@ -17,8 +17,10 @@ public class MainClass {
 		// mainBoard.play();
 		while (true) {
 			int roll;
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 2; i++) {
 				System.out.println("player" + i + " ist dran");
+				System.out.println("So sieht das Spielfeld gerade aus: ");
+				System.out.println(mainBoard.toString());
 				if (mainBoard.threeTimeRoll(i)) {
 					System.out.println("du darfst 3mal wuerfeln Player" + i);
 					for (int j = 0; j < 3; j++) {
@@ -41,9 +43,10 @@ public class MainClass {
 									+ " ist nochmal dran");
 							j +=12;
 							i -= 1;
-						} else
+						} else{
 							System.out.println("you rolled a " + roll
 									+ " try again " + j + "   " + i);
+						}
 					}
 				} else {
 					roll = Integer.parseInt(sc.nextLine());

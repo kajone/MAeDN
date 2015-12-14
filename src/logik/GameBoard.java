@@ -6,12 +6,9 @@ import java.util.Random;
 
 public class GameBoard {
 	private GameTokens gTokens;
-	private Player[] players;
-	private Player currentPlayer;
 	private Token[] board;
 
 	public GameBoard(Player[] players) {
-		this.players = players;
 		gTokens = new GameTokens(players);
 		board = new Token[56];
 	}
@@ -116,14 +113,15 @@ public class GameBoard {
 		if (board[newPosition] == null) {
 			for (int i = newPosition; i > t.getHouseEnd()-4; i--) {
 				if(board[i] != null){
-					System.out.println(t.getId() + ": Kein Jump im eigenen Haus!");
-					return MoveResult.HOUSEOVERJUMP;
+					if(board[i].getId() != t.getId()){
+						System.out.println(t.getId() + ": Kein Jump im eigenen Haus!");
+						return MoveResult.HOUSEOVERJUMP;
+					}
 				}
 			}
 			return MoveResult.FREE;
 		}
 		if (board[newPosition].getPlayerId() == t.getPlayerId()) {
-			System.out.println("OWN");
 			return MoveResult.OWN;
 		}
 		return MoveResult.OTHER;
@@ -146,5 +144,51 @@ public class GameBoard {
 		}
 		return isOK;
 	}
+	
+	
+	
+	public String toString(){
+		// Eine funktionierende toString Methode
+		String ausgabe = "";
+		for(int i = 0; i < 11; i++){
+ 			for(int j = 0; j < 11; j++){
+ 				if(i < 4 && j < 4){ausgabe += " ";}
+ 					else if(i < 4 && j > 6){ausgabe += " ";}
+ 					else if(i > 6 && j < 4){ausgabe += " ";}
+ 					else if(i > 6 && j > 6){ausgabe += " ";}
+ 					else if(i == 5 && j == 5){ausgabe += " ";}
+ 					else if(( i > 0 && i < 5)  && j == 5 || ( i > 5 && i < 10 )  && j == 5){ausgabe += "h";}
+ 					else if(( j > 0 && j < 5)  && i == 5 || ( j > 5 && j < 10 )  && i == 5){ausgabe += "h";}
+ 					else{ausgabe += "n";}
+ 			}	
+ 			ausgabe += "\n";
+		}
+		int[] positionArray = {18,19,20,17,21,16,22,15,23,10,11,12,13,14,24,25,26,27,28,9,29,8,7,6,5,4,34,33,32,31,30,3,35,2,36,1,37,0,39,38};
+		int[] houseArray = {48,49,50,51,44,45,46,47,55,54,53,52,43,42,41,40};
+		int oCounter = 0;
+		int hCounter = 0;
+		for(int i = 0; i < ausgabe.length(); i++){
+			if(ausgabe.charAt(i) == 'n'){
+				if(board[positionArray[oCounter]] != null){
+					ausgabe = ausgabe.replaceFirst("n", board[positionArray[oCounter]].getColor().charAt(0)+"");
+				}
+				else{
+					ausgabe = ausgabe.replaceFirst("n", "o");
+				}
+				oCounter++;
+			}
+			else if(ausgabe.charAt(i) == 'h'){
+				if(board[houseArray[hCounter]] != null){
+					ausgabe = ausgabe.replaceFirst("h", board[houseArray[hCounter]].getColor().charAt(0)+"");
+				}
+				else{
+					ausgabe = ausgabe.replaceFirst("h", "x");
+				}
+				hCounter++;
+			}	
+		}
+		return ausgabe;
+	}
+	
 
 }
