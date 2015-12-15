@@ -1,7 +1,9 @@
 package logik;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
+import server.ConnectedClient;
 import server.Server;
 
 public class MainClass {
@@ -15,12 +17,25 @@ public class MainClass {
 	
 	
 	public void play() {
-		// Initialisiert ein Beispiel mit 2 echten Spielern und 2 Bots
-		Player[] player = { new RealPlayer("Hans", "red", 1),
-				new BotPlayer("Kajo", "green", 2),
-				new BotPlayer("Bot1", "black", 3),
-				new BotPlayer("Bot2", "violett", 4) };
+		// Initialisiert ein Spiel mit so vielen RealPlayern wie Clients angemeldet sind
+		String[] name1 = {"Hans", "Kajo", "Flo", "Jannis"};
+		String[] name2 = {"Bot1", "Bot2", "Bot3", "Bot4"};
+		String[] color = {"red", "green", "black", "violett"};
+		int playerCounter = 0;
+		Player[] player = new Player[4];
+		for(ConnectedClient client : s.getConnectedClients().values()){	// Init RealPlayers
+			System.out.println(client.getSessionId());
+			player[playerCounter] = (new RealPlayer(name1[playerCounter],color[playerCounter],playerCounter+1, client));
+			playerCounter++;
+		}
+		for(int i = 0; playerCounter < 4; playerCounter++){	// Init BotPlayer
+			player[playerCounter] = (new BotPlayer(name2[i], color[playerCounter], playerCounter+1));
+			i++;
+		}
+	
+		
 		GameBoard mainBoard = new GameBoard(player);
+		//System.exit(1);
 		boolean checkWin = false;
 		while (!checkWin) {
 			int roll;
@@ -69,6 +84,7 @@ public class MainClass {
 			}
 		}
 	}
+
 	
 	private boolean performTurn(GameBoard mainBoard, int playerId, int roll, Player[] player){
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);

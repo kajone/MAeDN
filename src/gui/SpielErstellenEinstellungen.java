@@ -94,10 +94,11 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			s.writeToAll("Spiel kann los gehen, es sind " +  s.getConnectedClients().size() + " Spieler am Start!");
 			// TODO Spiel kann los gehen
 			//client1.writeToServer("Jeah dude");
+			this.dispose();	// Schliesst die Lobby
 			MainClass game = new MainClass(s);
 			
 			
-			this.dispose();
+			
 		}
 	}
 }
