@@ -145,8 +145,6 @@ public class GameBoard {
 		return isOK;
 	}
 	
-	
-	
 	public String toString(){
 		// Eine funktionierende toString Methode, gibt sogar das Haus mit aus
 		String ausgabe = "";
@@ -204,11 +202,6 @@ public class GameBoard {
 			}
 			wincounter = 0;
 		}
-		
-		
-		//
 		return 0;
 	}
-	
-
 }

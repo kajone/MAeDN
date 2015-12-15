@@ -21,7 +21,6 @@ public class RealPlayer implements Player{
 		}
 	}
 	
-	
 	public String getName() {
 		return name;
 	}
@@ -38,14 +37,13 @@ public class RealPlayer implements Player{
 		return tokens;
 	}
 	
-	
 	public int getPlayerDecision(int intMax){
 		Scanner sc = new Scanner(System.in);
-		int eingabe = 0;
+		int input = 0;
 		while(true){
 			try{
-				eingabe = Integer.parseInt(sc.nextLine());
-				if((eingabe >= 0 && eingabe < intMax )){
+				input = Integer.parseInt(sc.nextLine());
+				if((input >= 0 && input < intMax )){
 					break;
 				}
 				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
@@ -54,11 +52,8 @@ public class RealPlayer implements Player{
 				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
 			}
 		}
-		//sc.close();
-		return eingabe;
+		return input;
 	}
-
-
 	
 	public int getRollResult() {
 		Scanner sc = new Scanner(System.in); 
@@ -68,6 +63,4 @@ public class RealPlayer implements Player{
 		int rollResult = (randomize.nextInt(6)+1);
 		return rollResult;
 	}
-	
-
 }

@@ -7,7 +7,7 @@ public class MainClass {
 	public static void main(String[] args) {
 		// Initialisiert ein Beispiel mit 2 echten Spielern und 2 Bots
 		Player[] player = { new RealPlayer("Hans", "red", 1),
-				new RealPlayer("Kajo", "green", 2),
+				new BotPlayer("Kajo", "green", 2),
 				new BotPlayer("Bot1", "black", 3),
 				new BotPlayer("Bot2", "violett", 4) };
 
@@ -36,7 +36,6 @@ public class MainClass {
 							System.out.println(player[i].getName() + " ist nochmal dran!");
 							i -= 1;
 							break;
-							
 						} else{
 							System.out.println("Du hast eine " + roll
 									+ " gewuerfelt. Versuchs nochmal! " + (j+1) + "/3");
@@ -45,9 +44,7 @@ public class MainClass {
 				} else {							// normaler Zug
 					roll = player[i].getRollResult();      //PLAYER wuerfelt
 					System.out.println("Du hast eine " + roll + " gewuerfelt!");
-
 					if(!performTurn(mainBoard, i, roll, player)) continue; // Wenn kein Zug moeglich ist
-
 					int win = mainBoard.checkWin();
 					if(win != 0){
 						checkWin=true;
@@ -55,7 +52,6 @@ public class MainClass {
 						System.out.println(mainBoard.toString());
 						break;
 					}
-					
 					if (roll == 6) {
 						System.out.println(player[i].getName() + " ist nochmal dran! (Player "+ player[i].getId() + ")");
 						i -= 1;
@@ -75,13 +71,9 @@ public class MainClass {
 			return false;
 		}
 		int choose = player[playerId].getPlayerDecision(possibilities.size());		//PLAYER entscheidet
-
 		Token t = possibilities.get(choose);
 		mainBoard.move(t, mainBoard.moveToken(t, roll));
-		System.out.println("--------------------------");
-		
+		System.out.println("--------------------------");	
 		return true;
-	}
-	
-	
+	}	
 }

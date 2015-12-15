@@ -1,11 +1,7 @@
 package logik;
 
-
-
 public interface Player {
 
-	
-	
 	public String getColor();
 	
 	public String getName();
@@ -14,13 +10,5 @@ public interface Player {
 	
 	public int getRollResult();
 	
-	
 	public int getPlayerDecision(int intMax); 
-	
-	
-	
-
-	
-	
-	
 }

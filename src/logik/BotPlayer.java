@@ -11,9 +11,7 @@ public class BotPlayer implements Player{
 		this.name = name;
 		this.color = color;
 		this.id = id;
-		
 	}
-	
 	
 	public String getName() {
 		return name;
@@ -27,7 +25,6 @@ public class BotPlayer implements Player{
 		return id;
 	}
 	
-
 	public int getRollResult(){
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);
@@ -40,4 +37,3 @@ public class BotPlayer implements Player{
 	}
 
 }
-
