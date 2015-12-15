@@ -189,6 +189,26 @@ public class GameBoard {
 		}
 		return ausgabe;
 	}
+
+	public int checkWin() {
+		int wincounter=0;
+		for(int i = 40; i < 53; i+=4){
+			for(int j = i; j < i+4; j++){
+				if(board[j] != null){
+					wincounter++;
+					if(wincounter == 4){
+						//Jemand hat gewonnen!
+						return board[j].getPlayerId();
+					}
+				}
+			}
+			wincounter = 0;
+		}
+		
+		
+		//
+		return 0;
+	}
 	
 
 }

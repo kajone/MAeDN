@@ -1,6 +1,7 @@
 package logik;
 
-import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class RealPlayer implements Player{
 	private int id;
@@ -38,34 +39,34 @@ public class RealPlayer implements Player{
 	}
 	
 	
-	public Token getPlayerDecision(ArrayList<Token> listedPossibilities) {
-		//tokens[0].setPosistion(5);
-//		String s = "Array mit allen Moeglichkeiten: ";
-//		for(int i = 0; i< 4; i++){
-//			s += possibilities[i] + " ";			
-//		}
-//		System.out.println(s);
-//		
-//		boolean isItYourTurnAgain = false;
-//		if(possibilities[4] == 1){
-//			isItYourTurnAgain = true;
-//		}
-//		
-//		
-//		for(int i = 0; i < 4; i++){
-//			if(possibilities[i] != -1){
-//				tokens[i].setPosistion(possibilities[i]);
-//				break;
-//			}
-//		}
-		return null;
+	public int getPlayerDecision(int intMax){
+		Scanner sc = new Scanner(System.in);
+		int eingabe = 0;
+		while(true){
+			try{
+				eingabe = Integer.parseInt(sc.nextLine());
+				if((eingabe >= 0 && eingabe < intMax )){
+					break;
+				}
+				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
+			}
+			catch(NumberFormatException e){
+				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
+			}
+		}
+		//sc.close();
+		return eingabe;
 	}
 
 
-	@Override
+	
 	public int getRollResult() {
-		// TODO Auto-generated method stub
-		return 0;
+		Scanner sc = new Scanner(System.in); 
+		System.out.println("Drücken Sie ENTER um zu würfeln, " + name + ".");
+		sc.nextLine();
+		Random randomize = new Random();
+		int rollResult = (randomize.nextInt(6)+1);
+		return rollResult;
 	}
 	
 

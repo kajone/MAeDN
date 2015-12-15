@@ -1,53 +1,63 @@
 package logik;
 
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class MainClass {
 
 	public static void main(String[] args) {
 		// Initialisiert ein Beispiel mit 2 echten Spielern und 2 Bots
-		Scanner sc = new Scanner(System.in);
 		Player[] player = { new RealPlayer("Hans", "red", 1),
 				new RealPlayer("Kajo", "green", 2),
 				new BotPlayer("Bot1", "black", 3),
 				new BotPlayer("Bot2", "violett", 4) };
 
 		GameBoard mainBoard = new GameBoard(player);
-		// mainBoard.play();
-		while (true) {
+		boolean checkWin = false;
+		while (!checkWin) {
 			int roll;
-			for (int i = 0; i < 2; i++) {
-				System.out.println("player" + i + " ist dran");
+			round: for (int i = 0; i < 4; i++) {
+				System.out.println(player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")");
 				System.out.println("So sieht das Spielfeld gerade aus: ");
 				System.out.println(mainBoard.toString());
-				if (mainBoard.threeTimeRoll(i)) {			  // 3 Mal würfeln
-					System.out.println("du darfst 3mal wuerfeln Player" + i);
+				if (mainBoard.threeTimeRoll(i)) {			  //unnormaler Zug: 3 Mal wuerfeln
+					System.out.println("Du darfst 3 mal wuerfeln, " + player[i].getName()+".");
 					for (int j = 0; j < 3; j++) {
-						roll = Integer.parseInt(sc.nextLine()); //PLAYER würfelt
+						roll = player[i].getRollResult(); //PLAYER wuerfelt
 						if (roll == 6) {
-							System.out.println("mit der " + roll
-									+ " darfst du raus");
-							if(!performTurn(mainBoard, i, roll, sc)) continue;  // Wenn kein Zug möglich ist
-							System.out.println("player" + i
-									+ " ist nochmal dran");
+							System.out.println("Du hast eine 6 gewuerfelt. Damit darfst du raus!");
+							if(!performTurn(mainBoard, i, roll, player)) continue;  //Der nächste ist dran Wenn kein Zug moeglich ist
+							int win = mainBoard.checkWin();
+							if(win != 0){
+								checkWin=true;
+								System.out.println(player[win].getName()+ " hat gewonnen!");
+								System.out.println(mainBoard.toString());
+								break round;
+							}
+							System.out.println(player[i].getName() + " ist nochmal dran!");
 							i -= 1;
 							break;
 							
 						} else{
 							System.out.println("Du hast eine " + roll
-									+ " gewürfelt. Versuchs nochmal " + j + "   " + i);
+									+ " gewuerfelt. Versuchs nochmal! " + (j+1) + "/3");
 						}
 					}
 				} else {							// normaler Zug
-					roll = Integer.parseInt(sc.nextLine());      //PLAYER würfelt
-					System.out.println("Du hast eine " + roll + " gewürfelt");
+					roll = player[i].getRollResult();      //PLAYER wuerfelt
+					System.out.println("Du hast eine " + roll + " gewuerfelt!");
 
-					if(!performTurn(mainBoard, i, roll, sc)) continue; // Wenn kein Zug möglich ist
+					if(!performTurn(mainBoard, i, roll, player)) continue; // Wenn kein Zug moeglich ist
 
+					int win = mainBoard.checkWin();
+					if(win != 0){
+						checkWin=true;
+						System.out.println(player[win].getName()+ " hat gewonnen!");
+						System.out.println(mainBoard.toString());
+						break;
+					}
+					
 					if (roll == 6) {
-						System.out.println("player" + i
-								+ " ist nochmal dran");
+						System.out.println(player[i].getName() + " ist nochmal dran! (Player "+ player[i].getId() + ")");
 						i -= 1;
 					}
 				}
@@ -55,7 +65,7 @@ public class MainClass {
 		}
 	}
 	
-	private static boolean performTurn(GameBoard mainBoard, int playerId, int roll, Scanner sc){
+	private static boolean performTurn(GameBoard mainBoard, int playerId, int roll, Player[] player){
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
 		for (Token t : possibilities) {
 			System.out.println(t.getId());
@@ -64,7 +74,7 @@ public class MainClass {
 			System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");
 			return false;
 		}
-		int choose = Integer.parseInt(sc.nextLine());		//PLAYER entscheidet
+		int choose = player[playerId].getPlayerDecision(possibilities.size());		//PLAYER entscheidet
 
 		Token t = possibilities.get(choose);
 		mainBoard.move(t, mainBoard.moveToken(t, roll));
