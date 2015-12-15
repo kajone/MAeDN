@@ -18,6 +18,7 @@ public class Server {
 	private Thread acceptThread;
 	private static SecureRandom sessionIdGenerator;
 	
+	
 	public Server(int port) throws IOException
 	{
 		this.port = port;
@@ -26,6 +27,10 @@ public class Server {
 	}
 	
 	//server Methods
+	public HashMap<String, ConnectedClient> getConnectedClients(){
+		return connectedClients;
+	}
+	
 	public void start() throws IOException
 	{
 		serverSocket = new ServerSocket(port);

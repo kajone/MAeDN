@@ -19,6 +19,7 @@ public class RealPlayer implements Player{
 		for(int i = 0; i < 4; i++){
 			tokens[i] = new Token(id*10+1+i, color);
 		}
+		
 	}
 	
 	public String getName() {

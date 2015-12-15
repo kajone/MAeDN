@@ -3,11 +3,16 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import logik.MainClass;
+import server.Client;
+import server.Server;
 
 public class SpielErstellenEinstellungen extends JFrame implements ActionListener{
 
@@ -58,8 +63,40 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			int minSpieler =  Integer.parseInt(spielerAnzahlEingabe.getText());
 			String password = passwortEingabe.getText();
 			
-			System.out.println(minSpieler + " " + password);
-			// TODO Hier muss nun das Spiel aufgerufen werden
+			System.out.println("Fuer dieses Spiel sind mindestens " +minSpieler + " Spieler benoetiget.");
+			if(!password.isEmpty()){
+				System.out.println("Das Passwort ist: " + password);
+			}
+			
+			// Hoster ist Server und Client in einem!
+			//Server starten
+			Server s = null;
+			Client client1 = null;
+			try {
+				s = new Server(5000);
+				s.start();
+				
+				client1 = new Client(5000, "127.0.0.1");
+				client1.connect();
+				while(true){
+					// Auf minSpieler connects warten..  
+					
+					if(s.getConnectedClients().size() >= minSpieler){
+						break;
+					}		
+					Thread.sleep(5000); // wartet 5 Sekunden
+				}
+			} catch (IOException | InterruptedException e1) {
+				System.out.println("Error bei Server (init)");
+				e1.printStackTrace();
+			}
+			
+			s.writeToAll("Spiel kann los gehen, es sind " +  s.getConnectedClients().size() + " Spieler am Start!");
+			// TODO Spiel kann los gehen
+			//client1.writeToServer("Jeah dude");
+			MainClass game = new MainClass(s);
+			
+			
 			this.dispose();
 		}
 	}
