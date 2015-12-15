@@ -21,58 +21,57 @@ public class MainClass {
 				System.out.println("player" + i + " ist dran");
 				System.out.println("So sieht das Spielfeld gerade aus: ");
 				System.out.println(mainBoard.toString());
-				if (mainBoard.threeTimeRoll(i)) {
+				if (mainBoard.threeTimeRoll(i)) {			  // 3 Mal würfeln
 					System.out.println("du darfst 3mal wuerfeln Player" + i);
 					for (int j = 0; j < 3; j++) {
-						roll = Integer.parseInt(sc.nextLine());
+						roll = Integer.parseInt(sc.nextLine()); //PLAYER würfelt
 						if (roll == 6) {
 							System.out.println("mit der " + roll
 									+ " darfst du raus");
-							LinkedList<Token> test = mainBoard.getAllMoves(i,
-									roll);
-							for (Token t : test) {
-								System.out.println(t.getId());
-							}
-							int choose = Integer.parseInt(sc.nextLine());
-							if (choose == -1)
-								continue;
-							Token t = test.get(choose);
-							mainBoard.move(t, mainBoard.moveToken(t, roll));
-							System.out.println("--------------------------");
+							if(!performTurn(mainBoard, i, roll, sc)) continue;  // Wenn kein Zug möglich ist
 							System.out.println("player" + i
 									+ " ist nochmal dran");
-							j +=12;
 							i -= 1;
+							break;
+							
 						} else{
-							System.out.println("you rolled a " + roll
-									+ " try again " + j + "   " + i);
+							System.out.println("Du hast eine " + roll
+									+ " gewürfelt. Versuchs nochmal " + j + "   " + i);
 						}
 					}
-				} else {
-					roll = Integer.parseInt(sc.nextLine());
-					System.out.println("you rolled a " + roll);
-					LinkedList<Token> test = mainBoard.getAllMoves(i, roll);
-					for (Token t : test) {
-						System.out.println(t.getId());
-					}
-					if(test.size() == 0){
-						System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");
-						continue;
-					}
-					int choose = Integer.parseInt(sc.nextLine());
-					if (choose == -1){
-						continue;
-					}
+				} else {							// normaler Zug
+					roll = Integer.parseInt(sc.nextLine());      //PLAYER würfelt
+					System.out.println("Du hast eine " + roll + " gewürfelt");
 
-					Token t = test.get(choose);
-					mainBoard.move(t, mainBoard.moveToken(t, roll));
-					System.out.println("--------------------------");
+					if(!performTurn(mainBoard, i, roll, sc)) continue; // Wenn kein Zug möglich ist
+
 					if (roll == 6) {
-						System.out.println("darfst nochmal du penner");
+						System.out.println("player" + i
+								+ " ist nochmal dran");
 						i -= 1;
 					}
 				}
 			}
 		}
 	}
+	
+	private static boolean performTurn(GameBoard mainBoard, int playerId, int roll, Scanner sc){
+		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
+		for (Token t : possibilities) {
+			System.out.println(t.getId());
+		}
+		if(possibilities.size() == 0){
+			System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");
+			return false;
+		}
+		int choose = Integer.parseInt(sc.nextLine());		//PLAYER entscheidet
+
+		Token t = possibilities.get(choose);
+		mainBoard.move(t, mainBoard.moveToken(t, roll));
+		System.out.println("--------------------------");
+		
+		return true;
+	}
+	
+	
 }

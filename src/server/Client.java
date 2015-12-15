@@ -105,13 +105,14 @@ public class Client {
 	}
 	
 	
-	public static void main(String[] args) throws IOException{
-		Client c = new Client(5000, "127.0.0.1");
-		c.connect();
-		Scanner sc = new Scanner(System.in);
-		while(true){
-			String line = sc.nextLine();
-			c.writeToServer(line);
-		}
-	}
+//	public static void main(String[] args) throws IOException{
+//		Client c = new Client(5000, "127.0.0.1");
+//		c.connect();
+//		Scanner sc = new Scanner(System.in);
+//		while(true){
+//			String line = sc.nextLine();
+//			c.writeToServer(line);
+//		
+//		}
+//	}
 }

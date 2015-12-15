@@ -162,24 +162,38 @@ public class Server {
 		}
 	}//inner class ends
 
-	public static void main(String[] args) throws IOException{
-		Server s = new Server(5000);
-		s.start();
-		
-		Scanner sc = new Scanner(System.in);
-		while(true){
-			String line = sc.nextLine();
-			if(line.charAt(0)=='a'){
-				System.out.println("Schreibe an alle Clienten: " + line.replaceFirst("a", ""));
-				s.writeToAll(line.replaceFirst("a", ""));
-			}
-			else if(line.charAt(0)=='o' && s.connectedClients.size() > 0){
-				//System.out.println(s.connectedClients.size());
-				//s.connectedClients.get();
-				//System.out.println("Schreibe an ersten Client "+ s.connectedClients.get(0).getSessionId() + ": " + line.replaceFirst("o", ""));
-				//s.writeToClient(line.replaceFirst("o", ""), s.connectedClients.get(0).getSessionId());
-			}
-		}
-		
-	}
+//	public static void main(String[] args) throws IOException{
+//		Server s = new Server(5000);
+//		s.start();
+//		
+//		Scanner sc = new Scanner(System.in);
+//		while(true){
+//			String line = sc.nextLine();
+//			if(line.charAt(0)=='a'){
+//				System.out.println("Schreibe an alle Clienten: " + line.replaceFirst("a", ""));
+//				s.writeToAll(line.replaceFirst("a", ""));
+//			}
+//			else if(line.charAt(0)=='o' && s.connectedClients.size() > 0){
+//				System.out.println(s.connectedClients.size());
+//				//for(int i = 0; i < 10; i++){
+//				String id = "";
+//				for(ConnectedClient client : s.connectedClients.values()){
+//					//client.writeMessage(line.replaceFirst("o", ""));
+//					System.out.println(client.getSessionId());
+//					id = client.getSessionId();
+//				}
+//				System.out.println(s.connectedClients.get(id));
+//				s.connectedClients.get(id).writeMessage(line.replaceFirst("o", ""));
+//				//}
+//				
+//				//System.out.println("Schreibe an ersten Client "+ s.connectedClients.get(0).getSessionId() + ": " + line.replaceFirst("o", ""));
+//				//s.writeToClient(line.replaceFirst("o", ""), s.connectedClients.get(0).getSessionId());
+//			}
+//			else if(line.charAt(0)=='p' && s.connectedClients.size() > 0){
+//				
+//			}
+//		}
+//		
+//	}
+	
 }
