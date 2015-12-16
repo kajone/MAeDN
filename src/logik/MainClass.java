@@ -1,41 +1,24 @@
 package logik;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-import server.ConnectedClient;
 import server.Server;
 
 public class MainClass {
-
-	private Server s = null;
 	
-	public MainClass(Server s){
-		this.s = s;
-		play();
+	public MainClass(Server server, Player[] player){
+		play(server, player);
 	}
-	
-	
-	public void play() {
+
+	public void play(Server server, Player[] player) {
 		// Initialisiert ein Spiel mit so vielen RealPlayern wie Clients angemeldet sind
-		String[] name1 = {"Hans", "Kajo", "Flo", "Jannis"};
-		String[] name2 = {"Bot1", "Bot2", "Bot3", "Bot4"};
-		String[] color = {"red", "green", "black", "violett"};
-		int playerCounter = 0;
-		Player[] player = new Player[4];
-		for(ConnectedClient client : s.getConnectedClients().values()){	// Init RealPlayers
-			System.out.println(client.getSessionId());
-			player[playerCounter] = (new RealPlayer(name1[playerCounter],color[playerCounter],playerCounter+1, client));
-			playerCounter++;
-		}
-		for(int i = 0; playerCounter < 4; playerCounter++){	// Init BotPlayer
-			player[playerCounter] = (new BotPlayer(name2[i], color[playerCounter], playerCounter+1));
-			i++;
-		}
-	
+		String willkommen = "Willkommen bei Mensch aerger dich nicht!\n Es wird mit " +  
+				  server.getConnectedClients().size() + " echten Spielern und " + 
+				  (4-server.getConnectedClients().size()) + " Computer-Spielern gespielt:\n";
+		for(int i = 0; i < player.length; i++) willkommen += player[i].toString() + "\n"; 
+		server.writeToAll(willkommen);
 		
-		GameBoard mainBoard = new GameBoard(player);
-		//System.exit(1);
+		GameBoard mainBoard = new GameBoard(player);		
 		boolean checkWin = false;
 		while (!checkWin) {
 			int roll;
@@ -89,7 +72,8 @@ public class MainClass {
 	private boolean performTurn(GameBoard mainBoard, int playerId, int roll, Player[] player){
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
 		for (Token t : possibilities) {
-			System.out.println(t.getId());
+			//s.writeToClient(t.getId() + "", player[playerId].getClient().getSessionId());
+			System.out.println();
 		}
 		if(possibilities.size() == 0){
 			System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");

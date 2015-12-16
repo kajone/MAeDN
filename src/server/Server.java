@@ -70,6 +70,11 @@ public class Server {
 	{
 		System.out.print(connectedClient.getSessionId() + ": ");
 		System.out.println(msg);
+		if(msg.split(",")[0].equals("[INIT]")){
+			connectedClient.setName((msg.split(",")[1]));
+			connectedClient.setColor((msg.split(",")[2]));
+			connectedClient.setId(connectedClients.size()); //Bsp.: 1 wird dem ersten Spieler zugewiesen
+		}
 	}
 	
 	protected void handleClientConnected(ConnectedClient connectedClient) throws IOException

@@ -10,8 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import logik.BotPlayer;
 import logik.MainClass;
+import logik.Player;
+import logik.RealPlayer;
 import server.Client;
+import server.ConnectedClient;
 import server.Server;
 
 public class SpielErstellenEinstellungen extends JFrame implements ActionListener{
@@ -70,18 +74,21 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			
 			// Hoster ist Server und Client in einem!
 			//Server starten
-			Server s = null;
-			Client client1 = null;
+			Server server = null;
+			Client clientOfHost = null;
+			Player[] player = null;
 			try {
-				s = new Server(5000);
-				s.start();
+				server = new Server(5000);
+				server.start();
 				
-				client1 = new Client(5000, "127.0.0.1");
-				client1.connect();
+				clientOfHost = new Client(5000, "127.0.0.1");
+				clientOfHost.connect();
+				clientOfHost.writeToServer("[INIT],Kajo,gruen"); //TODO Eingabewerte Name und Farbe über Eingabemaske 
+																 //	    mit color chooser oder so verknuepfen
+				player = new Player[4];
+				// Auf minSpieler connects warten..  
 				while(true){
-					// Auf minSpieler connects warten..  
-					
-					if(s.getConnectedClients().size() >= minSpieler){
+					if(server.getConnectedClients().size() >= minSpieler){
 						break;
 					}		
 					Thread.sleep(5000); // wartet 5 Sekunden
@@ -91,14 +98,24 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 				e1.printStackTrace();
 			}
 			
-			s.writeToAll("Spiel kann los gehen, es sind " +  s.getConnectedClients().size() + " Spieler am Start!");
-			// TODO Spiel kann los gehen
-			//client1.writeToServer("Jeah dude");
+			// Für jeden gejointen Spieler Daten ziehen, neue Player anlegen und ab dafür
+			// Ein ConnectedClient liefert deswegen Name, Farbe, Id und sich selbst an einen Player
+			int playerCounter = 0;
+			//RealPlayer erzeugen
+			for(ConnectedClient client : server.getConnectedClients().values()){
+				player[playerCounter] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
+				playerCounter++;
+			}
+			// restliche BotPlayer erzeugen
+			while(playerCounter < 4){
+				player[playerCounter] = new BotPlayer(
+						"Bot" + (playerCounter - server.getConnectedClients().size()+1), 
+						(playerCounter - server.getConnectedClients().size()+1) + "",
+						playerCounter);
+				playerCounter++;
+			}
 			this.dispose();	// Schliesst die Lobby
-			MainClass game = new MainClass(s);
-			
-			
-			
+			MainClass game = new MainClass(server, player); // Startet das Spiel
 		}
 	}
 }

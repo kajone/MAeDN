@@ -16,6 +16,7 @@ public class MainMenue extends JFrame implements ActionListener {
 	private JButton beenden;
 	
 	
+	
 	public static void main(String[] args) {
 		
 		MainMenue mainMenue = new MainMenue("Menue");

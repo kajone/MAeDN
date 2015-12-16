@@ -2,6 +2,8 @@ package logik;
 
 import java.util.Random;
 
+import server.ConnectedClient;
+
 public class BotPlayer implements Player{
 	private int id;
 	private String name;
@@ -11,6 +13,10 @@ public class BotPlayer implements Player{
 		this.name = name;
 		this.color = color;
 		this.id = id;
+	}
+	
+	public ConnectedClient getClient() {
+		return null;
 	}
 	
 	public String getName() {
@@ -29,6 +35,12 @@ public class BotPlayer implements Player{
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);
 		return rollResult;
+	}
+	
+	public String toString(){
+		String s = "";
+		s += "Spieler " + this.name + " mit der Farbe " + this.color + " Player " + this.id ; 
+		return s;
 	}
 	
 	public int getPlayerDecision(int intMax) {

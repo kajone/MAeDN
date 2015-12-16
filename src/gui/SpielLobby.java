@@ -2,9 +2,12 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import server.Client;
 
 public class SpielLobby extends JFrame implements ActionListener{
 	
@@ -38,13 +41,23 @@ public class SpielLobby extends JFrame implements ActionListener{
 		
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		if(e.getSource() == spielErstellen ){
 			SpielErstellenEinstellungen spielErstellen = new SpielErstellenEinstellungen("Spiel erstllen");
 			this.dispose();
+		}	
+		if(e.getSource() == spielBeitreten){
+			try {
+				System.out.println("Los gehts!");
+				Client client = new Client(5000, "127.0.0.1");
+				client.connect();
+				client.writeToServer("[INIT],Jannis,blau"); //TODO Eingabewerte Name und Farbe über Eingabemaske 
+															//	   mit color chooser oder so verknuepfen
+			} catch (IOException e1) {
+				System.out.println("Error im Client (init)");
+				e1.printStackTrace();
+			}
+			this.dispose();
 		}
 	}
-
 }

@@ -26,7 +26,9 @@ public class RealPlayer implements Player{
 		}
 		
 	}
-	
+	public ConnectedClient getClient() {
+		return client;
+	}
 	public String getName() {
 		return name;
 	}
@@ -60,6 +62,12 @@ public class RealPlayer implements Player{
 		}
 		client.writeMessage(input+"");
 		return input;
+	}
+	
+	public String toString(){
+		String s = "";
+		s += "Spieler " + this.name + " mit der Farbe " + this.color + " Player " + this.id ; 
+		return s;
 	}
 	
 	public int getRollResult() {
