@@ -47,6 +47,9 @@ public class SpielLobby extends JFrame implements ActionListener{
 			this.dispose();
 		}	
 		if(e.getSource() == spielBeitreten){
+			
+			Spielbrett brett = new Spielbrett("Spiel");
+			
 			try {
 				System.out.println("Los gehts!");
 				Client client = new Client(5000, "127.0.0.1");
