@@ -12,55 +12,52 @@ public class MainClass {
 
 	public void play(Server server, Player[] player) {
 		// Initialisiert ein Spiel mit so vielen RealPlayern wie Clients angemeldet sind
-		String willkommen = "Willkommen bei Mensch aerger dich nicht!\n Es wird mit " +  
+		String welcome = "Willkommen bei Mensch aerger dich nicht!\n Es wird mit " +  
 				  server.getConnectedClients().size() + " echten Spielern und " + 
 				  (4-server.getConnectedClients().size()) + " Computer-Spielern gespielt:\n";
-		for(int i = 0; i < player.length; i++) willkommen += player[i].toString() + "\n"; 
-		server.writeToAll(willkommen);
-		
+		for(int i = 0; i < player.length; i++) welcome += player[i].toString() + "\n"; 
+		server.writeToAll(welcome);
 		GameBoard mainBoard = new GameBoard(player);		
 		boolean checkWin = false;
+		String turnBegin = null;
 		while (!checkWin) {
 			int roll;
 			round: for (int i = 0; i < 4; i++) {
-				System.out.println(player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")");
-				System.out.println("So sieht das Spielfeld gerade aus: ");
-				System.out.println(mainBoard.toString());
+				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString();
+				server.writeToAll(turnBegin);
 				if (mainBoard.threeTimeRoll(i)) {			  //unnormaler Zug: 3 Mal wuerfeln
-					System.out.println("Du darfst 3 mal wuerfeln, " + player[i].getName()+".");
+					if(player[i] instanceof RealPlayer)server.writeToClient("Du darfst 3 mal wuerfeln, " + player[i].getName()+".", player[i].getClient().getSessionId());
 					for (int j = 0; j < 3; j++) {
-						roll = player[i].getRollResult(); //PLAYER wuerfelt
+						roll = player[i].getRollResult(server); //PLAYER wuerfelt
 						if (roll == 6) {
-							System.out.println("Du hast eine 6 gewuerfelt. Damit darfst du raus!");
-							if(!performTurn(mainBoard, i, roll, player)) continue;  //Der nächste ist dran Wenn kein Zug moeglich ist
+							if(player[i] instanceof RealPlayer)server.writeToClient("Du hast eine 6 gewuerfelt. Damit darfst du raus!", player[i].getClient().getSessionId());
+							if(!performTurn(server, mainBoard, i, roll, player)) continue;  //Der nächste ist dran Wenn kein Zug moeglich ist
 							int win = mainBoard.checkWin();
 							if(win != 0){
 								checkWin=true;
-								System.out.println(player[win].getName()+ " hat gewonnen!");
-								System.out.println(mainBoard.toString());
+								server.writeToAll(player[win].getName()+ " hat gewonnen!\n"+mainBoard.toString());
 								break round;
 							}
-							System.out.println(player[i].getName() + " ist nochmal dran!");
+							if(player[i] instanceof RealPlayer)server.writeToClient("Du bist nochmal dran!", player[i].getClient().getSessionId());
 							i -= 1;
 							break;
 						} else{
-							System.out.println("Du hast eine " + roll
-									+ " gewuerfelt. Versuchs nochmal! " + (j+1) + "/3");
+							if(player[i] instanceof RealPlayer)server.writeToClient("Du hast eine " + roll + " gewuerfelt. Versuchs nochmal! " 
+												 +(j+1) + "/3", player[i].getClient().getSessionId());
 						}
 					}
 				} else {							// normaler Zug
-					roll = player[i].getRollResult();      //PLAYER wuerfelt
-					System.out.println("Du hast eine " + roll + " gewuerfelt!");
-					if(!performTurn(mainBoard, i, roll, player)) continue; // Wenn kein Zug moeglich ist
+					roll = player[i].getRollResult(server);      //PLAYER wuerfelt
+					if(player[i] instanceof RealPlayer)server.writeToClient("Du hast eine " + roll + " gewuerfelt!", player[i].getClient().getSessionId());
+					if(!performTurn(server, mainBoard, i, roll, player)) continue; // Wenn kein Zug moeglich ist
 					int win = mainBoard.checkWin();
 					if(win != 0){
 						checkWin=true;
-						System.out.println(player[win].getName()+ " hat gewonnen!");
-						System.out.println(mainBoard.toString());
+						server.writeToAll(player[win].getName()+ " hat gewonnen!\n"+mainBoard.toString());
 						break;
 					}
 					if (roll == 6) {
-						System.out.println(player[i].getName() + " ist nochmal dran! (Player "+ player[i].getId() + ")");
+						if(player[i] instanceof RealPlayer)server.writeToClient("Du bist nochmal dran!", player[i].getClient().getSessionId());
 						i -= 1;
 					}
 				}
@@ -69,20 +66,21 @@ public class MainClass {
 	}
 
 	
-	private boolean performTurn(GameBoard mainBoard, int playerId, int roll, Player[] player){
+	private boolean performTurn(Server server, GameBoard mainBoard, int playerId, int roll, Player[] player){
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
+		String possibilitiyString = ""; 
 		for (Token t : possibilities) {
-			//s.writeToClient(t.getId() + "", player[playerId].getClient().getSessionId());
-			System.out.println();
+			possibilitiyString += t.getId()+ " ";
 		}
+		if(player[playerId] instanceof RealPlayer)server.writeToClient("Du hast folgende Moeglichkeiten:\n"+ possibilitiyString, player[playerId].getClient().getSessionId());
 		if(possibilities.size() == 0){
-			System.out.println("Keine Zugmöglichkeiten, der naechste ist dran!");
+			if(player[playerId] instanceof RealPlayer)server.writeToClient("Du hast Keine Zugmöglichkeiten, der naechste ist dran!", player[playerId].getClient().getSessionId());
 			return false;
 		}
-		int choose = player[playerId].getPlayerDecision(possibilities.size());		//PLAYER entscheidet
+		int choose = player[playerId].getPlayerDecision(server, possibilities.size());		//PLAYER entscheidet
 		Token t = possibilities.get(choose);
 		mainBoard.move(t, mainBoard.moveToken(t, roll));
-		System.out.println("--------------------------");	
+		if(player[playerId] instanceof RealPlayer)server.writeToClient("--------------------------", player[playerId].getClient().getSessionId());
 		return true;
 	}	
 }

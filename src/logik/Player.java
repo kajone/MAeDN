@@ -1,6 +1,7 @@
 package logik;
 
 import server.ConnectedClient;
+import server.Server;
 
 public interface Player {
 	public ConnectedClient getClient();
@@ -13,7 +14,7 @@ public interface Player {
 	
 	public int getId();
 	
-	public int getRollResult();
+	public int getRollResult(Server server);
 	
-	public int getPlayerDecision(int intMax); 
+	public int getPlayerDecision(Server server, int intMax); 
 }

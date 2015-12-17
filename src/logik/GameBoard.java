@@ -161,6 +161,7 @@ public class GameBoard {
  			}	
  			ausgabe += "\n";
 		}
+		
 		int[] positionArray = {18,19,20,17,21,16,22,15,23,10,11,12,13,14,24,25,26,27,28,9,29,8,7,6,5,4,34,33,32,31,30,3,35,2,36,1,37,0,39,38};
 		int[] houseArray = {48,49,50,51,44,45,46,47,55,54,53,52,43,42,41,40};
 		int oCounter = 0;
@@ -178,6 +179,7 @@ public class GameBoard {
 			else if(ausgabe.charAt(i) == 'h'){
 				if(board[houseArray[hCounter]] != null){
 					ausgabe = ausgabe.replaceFirst("h", board[houseArray[hCounter]].getColor().charAt(0)+"");
+					
 				}
 				else{
 					ausgabe = ausgabe.replaceFirst("h", "x");
@@ -185,7 +187,7 @@ public class GameBoard {
 				hCounter++;
 			}	
 		}
-		return ausgabe;
+		return "So sieht das Spielfeld gerade aus:\n" +ausgabe;
 	}
 
 	public int checkWin() {

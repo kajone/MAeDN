@@ -101,17 +101,22 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			// Für jeden gejointen Spieler Daten ziehen, neue Player anlegen und ab dafür
 			// Ein ConnectedClient liefert deswegen Name, Farbe, Id und sich selbst an einen Player
 			int playerCounter = 0;
-			//RealPlayer erzeugen
-			for(ConnectedClient client : server.getConnectedClients().values()){
-				player[playerCounter] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
-				playerCounter++;
+			//RealPlayer erzeugen und sortiert einfuegen
+			for(int i = 1; i<=server.getConnectedClients().size(); i++){
+				for(ConnectedClient client : server.getConnectedClients().values()){
+					if(client.getId() == i) {
+						player[playerCounter] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
+						playerCounter++;
+						break;
+					}
+				}
 			}
 			// restliche BotPlayer erzeugen
 			while(playerCounter < 4){
 				player[playerCounter] = new BotPlayer(
 						"Bot" + (playerCounter - server.getConnectedClients().size()+1), 
 						(playerCounter - server.getConnectedClients().size()+1) + "",
-						playerCounter);
+						playerCounter+1);
 				playerCounter++;
 			}
 			this.dispose();	// Schliesst die Lobby

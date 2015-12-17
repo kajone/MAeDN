@@ -3,8 +3,8 @@ package logik;
 import java.util.Random;
 import java.util.Scanner;
 
-import server.Client;
 import server.ConnectedClient;
+import server.Server;
 
 public class RealPlayer implements Player{
 	private int id;
@@ -45,7 +45,7 @@ public class RealPlayer implements Player{
 		return tokens;
 	}
 	
-	public int getPlayerDecision(int intMax){
+	public int getPlayerDecision(Server server, int intMax){
 		Scanner sc = new Scanner(System.in);
 		int input = 0;
 		while(true){
@@ -54,10 +54,10 @@ public class RealPlayer implements Player{
 				if((input >= 0 && input < intMax )){
 					break;
 				}
-				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
+				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein", getClient().getSessionId());
 			}
 			catch(NumberFormatException e){
-				System.out.println("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein");
+				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein", getClient().getSessionId());
 			}
 		}
 		client.writeMessage(input+"");
@@ -70,9 +70,9 @@ public class RealPlayer implements Player{
 		return s;
 	}
 	
-	public int getRollResult() {
+	public int getRollResult(Server server) {
 		Scanner sc = new Scanner(System.in); 
-		System.out.println("Drücken Sie ENTER um zu würfeln, " + name + ".");
+		server.writeToClient("Drücken Sie ENTER um zu würfeln, " + name + ".", getClient().getSessionId());
 		sc.nextLine();
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);

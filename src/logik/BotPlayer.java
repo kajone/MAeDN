@@ -3,6 +3,7 @@ package logik;
 import java.util.Random;
 
 import server.ConnectedClient;
+import server.Server;
 
 public class BotPlayer implements Player{
 	private int id;
@@ -31,7 +32,7 @@ public class BotPlayer implements Player{
 		return id;
 	}
 	
-	public int getRollResult(){
+	public int getRollResult(Server server){
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);
 		return rollResult;
@@ -43,7 +44,7 @@ public class BotPlayer implements Player{
 		return s;
 	}
 	
-	public int getPlayerDecision(int intMax) {
+	public int getPlayerDecision(Server server, int intMax) {
 		Random turn = new Random();
 		return turn.nextInt(intMax);
 	}
