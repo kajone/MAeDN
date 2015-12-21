@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,7 +16,9 @@ import javax.swing.JLabel;
 
 public class Spielbrett extends JFrame implements ActionListener {
 	
-	private JLabel brett;
+	private JLabel player1, player2, player3, player4;
+	private JLabel feld;
+	private JButton wuerfel;
 	private JButton gelbesHausObenLinks, gruenesHausObenLinks, rotesHausObenLinks, schwarzesHausObenLinks;
 	private JButton gelbesHausObenRechts, gruenesHausObenRechts, rotesHausObenRechts, schwarzesHausObenRechts;
 	private JButton gelbesHausUntenLinks, gruenesHausUntenLinks, rotesHausUntenLinks, schwarzesHausUntenLinks;
@@ -29,311 +34,365 @@ public class Spielbrett extends JFrame implements ActionListener {
 		
 		super(titel);
 		
-		this.setSize(600, 600);
+		this.setSize(1000, 650);
 		this.setLayout(null);
 		this.setVisible(true);
 		
+//		try{
+//			this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("./images/spielbrett.jpg")))));
+//			} catch(IOException e){
+//				System.out.println("Image can't find");
+//			}
+//			this.setResizable(false);
+			
 		try{
-			this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("./images/spielbrett.jpg")))));
-			} catch(IOException e){
-				System.out.println("Image can't find");
-			}
-			this.setResizable(false);
+			feld = new JLabel();
+			Image image = ImageIO.read(new File("./images/spielbrett.jpg"));
+			feld.setIcon(new ImageIcon(image));
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		
+		feld.setBounds(200, 0, 600, 600);
+		this.add(feld);
+		
+		player1 = new JLabel();
+		player1.setBounds(20, 50, 100, 20);
+		player1.setText("Player1"); 						//TODO: Spielername vom Server holen 
+		player1.setFont(new Font("Arial",Font.BOLD, 22));
+		player1.setForeground(Color.YELLOW);
+		this.add(player1);
+		
+		player2 = new JLabel();
+		player2.setBounds(20, 100, 100, 20);
+		player2.setText("Player2");							//TODO: Spielername vom Server holen
+		player2.setFont(new Font("Arial",Font.BOLD, 22));
+		player2.setForeground(Color.GREEN);
+		this.add(player2);
+		
+		player3 = new JLabel();
+		player3.setBounds(20, 150, 100, 20);
+		player3.setText("Player3");							//TODO: Spielername vom Server holen			
+		player3.setFont(new Font("Arial",Font.BOLD, 22));
+		player3.setForeground(Color.RED);
+		this.add(player3);
+		
+		player4 = new JLabel();
+		player4.setBounds(20, 200, 100, 20);
+		player4.setText("Player4");							//TODO: Spielername vom Server holen
+		player4.setFont(new Font("Arial",Font.BOLD, 22));
+		this.add(player4);
+		
+		wuerfel = new JButton();
+		wuerfel.setBounds(20, 450, 100, 100);
+		
+		try{
+			Image image = ImageIO.read(new File("./images/wuerfel.jpg"));
+			wuerfel.setIcon(new ImageIcon(image));
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		wuerfel.setVisible(true);
+		wuerfel.addActionListener(this);
+		this.add(wuerfel);
+		
 			
 		gelbesHausObenLinks = new JButton();
-		gelbesHausObenLinks.setBounds(30, 20, 32, 32);
+		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
 		this.buttonInitialisieren(gelbesHausObenLinks);
 		
 		gelbesHausObenRechts = new JButton();
-		gelbesHausObenRechts.setBounds(80, 20, 32, 32);
+		gelbesHausObenRechts.setBounds(285, 35, 32, 32);
 		this.buttonInitialisieren(gelbesHausObenRechts);
 		
 		gelbesHausUntenLinks = new JButton();
-		gelbesHausUntenLinks.setBounds(30, 70, 32, 32);
+		gelbesHausUntenLinks.setBounds(235, 85, 32, 32);
 		this.buttonInitialisieren(gelbesHausUntenLinks);
 		
 		gelbesHausUntenRechts = new JButton();
-		gelbesHausUntenRechts.setBounds(80, 70, 32, 32);
+		gelbesHausUntenRechts.setBounds(285, 85, 32, 32);
 		this.buttonInitialisieren(gelbesHausUntenRechts);
 		
 		gruenesHausObenLinks = new JButton();
-		gruenesHausObenLinks.setBounds(480, 20, 32, 32);
+		gruenesHausObenLinks.setBounds(685, 35, 32, 32);
 		this.buttonInitialisieren(gruenesHausObenLinks);
 		
 		gruenesHausObenRechts = new JButton();
-		gruenesHausObenRechts.setBounds(530, 20, 32, 32);
+		gruenesHausObenRechts.setBounds(735, 35, 32, 32);
 		this.buttonInitialisieren(gruenesHausObenRechts);
 		
 		gruenesHausUntenLinks = new JButton();
-		gruenesHausUntenLinks.setBounds(480, 70, 32, 32);
+		gruenesHausUntenLinks.setBounds(685, 85, 32, 32);
 		this.buttonInitialisieren(gruenesHausUntenLinks);
 		
 		gruenesHausUntenRechts = new JButton();
-		gruenesHausUntenRechts.setBounds(530, 70, 32, 32);
+		gruenesHausUntenRechts.setBounds(735, 85, 32, 32);
 		this.buttonInitialisieren(gruenesHausUntenRechts);
 		
 		rotesHausObenLinks = new JButton();
-		rotesHausObenLinks.setBounds(480, 470, 32, 32);
+		rotesHausObenLinks.setBounds(685, 485, 32, 32);
 		this.buttonInitialisieren(rotesHausObenLinks);
 		
 		rotesHausObenRechts = new JButton();
-		rotesHausObenRechts.setBounds(530, 470, 32, 32);
+		rotesHausObenRechts.setBounds(735, 485, 32, 32);
 		this.buttonInitialisieren(rotesHausObenRechts);
 		
 		rotesHausUntenLinks = new JButton();
-		rotesHausUntenLinks.setBounds(480, 520, 32, 32);
+		rotesHausUntenLinks.setBounds(685, 535, 32, 32);
 		this.buttonInitialisieren(rotesHausUntenLinks);
 		
 		rotesHausUntenRechts = new JButton();
-		rotesHausUntenRechts.setBounds(530, 520, 32, 32);
+		rotesHausUntenRechts.setBounds(735, 535, 32, 32);
 		this.buttonInitialisieren(rotesHausUntenRechts);
 		
 		schwarzesHausObenLinks = new JButton();
-		schwarzesHausObenLinks.setBounds(30, 470, 32, 32);
+		schwarzesHausObenLinks.setBounds(235, 485, 32, 32);
 		this.buttonInitialisieren(schwarzesHausObenLinks);
 		
 		schwarzesHausObenRechts = new JButton();
-		schwarzesHausObenRechts.setBounds(80, 470, 32, 32);
+		schwarzesHausObenRechts.setBounds(285, 485, 32, 32);
 		this.buttonInitialisieren(schwarzesHausObenRechts);
 		
 		schwarzesHausUntenLinks = new JButton();
-		schwarzesHausUntenLinks.setBounds(30, 520, 32, 32);
+		schwarzesHausUntenLinks.setBounds(235, 535, 32, 32);
 		this.buttonInitialisieren(schwarzesHausUntenLinks);
 		
 		schwarzesHausUntenRechts = new JButton();
-		schwarzesHausUntenRechts.setBounds(80, 520, 32, 32);
+		schwarzesHausUntenRechts.setBounds(285, 535, 32, 32);
 		this.buttonInitialisieren(schwarzesHausUntenRechts);
 		
 		// Es wird am Startpunkt vom gelben Haus angefangen zu zaehlen
 		feld0 = new JButton();
-		feld0.setBounds(30, 215, 35, 40);
+		feld0.setBounds(230, 230, 40, 40);
 		this.buttonInitialisieren(feld0);
 		
 		feld1 = new JButton();
-		feld1.setBounds(80, 215, 35, 40);
+		feld1.setBounds(280, 230, 40, 40);
 		this.buttonInitialisieren(feld1);
 		
 		feld2 = new JButton();
-		feld2.setBounds(130, 215, 35, 40);
+		feld2.setBounds(330, 230, 40, 40);
 		this.buttonInitialisieren(feld2);
 		
 		feld3 = new JButton();
-		feld3.setBounds(180, 215, 35, 40);
+		feld3.setBounds(380, 230, 40, 40);
 		this.buttonInitialisieren(feld3);
 		
 		feld4 = new JButton();
-		feld4.setBounds(230, 215, 35, 40);
+		feld4.setBounds(430, 230, 40, 40);
 		this.buttonInitialisieren(feld4);
 		
 		feld5 = new JButton();
-		feld5.setBounds(230, 165, 35, 40);
+		feld5.setBounds(430, 180, 40, 40);
 		this.buttonInitialisieren(feld5);
 		
 		feld6 = new JButton();
-		feld6.setBounds(230, 115, 35, 40);
+		feld6.setBounds(430, 130, 40, 40);
 		this.buttonInitialisieren(feld6);
 		
 		feld7 = new JButton();
-		feld7.setBounds(230, 65, 35, 40);
+		feld7.setBounds(430, 80, 40, 40);
 		this.buttonInitialisieren(feld7);
 		
 		feld8 = new JButton();
-		feld8.setBounds(230, 15, 35, 40);
+		feld8.setBounds(430, 30, 40, 40);
 		this.buttonInitialisieren(feld8);
 		
 		feld9 = new JButton();
-		feld9.setBounds(280, 15, 35, 40);
+		feld9.setBounds(480, 30, 40, 40);
 		this.buttonInitialisieren(feld9);
 		
 		//Startpunkt gruenes Haus
 		feld10 = new JButton();
-		feld10.setBounds(330, 15, 35, 40);
+		feld10.setBounds(530, 30, 40, 40);
 		this.buttonInitialisieren(feld10);
 		
 		feld11 = new JButton();
-		feld11.setBounds(330, 65, 35, 40);
+		feld11.setBounds(530, 80, 40, 40);
 		this.buttonInitialisieren(feld11);
 		
 		feld12 = new JButton();
-		feld12.setBounds(330, 115, 35, 40);
+		feld12.setBounds(530, 130, 40, 40);
 		this.buttonInitialisieren(feld12);
 		
 		feld13 = new JButton();
-		feld13.setBounds(330, 165, 35, 40);
+		feld13.setBounds(530, 180, 40, 40);
 		this.buttonInitialisieren(feld13);
 		
 		feld14 = new JButton();
-		feld14.setBounds(330, 215, 35, 40);
+		feld14.setBounds(530, 230, 40, 40);
 		this.buttonInitialisieren(feld14);
 		
 		feld15 = new JButton();
-		feld15.setBounds(380, 215, 35, 40);
+		feld15.setBounds(580, 230, 40, 40);
 		this.buttonInitialisieren(feld15);
 		
 		feld16 = new JButton();
-		feld16.setBounds(430, 215, 35, 40);
+		feld16.setBounds(630, 230, 40, 40);
 		this.buttonInitialisieren(feld16);
 		
 		feld17 = new JButton();
-		feld17.setBounds(480, 215, 35, 40);
+		feld17.setBounds(680, 230, 40, 40);
 		this.buttonInitialisieren(feld17);
 		
 		feld18 = new JButton();
-		feld18.setBounds(530, 215, 35, 40);
+		feld18.setBounds(730, 230, 40, 40);
 		this.buttonInitialisieren(feld18);
 		
 		feld19 = new JButton();
-		feld19.setBounds(530, 265, 35, 40);
+		feld19.setBounds(730, 280, 40, 40);
 		this.buttonInitialisieren(feld19);
 		
 		//Startpunkt rotes Haus
 		feld20 = new JButton();
-		feld20.setBounds(530, 315, 35, 40);
+		feld20.setBounds(730, 330, 40, 40);
 		this.buttonInitialisieren(feld20);
 		
 		feld21 = new JButton();
-		feld21.setBounds(480, 315, 35, 40);
+		feld21.setBounds(680, 330, 40, 40);
 		this.buttonInitialisieren(feld21);
 		
 		feld22 = new JButton();
-		feld22.setBounds(430, 315, 35, 40);
+		feld22.setBounds(630, 330, 40, 40);
 		this.buttonInitialisieren(feld22);
 		
 		feld23 = new JButton();
-		feld23.setBounds(380, 315, 35, 40);
+		feld23.setBounds(580, 330, 40, 40);
 		this.buttonInitialisieren(feld23);
 		
 		feld24 = new JButton();
-		feld24.setBounds(330, 315, 35, 40);
+		feld24.setBounds(530, 330, 40, 40);
 		this.buttonInitialisieren(feld24);
 		
 		feld25 = new JButton();
-		feld25.setBounds(330, 365, 35, 40);
+		feld25.setBounds(530, 380, 40, 40);
 		this.buttonInitialisieren(feld25);
 		
 		feld26 = new JButton();
-		feld26.setBounds(330, 415, 35, 40);
+		feld26.setBounds(530, 430, 40, 40);
 		this.buttonInitialisieren(feld26);
 		
 		feld27 = new JButton();
-		feld27.setBounds(330, 465, 35, 40);
+		feld27.setBounds(530, 480, 40, 40);
 		this.buttonInitialisieren(feld27);
 		
 		feld28 = new JButton();
-		feld28.setBounds(330, 515, 35, 40);
+		feld28.setBounds(530, 530, 40, 40);
 		this.buttonInitialisieren(feld28);
 		
 		feld29 = new JButton();
-		feld29.setBounds(280, 515, 35, 40);
+		feld29.setBounds(480, 530, 40, 40);
 		this.buttonInitialisieren(feld29);
 		
 		//Startpunkt schwarzes Haus
 		feld30 = new JButton();
-		feld30.setBounds(230, 515, 35, 40);
+		feld30.setBounds(430, 530, 40, 40);
 		this.buttonInitialisieren(feld30);
 
 		feld31 = new JButton();
-		feld31.setBounds(230, 465, 35, 40);
+		feld31.setBounds(430, 480, 40, 40);
 		this.buttonInitialisieren(feld31);
 		
 		feld32 = new JButton();
-		feld32.setBounds(230, 415, 35, 40);
+		feld32.setBounds(430, 430, 40, 40);
 		this.buttonInitialisieren(feld32);
 		
 		feld33 = new JButton();
-		feld33.setBounds(230, 365, 35, 40);
+		feld33.setBounds(430, 380, 40, 40);
 		this.buttonInitialisieren(feld33);
 		
 		feld34= new JButton();
-		feld34.setBounds(230, 315, 35, 40);
+		feld34.setBounds(430, 330, 40, 40);
 		this.buttonInitialisieren(feld34);
 		
 		feld35= new JButton();
-		feld35.setBounds(180, 315, 35, 40);
+		feld35.setBounds(380, 330, 40, 40);
 		this.buttonInitialisieren(feld35);
 		
 		feld36 = new JButton();
-		feld36.setBounds(130, 315, 35, 40);
+		feld36.setBounds(330, 330, 40, 40);
 		this.buttonInitialisieren(feld36);
 		
 		feld37 = new JButton();
-		feld37.setBounds(80, 315, 35, 40);
+		feld37.setBounds(280, 330, 40, 40);
 		this.buttonInitialisieren(feld37);
 	
 		feld38 = new JButton();
-		feld38.setBounds(30, 315, 35, 40);
+		feld38.setBounds(230, 330, 40, 40);
 		this.buttonInitialisieren(feld38);
 		
 		feld39 = new JButton();
-		feld39.setBounds(30, 265, 35, 40);
+		feld39.setBounds(230, 280, 40, 40);
 		this.buttonInitialisieren(feld39);
 		
 		//Endhaus gelb
 		feld40 = new JButton();
-		feld40.setBounds(80, 265, 35, 40);
+		feld40.setBounds(285, 285, 32, 32);
 		this.buttonInitialisieren(feld40);
 		
 		feld41 = new JButton();
-		feld41.setBounds(130, 265, 35, 40);
+		feld41.setBounds(335, 285, 32, 32);
 		this.buttonInitialisieren(feld41);
 		
 		feld42 = new JButton();
-		feld42.setBounds(180, 265, 35, 40);
+		feld42.setBounds(385, 285, 32, 32);
 		this.buttonInitialisieren(feld42);
 		
 		feld43 = new JButton();
-		feld43.setBounds(230, 265, 35, 40);
+		feld43.setBounds(435, 285, 32, 32);
 		this.buttonInitialisieren(feld43);
 		
 		//Endhaus gruen
 		feld44 = new JButton();
-		feld44.setBounds(280, 65, 35, 40);
+		feld44.setBounds(485, 85, 32, 32);
 		this.buttonInitialisieren(feld44);
 		
 		feld45 = new JButton();
-		feld45.setBounds(280, 115, 35, 40);
+		feld45.setBounds(485, 135, 32, 32);
 		this.buttonInitialisieren(feld45);
 		
 		feld46 = new JButton();
-		feld46.setBounds(280, 165, 35, 40);
+		feld46.setBounds(485, 185, 32, 32);
 		this.buttonInitialisieren(feld46);
 		
 		feld47 = new JButton();
-		feld47.setBounds(280, 215, 35, 40);
+		feld47.setBounds(485, 235, 32, 32);
 		this.buttonInitialisieren(feld47);
 		
 		//Endhaus rot
 		feld48 = new JButton();
-		feld48.setBounds(480, 265, 35, 40);
+		feld48.setBounds(685, 285, 32, 32);
 		this.buttonInitialisieren(feld48);
 		
 		feld49 = new JButton();
-		feld49.setBounds(430, 265, 35, 40);
+		feld49.setBounds(635, 285, 32, 32);
 		this.buttonInitialisieren(feld49);
 		
 		feld50 = new JButton();
-		feld50.setBounds(380, 265, 35, 40);
+		feld50.setBounds(585, 285, 32, 32);
 		this.buttonInitialisieren(feld50);
 		
 		feld51 = new JButton();
-		feld51.setBounds(330, 265, 35, 40);
+		feld51.setBounds(535, 285, 32, 32);
 		this.buttonInitialisieren(feld51);
 		
 		//Endhaus schwarz
 		feld52 = new JButton();
-		feld52.setBounds(280, 465, 35, 40);
+		feld52.setBounds(485, 485, 32, 32);
 		this.buttonInitialisieren(feld52);
 		
 		feld53 = new JButton();
-		feld53.setBounds(280, 415, 35, 40);
+		feld53.setBounds(485, 435, 32, 32);
 		this.buttonInitialisieren(feld53);
 		
 		feld54 = new JButton();
-		feld54.setBounds(280, 365, 35, 40);
+		feld54.setBounds(485, 385, 32, 32);
 		this.buttonInitialisieren(feld54);
 		
 		feld55 = new JButton();
-		feld55.setBounds(280, 315, 35, 40);
+		feld55.setBounds(485, 335, 32, 32);
 		this.buttonInitialisieren(feld55);
 	}
 
@@ -628,14 +687,18 @@ public class Spielbrett extends JFrame implements ActionListener {
 		if(e.getSource() == feld55) {
 			System.out.println("55");
 		}
+		
+		if(e.getSource() == wuerfel) {
+			System.out.println("Es wurde gewuerfelt.");					//TODO: Hier mit der wuerfelfunktion der Logik verbunden
+		}
 	}
 	
 	public void buttonInitialisieren(JButton button)
 	{
 		button.addActionListener(this);
-		button.setOpaque(false);
-		button.setContentAreaFilled(false);
-		button.setBorderPainted(false);
+//		button.setOpaque(false);
+//		button.setContentAreaFilled(false);
+//		button.setBorderPainted(false);
 		this.add(button);
 	}
 

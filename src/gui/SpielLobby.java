@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import logik.Spieleinstellungen;
 import server.Client;
 
 public class SpielLobby extends JFrame implements ActionListener{
