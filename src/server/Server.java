@@ -17,6 +17,8 @@ public class Server {
 	private ServerSocket serverSocket;
 	private Thread acceptThread;
 	private static SecureRandom sessionIdGenerator;
+	public boolean waitForRoll = false;
+	public int waitForDecision = -2; 
 	
 	
 	public Server(int port) throws IOException
@@ -163,6 +165,13 @@ public class Server {
 						connectedClient.getClientSocket().close();
 						break;
 					}
+					if(str.equals("[ROLL]") && waitForRoll){
+						waitForRoll = false;
+					}
+					
+					if(str.contains("[DECISION]") && waitForDecision == -1){
+						waitForDecision = Integer.parseInt(str.split(",")[1]);
+					}
 					handleClientMessage(str, connectedClient);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -170,6 +179,32 @@ public class Server {
 			}
 		}
 	}//inner class ends
+
+	public void waitForRollResult() {
+		this.waitForRoll = true;
+		while(waitForRoll){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	public int waitForDecision() {
+		this.waitForDecision = -1;
+		while(waitForDecision == -1){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return waitForDecision;
+	}
 
 //	public static void main(String[] args) throws IOException{
 //		Server s = new Server(5000);

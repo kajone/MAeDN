@@ -76,6 +76,19 @@ public class Client {
 	{
 		System.out.print("Server: ");
 		System.out.println(msg);
+		
+		if(msg.contains("Drücken Sie ENTER um zu würfeln")){
+			// Client braucht Eingabe zum würfeln
+			Scanner sc = new Scanner(System.in);
+			sc.nextLine();
+			writeToServer("[ROLL]");
+		}
+		if(msg.contains("Wähle Jetzt!")){
+			// Client braucht Eingabe zur Entscheidung
+			Scanner sc = new Scanner(System.in);
+			int i = sc.nextInt();
+			writeToServer("[DECISION]," + i);
+		}		
 	}
 	
 	//inner class

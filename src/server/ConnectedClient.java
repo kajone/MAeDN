@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ConnectedClient {
 	private String sessionId;
@@ -60,6 +61,8 @@ public class ConnectedClient {
 	public int getId() {
 		return id;
 	}
+
+
 	
 	
 }

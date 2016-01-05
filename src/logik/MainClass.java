@@ -72,7 +72,8 @@ public class MainClass {
 		for (Token t : possibilities) {
 			possibilitiyString += t.getId()+ " ";
 		}
-		if(player[playerId] instanceof RealPlayer)server.writeToClient("Du hast folgende Moeglichkeiten:\n"+ possibilitiyString, player[playerId].getClient().getSessionId());
+		possibilitiyString = "Du hast folgende Moeglichkeiten:\n "+ possibilitiyString;
+		if(player[playerId] instanceof RealPlayer)server.writeToClient(possibilitiyString, player[playerId].getClient().getSessionId());
 		if(possibilities.size() == 0){
 			if(player[playerId] instanceof RealPlayer)server.writeToClient("Du hast Keine Zugmöglichkeiten, der naechste ist dran!", player[playerId].getClient().getSessionId());
 			return false;

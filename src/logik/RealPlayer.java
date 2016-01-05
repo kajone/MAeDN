@@ -46,21 +46,21 @@ public class RealPlayer implements Player{
 	}
 	
 	public int getPlayerDecision(Server server, int intMax){
-		Scanner sc = new Scanner(System.in);
-		int input = 0;
+		int input = -1;
 		while(true){
+			
 			try{
-				input = Integer.parseInt(sc.nextLine());
+				server.writeToClient("Wähle Jetzt!", getClient().getSessionId());
+				input = server.waitForDecision();
 				if((input >= 0 && input < intMax )){
 					break;
 				}
-				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein", getClient().getSessionId());
+				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein.", getClient().getSessionId());
 			}
 			catch(NumberFormatException e){
-				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein", getClient().getSessionId());
+				server.writeToClient("Gib besser eine Zahl zwischen 0 und " + (intMax-1) + " ein.", getClient().getSessionId());
 			}
 		}
-		client.writeMessage(input+"");
 		return input;
 	}
 	
@@ -73,7 +73,8 @@ public class RealPlayer implements Player{
 	public int getRollResult(Server server) {
 		Scanner sc = new Scanner(System.in); 
 		server.writeToClient("Drücken Sie ENTER um zu würfeln, " + name + ".", getClient().getSessionId());
-		sc.nextLine();
+		// Hier ist jetzt ein Listener, damit er auf ein ENTER vom Client hört und das Würfeln auslösen kann
+		server.waitForRollResult();
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);
 		client.writeMessage(rollResult+"");
