@@ -13,6 +13,10 @@ public class GameBoard {
 		board = new Token[56];
 	}
 	
+	public String gameTokensToString(){
+		return gTokens.toString();
+	}
+	
 	public void move(Token t, int position){
 		if(t.getPosition() != -1){
 			board[t.getPosition()] = null;

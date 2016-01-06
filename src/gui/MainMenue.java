@@ -59,7 +59,7 @@ public class MainMenue extends JFrame implements ActionListener {
 		this.add(beenden);
 	}
 	
-	
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

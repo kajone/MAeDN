@@ -23,7 +23,7 @@ public class MainClass {
 		int roll;
 		while (!checkWin) {
 			round: for (int i = 0; i < 4; i++) {
-				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString();
+				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString() + mainBoard.gameTokensToString();
 				server.writeToAll(turnBegin);
 				if (mainBoard.threeTimeRoll(i)) {			  //unnormaler Zug: 3 Mal wuerfeln
 					if(player[i] instanceof RealPlayer)server.writeToClient("Du darfst 3 mal wuerfeln, " + player[i].getName()+".", player[i].getClient().getSessionId());

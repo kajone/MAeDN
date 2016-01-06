@@ -1,4 +1,6 @@
 package server;
+import gui.Spielbrett;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,10 +19,13 @@ public class Client {
 	private BufferedReader input;
 	private Thread communicationThread;
 	private boolean isConnected;
+	private boolean yesYouShouldRoll = false;
+	private Spielbrett brett;
 	
 	//Constructor
-	public Client(int port, String host) throws UnknownHostException, IOException
+	public Client(int port, String host, Spielbrett brett) throws UnknownHostException, IOException
 	{
+		this.brett = brett;
 		//connect to Server
 		clientSocket = new Socket(host,port);
 		
@@ -80,12 +85,8 @@ public class Client {
 		if(msg.contains("Drücken Sie ENTER um zu würfeln")){
 			// Client braucht Eingabe zum würfeln
 			// Drücke den Würfel button
-			
-			
-			
-			Scanner sc = new Scanner(System.in);
-			sc.nextLine();
-			writeToServer("[ROLL]");
+			yesYouShouldRoll = true;
+
 		}
 		if(msg.contains("Wähle Jetzt!")){
 			// Client braucht Eingabe zur Entscheidung
@@ -94,7 +95,14 @@ public class Client {
 			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
 			writeToServer("[DECISION]," + i);
-		}		
+		}	
+		
+		if(msg.contains("So sieht das Spielfeld gerade aus:")){
+			// Client gibt Spielbrettupdate an Spielbrett
+			String board = "Halt Die Schnauze, Spast";
+			brett.update(board);
+		}
+		
 	}
 	
 	//inner class
@@ -120,6 +128,15 @@ public class Client {
 				}
 			}
 		}
+		
+	}
+
+	public void roll() {
+		if(yesYouShouldRoll){
+			writeToServer("[ROLL]");
+			yesYouShouldRoll = false;
+		}
+		
 		
 	}
 	

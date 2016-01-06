@@ -37,7 +37,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JButton feld30, feld31, feld32, feld33, feld34, feld35, feld36, feld37, feld38, feld39;
 	private JButton feld40, feld41, feld42, feld43, feld44, feld45, feld46, feld47, feld48, feld49, feld50, feld51, feld52, feld53, feld54, feld55;
 	
-	
+	private Client client = null;
 	
 	public Spielbrett(String titel)
 	{
@@ -405,9 +405,9 @@ public class Spielbrett extends JFrame implements ActionListener {
 		feld55.setBounds(485, 335, 32, 32);
 		this.buttonInitialisieren(feld55);
 				
-		Client client = null;
+		
 		try {
-			client = new Client(5000, "127.0.0.1");
+			client = new Client(5000, "127.0.0.1", this);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -432,6 +432,14 @@ public class Spielbrett extends JFrame implements ActionListener {
 		String toServer = "[INIT],"+name+","+color;
 		client.writeToServer(toServer); 
 
+		
+	}
+	
+	
+	
+	
+	public void gameUpdate(String board){
+		player1.setText(board);
 	}
 
 	@Override
@@ -727,9 +735,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == wuerfel) {
-			
-			
 			//TODO: Hier mit der wuerfelfunktion der Logik verbunden
+			
+			client.roll();
+			
 			
 		}
 	}
@@ -741,6 +750,14 @@ public class Spielbrett extends JFrame implements ActionListener {
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
 		this.add(button);
+	}
+
+
+
+
+	public void update(String board) {
+		player1.setText(board);
+		
 	}
 
 }

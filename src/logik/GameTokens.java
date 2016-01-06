@@ -20,8 +20,7 @@ public class GameTokens {
 	public String toString(){
 		String s = "";
 		for(int i = 0; i < tokenArray.length; i++){
-			s += "Spielstein: " + tokenArray[i].getId() + " mit der Farbe " +  
-				  tokenArray[i].getColor() + " auf Position " + tokenArray[i].getPosition() + "\n";
+			s += tokenArray[i].getId() + ";" + tokenArray[i].getColor() + ";" + tokenArray[i].getPosition() + "\n";
 		}
 		return s;
 	}

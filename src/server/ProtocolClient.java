@@ -8,7 +8,7 @@ public class ProtocolClient extends Client implements NetworkInterface{
 
 	public ProtocolClient(int port, String host, IProtocol protocol)
 			throws UnknownHostException,IOException {
-		super(port, host);
+		super(port, host, null);
 		networkController = new NetworkController(protocol, this); 
 		super.connect();
 	}
