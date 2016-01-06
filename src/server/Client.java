@@ -97,10 +97,13 @@ public class Client {
 			writeToServer("[DECISION]," + i);
 		}	
 		
-		if(msg.contains("So sieht das Spielfeld gerade aus:")){
-			// Client gibt Spielbrettupdate an Spielbrett
-			String board = "Halt Die Schnauze, Spast";
-			brett.update(board);
+//		if(msg.contains("So sieht das Spielfeld gerade aus:")){
+//			// Client gibt Spielbrettupdate an Spielbrett
+//			String board = "Halt Die Schnauze, Spast";
+//			brett.update(board);
+//		}
+		if(msg.contains("[GAMETOKENS]")){
+			brett.update(msg.split("]")[1]);
 		}
 		
 	}

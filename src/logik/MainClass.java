@@ -20,11 +20,15 @@ public class MainClass {
 		GameBoard mainBoard = new GameBoard(player);		
 		boolean checkWin = false;
 		String turnBegin = null;
+		String turnBegin2 = null;
 		int roll;
 		while (!checkWin) {
 			round: for (int i = 0; i < 4; i++) {
-				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString() + mainBoard.gameTokensToString();
+				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString();
+				turnBegin2 = "[GAMETOKENS]" + mainBoard.gameTokensToString(); 
 				server.writeToAll(turnBegin);
+				server.writeToAll(turnBegin2);
+				
 				if (mainBoard.threeTimeRoll(i)) {			  //unnormaler Zug: 3 Mal wuerfeln
 					if(player[i] instanceof RealPlayer)server.writeToClient("Du darfst 3 mal wuerfeln, " + player[i].getName()+".", player[i].getClient().getSessionId());
 					for (int j = 0; j < 3; j++) {

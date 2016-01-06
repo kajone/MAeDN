@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,10 +12,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import server.Client;
 
@@ -756,7 +759,29 @@ public class Spielbrett extends JFrame implements ActionListener {
 
 
 	public void update(String board) {
-		player1.setText(board);
+		
+//		Scanner sc = new Scanner(board);
+//		String[] token = null;
+//		int tokenPosition = 0;
+//		while(sc.hasNextLine()){
+//			token = sc.nextLine().split(";");
+//			tokenPosition = Integer.parseInt(token[2]);
+//			if(tokenPosition >= 0){
+//				
+//			}
+//			
+//			
+//		}
+		System.out.println("YEAAAHHH");
+		feld0.setHorizontalTextPosition(SwingConstants.CENTER);
+		
+		
+		feld0.setOpaque(true);
+		feld0.setContentAreaFilled(true);
+		feld0.setBorderPainted(true);
+		feld0.setIcon((Icon) new ImageIcon("Spielfigur-gelb.jpg"));
+		
+		
 		
 	}
 
