@@ -79,12 +79,18 @@ public class Client {
 		
 		if(msg.contains("Drücken Sie ENTER um zu würfeln")){
 			// Client braucht Eingabe zum würfeln
+			// Drücke den Würfel button
+			
+			
+			
 			Scanner sc = new Scanner(System.in);
 			sc.nextLine();
 			writeToServer("[ROLL]");
 		}
 		if(msg.contains("Wähle Jetzt!")){
 			// Client braucht Eingabe zur Entscheidung
+			
+			
 			Scanner sc = new Scanner(System.in);
 			int i = sc.nextInt();
 			writeToServer("[DECISION]," + i);

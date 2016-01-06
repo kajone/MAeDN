@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -14,8 +16,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import server.Client;
+
 public class Spielbrett extends JFrame implements ActionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel player1, player2, player3, player4;
 	private JLabel feld;
 	private JButton wuerfel;
@@ -29,10 +37,12 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JButton feld30, feld31, feld32, feld33, feld34, feld35, feld36, feld37, feld38, feld39;
 	private JButton feld40, feld41, feld42, feld43, feld44, feld45, feld46, feld47, feld48, feld49, feld50, feld51, feld52, feld53, feld54, feld55;
 	
+	
+	
 	public Spielbrett(String titel)
 	{
-		
 		super(titel);
+		
 		
 		this.setSize(1000, 650);
 		this.setLayout(null);
@@ -43,7 +53,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 //			} catch(IOException e){
 //				System.out.println("Image can't find");
 //			}
-//			this.setResizable(false);
+			this.setResizable(false);
 			
 		try{
 			feld = new JLabel();
@@ -394,6 +404,34 @@ public class Spielbrett extends JFrame implements ActionListener {
 		feld55 = new JButton();
 		feld55.setBounds(485, 335, 32, 32);
 		this.buttonInitialisieren(feld55);
+				
+		Client client = null;
+		try {
+			client = new Client(5000, "127.0.0.1");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		client.connect();
+		
+		File file = new File("Einstellungen.txt");
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		int i = 0;
+		String name = "";
+		String color = "";
+		while(sc.hasNextLine()){
+			if(i==0) name=sc.nextLine();
+			if(i==1) color=sc.nextLine();
+			i++;
+		}
+		sc.close();
+		String toServer = "[INIT],"+name+","+color;
+		client.writeToServer(toServer); 
+
 	}
 
 	@Override
@@ -689,16 +727,19 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == wuerfel) {
-			System.out.println("Es wurde gewuerfelt.");					//TODO: Hier mit der wuerfelfunktion der Logik verbunden
+			
+			
+			//TODO: Hier mit der wuerfelfunktion der Logik verbunden
+			
 		}
 	}
 	
 	public void buttonInitialisieren(JButton button)
 	{
 		button.addActionListener(this);
-//		button.setOpaque(false);
-//		button.setContentAreaFilled(false);
-//		button.setBorderPainted(false);
+		button.setOpaque(false);
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
 		this.add(button);
 	}
 

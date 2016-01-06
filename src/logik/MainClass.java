@@ -20,8 +20,8 @@ public class MainClass {
 		GameBoard mainBoard = new GameBoard(player);		
 		boolean checkWin = false;
 		String turnBegin = null;
+		int roll;
 		while (!checkWin) {
-			int roll;
 			round: for (int i = 0; i < 4; i++) {
 				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString();
 				server.writeToAll(turnBegin);

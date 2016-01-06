@@ -75,23 +75,21 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			// Hoster ist Server und Client in einem!
 			//Server starten
 			Server server = null;
-			Client clientOfHost = null;
 			Player[] player = null;
 			try {
 				server = new Server(5000);
 				server.start();
+//				
+//			     //TODO Eingabewerte Name und Farbe über Eingabemaske 
+//				Thread.sleep(5000);												 //	    mit color chooser oder so verknuepfen
+//				
+//				// Auf minSpieler connects warten..  
+				Spielbrett brett = new Spielbrett("Spiel");	
 				
-				clientOfHost = new Client(5000, "127.0.0.1");
-				clientOfHost.connect();
-				clientOfHost.writeToServer("[INIT],Kajo,gruen"); //TODO Eingabewerte Name und Farbe über Eingabemaske 
-																 //	    mit color chooser oder so verknuepfen
-				player = new Player[4];
-				// Auf minSpieler connects warten..  
-				while(true){
-					if(server.getConnectedClients().size() >= minSpieler){
-						break;
-					}		
-					Thread.sleep(5000); // wartet 5 Sekunden
+				boolean hansWurst = true;
+				while(server.getConnectedClients().size() < minSpieler){
+					
+					Thread.sleep(1000); // wartet 5 Sekunden
 				}
 			} catch (IOException | InterruptedException e1) {
 				System.out.println("Error bei Server (init)");
@@ -101,6 +99,7 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 			// Für jeden gejointen Spieler Daten ziehen, neue Player anlegen und ab dafür
 			// Ein ConnectedClient liefert deswegen Name, Farbe, Id und sich selbst an einen Player
 			int playerCounter = 0;
+			player = new Player[4];
 			//RealPlayer erzeugen und sortiert einfuegen
 			for(int i = 1; i<=server.getConnectedClients().size(); i++){
 				for(ConnectedClient client : server.getConnectedClients().values()){
@@ -111,7 +110,7 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 					}
 				}
 			}
-			// restliche BotPlayer erzeugen
+//			// restliche BotPlayer erzeugen
 			while(playerCounter < 4){
 				player[playerCounter] = new BotPlayer(
 						"Bot" + (playerCounter - server.getConnectedClients().size()+1), 
@@ -119,8 +118,9 @@ public class SpielErstellenEinstellungen extends JFrame implements ActionListene
 						playerCounter+1);
 				playerCounter++;
 			}
-			this.dispose();	// Schliesst die Lobby
+			
 			MainClass game = new MainClass(server, player); // Startet das Spiel
+			this.dispose();	// Schliesst die Lobby
 		}
 	}
 }

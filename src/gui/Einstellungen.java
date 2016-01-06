@@ -4,7 +4,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -77,6 +79,22 @@ public class Einstellungen extends JFrame implements ActionListener{
 			String farbe = (String) farbenAuswahl.getSelectedItem();
 			System.out.println(farbe);
 			System.out.println(spielername);
+			
+			Writer fw = null;
+
+			try
+			{
+			  fw = new FileWriter( "Einstellungen.txt" );
+			  fw.write(spielername + "\n" + farbe);
+			}
+			catch ( IOException e1 ) {
+			  System.err.println( "Konnte Einstellungen.txt nicht überschreiben" );
+			}
+			finally {
+			  if ( fw != null )
+			    try { fw.close(); } catch ( IOException e1 ) { e1.printStackTrace(); }
+			}
+			
 			this.dispose();
 		}
 	}

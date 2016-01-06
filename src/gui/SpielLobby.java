@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import logik.MainClass;
 import server.Client;
 
 public class SpielLobby extends JFrame implements ActionListener{
@@ -43,23 +44,18 @@ public class SpielLobby extends JFrame implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == spielErstellen ){
-			SpielErstellenEinstellungen spielErstellen = new SpielErstellenEinstellungen("Spiel erstllen");
+			SpielErstellenEinstellungen spielErstellen = new SpielErstellenEinstellungen("Spiel erstellen");
+			
 			this.dispose();
 		}	
+		
 		if(e.getSource() == spielBeitreten){
 			
-			Spielbrett brett = new Spielbrett("Spiel");
-			
-			try {
-				System.out.println("Los gehts!");
-				Client client = new Client(5000, "127.0.0.1");
-				client.connect();
-				client.writeToServer("[INIT],Jannis,blau"); //TODO Eingabewerte Name und Farbe über Eingabemaske 
-															//	   mit color chooser oder so verknuepfen
-			} catch (IOException e1) {
-				System.out.println("Error im Client (init)");
-				e1.printStackTrace();
-			}
+			//  TODO Eingabewerte Name und Farbe über Eingabemaske 
+			//  mit color chooser oder so verknuepfen
+			Spielbrett brett = new Spielbrett("Spiel");	
+				
+	
 			this.dispose();
 		}
 	}
