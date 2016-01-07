@@ -77,7 +77,7 @@ public class RealPlayer implements Player{
 		server.waitForRollResult();
 		Random randomize = new Random();
 		int rollResult = (randomize.nextInt(6)+1);
-		client.writeMessage(rollResult+"");
+		client.writeMessage("[ERGEBNIS]:" +rollResult);
 		return rollResult;
 	}
 }

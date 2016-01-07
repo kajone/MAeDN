@@ -30,6 +30,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JLabel player1, player2, player3, player4;
 	private JLabel feld;
 	private JButton wuerfel;
+	private JLabel rollResultLabel;
 	private JButton gelbesHausObenLinks, gruenesHausObenLinks, rotesHausObenLinks, schwarzesHausObenLinks;
 	private JButton gelbesHausObenRechts, gruenesHausObenRechts, rotesHausObenRechts, schwarzesHausObenRechts;
 	private JButton gelbesHausUntenLinks, gruenesHausUntenLinks, rotesHausUntenLinks, schwarzesHausUntenLinks;
@@ -39,9 +40,23 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JButton feld20, feld21, feld22, feld23, feld24, feld25, feld26, feld27, feld28, feld29;
 	private JButton feld30, feld31, feld32, feld33, feld34, feld35, feld36, feld37, feld38, feld39;
 	private JButton feld40, feld41, feld42, feld43, feld44, feld45, feld46, feld47, feld48, feld49, feld50, feld51, feld52, feld53, feld54, feld55;
-	private HashMap<String, JButton> jButtonMap = new HashMap();
+	
+	
+	
+	private int rollResult = 0;
+	private HashMap<Integer, Integer> positions = new HashMap<Integer, Integer>();
+	
+	private int whoIsPlaying = 0;
+	
+	private HashMap<String, JButton> jButtonMap = new HashMap<String, JButton>();
+	
+	private int[] realPossibilities;
 	
 	private Client client = null;
+	private JLabel turnPlayer1;
+	private JLabel turnPlayer2;
+	private JLabel turnPlayer3;
+	private JLabel turnPlayer4;
 	
 	public Spielbrett(String titel)
 	{
@@ -49,7 +64,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		
 		
 		this.setSize(1000, 650);
-		this.setLayout(null);
+		getContentPane().setLayout(null);
 		this.setVisible(true);
 		
 //		try{
@@ -68,34 +83,34 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		
 		feld.setBounds(200, 0, 600, 600);
-		this.add(feld);
+		getContentPane().add(feld);
 		
 		player1 = new JLabel();
 		player1.setBounds(20, 50, 100, 20);
 		player1.setText("Player1"); 						
 		player1.setFont(new Font("Arial",Font.BOLD, 22));
 		player1.setForeground(Color.YELLOW);
-		this.add(player1);
+		getContentPane().add(player1);
 		
 		player2 = new JLabel();
 		player2.setBounds(20, 100, 100, 20);
 		player2.setText("Player2");							
 		player2.setFont(new Font("Arial",Font.BOLD, 22));
 		player2.setForeground(Color.GREEN);
-		this.add(player2);
+		getContentPane().add(player2);
 		
 		player3 = new JLabel();
 		player3.setBounds(20, 150, 100, 20);
 		player3.setText("Player3");									
 		player3.setFont(new Font("Arial",Font.BOLD, 22));
 		player3.setForeground(Color.RED);
-		this.add(player3);
+		getContentPane().add(player3);
 		
 		player4 = new JLabel();
 		player4.setBounds(20, 200, 100, 20);
 		player4.setText("Player4");							
 		player4.setFont(new Font("Arial",Font.BOLD, 22));
-		this.add(player4);
+		getContentPane().add(player4);
 		
 		wuerfel = new JButton();
 		wuerfel.setBounds(20, 450, 100, 100);
@@ -110,12 +125,36 @@ public class Spielbrett extends JFrame implements ActionListener {
 		
 		wuerfel.setVisible(true);
 		wuerfel.addActionListener(this);
-		this.add(wuerfel);
+		getContentPane().add(wuerfel);
 		
 			
 		gelbesHausObenLinks = new JButton();
 		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
 		this.buttonInitialisieren(gelbesHausObenLinks);
+		
+		this.rollResultLabel = new JLabel("Result:  ");
+		rollResultLabel.setBounds(20, 555, 79, 27);
+		getContentPane().add(rollResultLabel);
+		
+		turnPlayer1 = new JLabel("<--");
+		turnPlayer1.setBounds(116, 50, 46, 14);
+		turnPlayer1.setVisible(false);
+		getContentPane().add(turnPlayer1);
+		
+		turnPlayer2 = new JLabel("<--");
+		turnPlayer2.setBounds(116, 100, 46, 14);
+		turnPlayer2.setVisible(false);
+		getContentPane().add(turnPlayer2);
+		
+		turnPlayer3 = new JLabel("<--");
+		turnPlayer3.setBounds(116, 150, 46, 14);
+		turnPlayer3.setVisible(false);
+		getContentPane().add(turnPlayer3);
+		
+		turnPlayer4 = new JLabel("<--");
+		turnPlayer4.setBounds(116, 200, 46, 14);
+		turnPlayer4.setVisible(false);
+		getContentPane().add(turnPlayer4);
 		
 		gelbesHausObenRechts = new JButton();
 		gelbesHausObenRechts.setBounds(285, 35, 32, 32);
@@ -568,227 +607,227 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == feld0) {
-			System.out.println("0");
+			checkClickedField(0);
 		}
 		
 		if(e.getSource() == feld1) {
-			System.out.println("1");
+			checkClickedField(1);
 		}
 		
 		if(e.getSource() == feld2) {
-			System.out.println("2");
+			checkClickedField(2);
 		}
 		
 		if(e.getSource() == feld3) {
-			System.out.println("3");
+			checkClickedField(3);
 		}
 		
 		if(e.getSource() == feld4) {
-			System.out.println("4");
+			checkClickedField(4);
 		}
 		
 		if(e.getSource() == feld5) {
-			System.out.println("5");
+			checkClickedField(5);
 		}
 		
 		if(e.getSource() == feld6) {
-			System.out.println("6");
+			checkClickedField(6);
 		}
 		
 		if(e.getSource() == feld7) {
-			System.out.println("7");
+			checkClickedField(7);
 		}
 		
 		if(e.getSource() == feld8) {
-			System.out.println("8");
+			checkClickedField(8);
 		}
 		
 		if(e.getSource() == feld9) {
-			System.out.println("9");
+			checkClickedField(9);
 		}
 		
 		if(e.getSource() == feld10) {
-			System.out.println("10");
+			checkClickedField(10);
 		}
 		
 		if(e.getSource() == feld11) {
-			System.out.println("11");
+			checkClickedField(11);
 		}
 		
 		if(e.getSource() == feld12) {
-			System.out.println("12");
+			checkClickedField(12);
 		}
 		
 		if(e.getSource() == feld13) {
-			System.out.println("13");
+			checkClickedField(13);
 		}
 		
 		if(e.getSource() == feld14) {
-			System.out.println("14");
+			checkClickedField(14);
 		}
 		
 		if(e.getSource() == feld15) {
-			System.out.println("15");
+			checkClickedField(15);
 		}
 		
 		if(e.getSource() == feld16) {
-			System.out.println("16");
+			checkClickedField(16);
 		}
 		
 		if(e.getSource() == feld17) {
-			System.out.println("17");
+			checkClickedField(17);
 		}
 		
 		if(e.getSource() == feld18) {
-			System.out.println("18");
+			checkClickedField(18);
 		}
 		
 		if(e.getSource() == feld19) {
-			System.out.println("19");
+			checkClickedField(19);
 		}
 		
 		if(e.getSource() == feld20) {
-			System.out.println("20");
+			checkClickedField(20);
 		}
 		
 		if(e.getSource() == feld21) {
-			System.out.println("21");
+			checkClickedField(21);
 		}
 		
 		if(e.getSource() == feld22) {
-			System.out.println("22");
+			checkClickedField(22);
 		}
 		
 		if(e.getSource() == feld23) {
-			System.out.println("23");
+			checkClickedField(23);
 		}
 		
 		if(e.getSource() == feld24) {
-			System.out.println("24");
+			checkClickedField(24);
 		}
 		
 		if(e.getSource() == feld25) {
-			System.out.println("25");
+			checkClickedField(25);
 		}
 		
 		if(e.getSource() == feld26) {
-			System.out.println("26");
+			checkClickedField(26);
 		}
 		
 		if(e.getSource() == feld27) {
-			System.out.println("27");
+			checkClickedField(27);
 		}
 		
 		if(e.getSource() == feld28) {
-			System.out.println("28");
+			checkClickedField(28);
 		}
 		
 		if(e.getSource() == feld29) {
-			System.out.println("29");
+			checkClickedField(29);
 		}
 		
 		if(e.getSource() == feld30) {
-			System.out.println("30");
+			checkClickedField(30);
 		}
 		
 		if(e.getSource() == feld31) {
-			System.out.println("31");
+			checkClickedField(31);
 		}
 		
 		if(e.getSource() == feld32) {
-			System.out.println("32");
+			checkClickedField(32);
 		}
 		
 		if(e.getSource() == feld33) {
-			System.out.println("33");
+			checkClickedField(33);
 		}
 		
 		if(e.getSource() == feld34) {
-			System.out.println("34");
+			checkClickedField(34);
 		}
 		
 		if(e.getSource() == feld35) {
-			System.out.println("35");
+			checkClickedField(35);
 		}
 		
 		if(e.getSource() == feld36) {
-			System.out.println("36");
+			checkClickedField(36);
 		}
 		
 		if(e.getSource() == feld37) {
-			System.out.println("37");
+			checkClickedField(37);
 		}
 		
 		if(e.getSource() == feld38) {
-			System.out.println("38");
+			checkClickedField(38);
 		}
 		
 		if(e.getSource() == feld39) {
-			System.out.println("39");
+			checkClickedField(39);
 		}
 		
 		if(e.getSource() == feld40) {
-			System.out.println("40");
+			checkClickedField(40);
 		}
 		
 		if(e.getSource() == feld41) {
-			System.out.println("41");
+			checkClickedField(41);
 		}
 		
 		if(e.getSource() == feld42) {
-			System.out.println("42");
+			checkClickedField(42);
 		}
 		
 		if(e.getSource() == feld43) {
-			System.out.println("43");
+			checkClickedField(43);
 		}
 		
 		if(e.getSource() == feld44) {
-			System.out.println("44");
+			checkClickedField(44);
 		}
 		
 		if(e.getSource() == feld45) {
-			System.out.println("45");
+			checkClickedField(45);
 		}
 		
 		if(e.getSource() == feld46) {
-			System.out.println("46");
+			checkClickedField(46);
 		}
 		
 		if(e.getSource() == feld47) {
-			System.out.println("47");
+			checkClickedField(47);
 		}
 		
 		if(e.getSource() == feld48) {
-			System.out.println("48");
+			checkClickedField(48);
 		}
 		
 		if(e.getSource() == feld49) {
-			System.out.println("49");
+			checkClickedField(49);
 		}
 		
 		if(e.getSource() == feld50) {
-			System.out.println("50");
+			checkClickedField(50);
 		}
 		
 		if(e.getSource() == feld51) {
-			System.out.println("51");
+			checkClickedField(51);
 		}
 		
 		if(e.getSource() == feld52) {
-			System.out.println("52");
+			checkClickedField(52);
 		}
 		
 		if(e.getSource() == feld53) {
-			System.out.println("53");
+			checkClickedField(53);
 		}
 		
 		if(e.getSource() == feld54) {
-			System.out.println("54");
+			checkClickedField(54);
 		}
 		
 		if(e.getSource() == feld55) {
-			System.out.println("55");
+			checkClickedField(55);
 		}
 		
 		if(e.getSource() == wuerfel) {
@@ -803,7 +842,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
-		this.add(button);
+		getContentPane().add(button);
 	}
 
 	public void update(String board) {
@@ -816,18 +855,19 @@ public class Spielbrett extends JFrame implements ActionListener {
 		int tokenPosition = 0;
 		
 		for(int i = 0; i< token.length; i++){
-//			System.out.println("STRINGELINGELING: " + yay);
 			tokenID = Integer.parseInt(token[i].split(";")[0]);
 			tokenColor = token[i].split(";")[1];
 			tokenPosition = Integer.parseInt(token[i].split(";")[2]);
-//			System.out.println("UPDATETRALALALA " + tokenPosition + " " + tokenColor);
+			if((tokenID/10)==this.whoIsPlaying)this.positions.put(tokenID,tokenPosition);
 			if(tokenPosition >= 0){
 				setToken(jButtonMap.get("feld" + tokenPosition), tokenColor);
+				
 			}	
 		}
 	}
 	
 	private void clearBoard() {
+		positions.clear();
 		Set<String> keys = jButtonMap.keySet();
 		for (String singleKey : keys) {
 			jButtonMap.get(singleKey).setIcon(null);
@@ -839,9 +879,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		switch(color){
 			case "gelb": location = "./images/Spielfigur-gelb.jpg"; break;
 			case "schwarz": location = "./images/Spielfigur-schwarz.jpg"; break;
-			case "2": location = "./images/Spielfigur-schwarz.jpg"; break;
 			case "rot": location = "./images/Spielfigur-rot.jpg"; break;
-			case "1": location = "./images/Spielfigur-rot.jpg"; break;
 			case "gruen": location = "./images/Spielfigur-gruen.jpg"; break;
 			default: System.out.println("Farbe hat keinen Spielstein"); break;
 		}
@@ -859,4 +897,73 @@ public class Spielbrett extends JFrame implements ActionListener {
 		player3.setText(update.split(";")[2]);
 		player4.setText(update.split(";")[3]);
 	}
+
+
+
+
+	public void setPossibilities(String possibilities) {
+		// rechnet direkt die möglichen drückbaren felder aus und packt sie in das Array possibilities 
+		//this.possibilities = possibilities;
+		if(possibilities == null){ this.realPossibilities = null; return;}
+		String[] possibilityArray = possibilities.split(";");
+		
+		this.realPossibilities = new int[possibilityArray.length];
+		for(int i = 0; i < possibilityArray.length; i++){
+			int tmp = 0;
+			if(positions.get(Integer.parseInt(possibilityArray[i])) == -1){ //Startposition
+				realPossibilities[i] = whoIsPlaying*10-10;		
+			}
+			else if(positions.get(Integer.parseInt(possibilityArray[i])) <= 39 && positions.get(Integer.parseInt(possibilityArray[i]))  + rollResult >= 40){
+				//realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult + (whoIsPlaying-1)*4;
+				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;
+				
+			}else{
+				realPossibilities[i]=positions.get(Integer.parseInt(possibilityArray[i]))+rollResult; // TODO if not haus  // TODO Startposition
+			}
+			
+		}
+		for(int i = 0; i< realPossibilities.length;i++){
+			System.out.println(realPossibilities[i]);
+		}
+		//realPossibilities.add();
+		
+	}
+	
+	public void gotRollResult(String rollResult) {
+		this.rollResult = Integer.parseInt(rollResult);
+		rollResultLabel.setText("Result: " + rollResult);
+		getContentPane().add(rollResultLabel);
+	}
+	
+	private void checkClickedField(int j){
+		if(realPossibilities==null)return;
+		for(int i = 0; i < realPossibilities.length; i++){
+			if(realPossibilities[i] == j){
+				client.choose(i);
+				realPossibilities = null;
+				break;
+			}
+		}
+	}
+
+
+
+
+	public void playerTurn(String playerID) {
+		// Der hier ist gerade dran
+		this.whoIsPlaying = Integer.parseInt(playerID);
+		turnPlayer1.setVisible(false); 
+		turnPlayer2.setVisible(false); 
+		turnPlayer3.setVisible(false); 
+		turnPlayer4.setVisible(false); 
+		switch(Integer.parseInt(playerID)){
+		case 1: turnPlayer1.setVisible(true); break;
+		case 2: turnPlayer2.setVisible(true); break;
+		case 3: turnPlayer3.setVisible(true); break;
+		case 4: turnPlayer4.setVisible(true); break;
+		default: break;
+		}
+		
+	}
+	
 }

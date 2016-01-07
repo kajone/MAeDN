@@ -40,7 +40,7 @@ public class SpielLobby extends JFrame implements ActionListener{
 		
 		if(e.getSource() == spielBeitreten){
 	
-			Spielbrett brett = new Spielbrett("Spiel");	
+			Spielbrett brett = new Spielbrett("Mensch Aergere Dich Nicht");	
 			
 			this.dispose();
 		}

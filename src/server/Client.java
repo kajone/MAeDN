@@ -20,6 +20,8 @@ public class Client {
 	private Thread communicationThread;
 	private boolean isConnected;
 	private boolean yesYouShouldRoll = false;
+	private boolean yesYouShouldChoose = false;
+	
 	private Spielbrett brett;
 	
 	//Constructor
@@ -90,11 +92,10 @@ public class Client {
 		}
 		if(msg.contains("Wähle Jetzt!")){
 			// Client braucht Eingabe zur Entscheidung
+			yesYouShouldChoose = true;
 			
 			
-			Scanner sc = new Scanner(System.in);
-			int i = sc.nextInt();
-			writeToServer("[DECISION]," + i);
+			
 		}	
 		
 //		if(msg.contains("So sieht das Spielfeld gerade aus:")){
@@ -109,7 +110,15 @@ public class Client {
 		if(msg.contains("[PLAYER]")){
 			brett.playerUpdate(msg.split("]")[1]);
 		}
-		
+		if(msg.contains("Du hast folgende Moeglichkeiten")){
+			brett.setPossibilities(msg.split(":")[1]);
+		}
+		if(msg.contains("[ERGEBNIS]")){
+			brett.gotRollResult(msg.split(":")[1]);
+		}
+		if(msg.contains("[TURN]")){
+			brett.playerTurn(msg.split(";")[1]);
+		}
 	}
 	
 	//inner class
@@ -143,9 +152,16 @@ public class Client {
 			writeToServer("[ROLL]");
 			yesYouShouldRoll = false;
 		}
-		
-		
 	}
+	
+	public void choose(int i) { // zwischen 0 und maxInt
+		if(yesYouShouldChoose){
+			writeToServer("[DECISION]," + i);
+			yesYouShouldChoose = false;
+			brett.setPossibilities(null);
+		}
+	}
+	
 	
 	
 //	public static void main(String[] args) throws IOException{

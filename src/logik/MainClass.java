@@ -29,7 +29,7 @@ public class MainClass {
 		int roll;
 		while (!checkWin) {
 			round: for (int i = 0; i < 4; i++) {
-				turnBegin = player[i].getName() + " ist dran! (Player "+ player[i].getId() + ")\n" + mainBoard.toString();
+				turnBegin = "[TURN]" + player[i].getName() + " ist dran! (Player ;"+ player[i].getId() + ";)\n" + mainBoard.toString();
 				turnBegin2 = "[GAMETOKENS]" + mainBoard.gameTokensToString(); 
 				server.writeToAll(turnBegin);
 				server.writeToAll(turnBegin2);
@@ -79,9 +79,9 @@ public class MainClass {
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
 		String possibilitiyString = ""; 
 		for (Token t : possibilities) {
-			possibilitiyString += t.getId()+ " ";
+			possibilitiyString += t.getId()+ ";";
 		}
-		possibilitiyString = "Du hast folgende Moeglichkeiten:\n "+ possibilitiyString;
+		possibilitiyString = "Du hast folgende Moeglichkeiten:"+ possibilitiyString;
 		if(player[playerId] instanceof RealPlayer)server.writeToClient(possibilitiyString, player[playerId].getClient().getSessionId());
 		if(possibilities.size() == 0){
 			if(player[playerId] instanceof RealPlayer)server.writeToClient("Du hast Keine Zugmöglichkeiten, der naechste ist dran!", player[playerId].getClient().getSessionId());
