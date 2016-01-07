@@ -49,6 +49,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private int whoIsPlaying = 0;
 	
 	private HashMap<String, JButton> jButtonMap = new HashMap<String, JButton>();
+	private JButton[] jButtonStartPositions = new JButton[16];
 	
 	private int[] realPossibilities;
 	
@@ -127,11 +128,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		wuerfel.addActionListener(this);
 		getContentPane().add(wuerfel);
 		
-			
-		gelbesHausObenLinks = new JButton();
-		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
-		this.buttonInitialisieren(gelbesHausObenLinks);
-		
+					
 		this.rollResultLabel = new JLabel("Result:  ");
 		rollResultLabel.setBounds(20, 555, 79, 27);
 		getContentPane().add(rollResultLabel);
@@ -159,62 +156,82 @@ public class Spielbrett extends JFrame implements ActionListener {
 		gelbesHausObenRechts = new JButton();
 		gelbesHausObenRechts.setBounds(285, 35, 32, 32);
 		this.buttonInitialisieren(gelbesHausObenRechts);
+		jButtonStartPositions[0] = gelbesHausObenRechts;
+		
+		gelbesHausObenLinks = new JButton();
+		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
+		this.buttonInitialisieren(gelbesHausObenLinks);
+		jButtonStartPositions[1] = gelbesHausObenLinks;
 		
 		gelbesHausUntenLinks = new JButton();
 		gelbesHausUntenLinks.setBounds(235, 85, 32, 32);
 		this.buttonInitialisieren(gelbesHausUntenLinks);
+		jButtonStartPositions[2] = gelbesHausUntenLinks;
 		
 		gelbesHausUntenRechts = new JButton();
 		gelbesHausUntenRechts.setBounds(285, 85, 32, 32);
 		this.buttonInitialisieren(gelbesHausUntenRechts);
+		jButtonStartPositions[3] = gelbesHausUntenRechts;
 		
 		gruenesHausObenLinks = new JButton();
 		gruenesHausObenLinks.setBounds(685, 35, 32, 32);
 		this.buttonInitialisieren(gruenesHausObenLinks);
+		jButtonStartPositions[4] = gruenesHausObenLinks;
 		
 		gruenesHausObenRechts = new JButton();
 		gruenesHausObenRechts.setBounds(735, 35, 32, 32);
 		this.buttonInitialisieren(gruenesHausObenRechts);
+		jButtonStartPositions[5] = gruenesHausObenRechts;
 		
 		gruenesHausUntenLinks = new JButton();
 		gruenesHausUntenLinks.setBounds(685, 85, 32, 32);
 		this.buttonInitialisieren(gruenesHausUntenLinks);
+		jButtonStartPositions[6] = gruenesHausUntenLinks;
 		
 		gruenesHausUntenRechts = new JButton();
 		gruenesHausUntenRechts.setBounds(735, 85, 32, 32);
 		this.buttonInitialisieren(gruenesHausUntenRechts);
+		jButtonStartPositions[7] = gruenesHausUntenRechts;
 		
 		rotesHausObenLinks = new JButton();
 		rotesHausObenLinks.setBounds(685, 485, 32, 32);
 		this.buttonInitialisieren(rotesHausObenLinks);
+		jButtonStartPositions[8] = rotesHausObenLinks;
 		
 		rotesHausObenRechts = new JButton();
 		rotesHausObenRechts.setBounds(735, 485, 32, 32);
 		this.buttonInitialisieren(rotesHausObenRechts);
+		jButtonStartPositions[9] = rotesHausObenRechts;
 		
 		rotesHausUntenLinks = new JButton();
 		rotesHausUntenLinks.setBounds(685, 535, 32, 32);
 		this.buttonInitialisieren(rotesHausUntenLinks);
+		jButtonStartPositions[10] = rotesHausUntenLinks;
 		
 		rotesHausUntenRechts = new JButton();
 		rotesHausUntenRechts.setBounds(735, 535, 32, 32);
 		this.buttonInitialisieren(rotesHausUntenRechts);
+		jButtonStartPositions[11] = rotesHausUntenRechts;
 		
 		schwarzesHausObenLinks = new JButton();
 		schwarzesHausObenLinks.setBounds(235, 485, 32, 32);
 		this.buttonInitialisieren(schwarzesHausObenLinks);
+		jButtonStartPositions[12] = schwarzesHausObenLinks;
 		
 		schwarzesHausObenRechts = new JButton();
 		schwarzesHausObenRechts.setBounds(285, 485, 32, 32);
 		this.buttonInitialisieren(schwarzesHausObenRechts);
+		jButtonStartPositions[13] = schwarzesHausObenRechts;
 		
 		schwarzesHausUntenLinks = new JButton();
 		schwarzesHausUntenLinks.setBounds(235, 535, 32, 32);
 		this.buttonInitialisieren(schwarzesHausUntenLinks);
+		jButtonStartPositions[14] = schwarzesHausUntenLinks;
 		
 		schwarzesHausUntenRechts = new JButton();
 		schwarzesHausUntenRechts.setBounds(285, 535, 32, 32);
 		this.buttonInitialisieren(schwarzesHausUntenRechts);
+		jButtonStartPositions[15] = schwarzesHausUntenRechts;
 		
 		// Es wird am Startpunkt vom gelben Haus angefangen zu zaehlen
 		feld0 = new JButton();
@@ -853,7 +870,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 		int tokenID = 0;
 		String tokenColor = "";
 		int tokenPosition = 0;
-		
+		int gelbStartCounter = 0;
+		int gruenStartCounter = 0;
+		int rotStartCounter = 0;
+		int schwarzStartCounter = 0;
 		for(int i = 0; i< token.length; i++){
 			tokenID = Integer.parseInt(token[i].split(";")[0]);
 			tokenColor = token[i].split(";")[1];
@@ -861,8 +881,17 @@ public class Spielbrett extends JFrame implements ActionListener {
 			if((tokenID/10)==this.whoIsPlaying)this.positions.put(tokenID,tokenPosition);
 			if(tokenPosition >= 0){
 				setToken(jButtonMap.get("feld" + tokenPosition), tokenColor);
-				
 			}	
+			if(tokenPosition < 0){
+				// Startposition
+				switch(tokenColor){
+				case "gelb": setToken(jButtonStartPositions[0+gelbStartCounter], tokenColor);gelbStartCounter++;break;
+				case "gruen": setToken(jButtonStartPositions[4+gruenStartCounter], tokenColor);gruenStartCounter++;break;
+				case "rot": setToken(jButtonStartPositions[8+rotStartCounter], tokenColor);rotStartCounter++;break;
+				case "schwarz": setToken(jButtonStartPositions[12+schwarzStartCounter], tokenColor);schwarzStartCounter++;break;
+				default: break;
+				}
+			}
 		}
 	}
 	
@@ -872,6 +901,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 		for (String singleKey : keys) {
 			jButtonMap.get(singleKey).setIcon(null);
 			jButtonMap.get(singleKey).setOpaque(false);
+		}
+		for(int i = 0; i < jButtonStartPositions.length; i++){
+			jButtonStartPositions[i].setIcon(null);
+			jButtonStartPositions[i].setOpaque(false);
 		}
 	}
 	private void setToken(JButton feldx, String color){
