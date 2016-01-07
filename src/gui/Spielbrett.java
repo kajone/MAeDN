@@ -58,6 +58,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JLabel turnPlayer2;
 	private JLabel turnPlayer3;
 	private JLabel turnPlayer4;
+	private JLabel yourName;
 	
 	public Spielbrett(String titel)
 	{
@@ -157,6 +158,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 		gelbesHausObenRechts.setBounds(285, 35, 32, 32);
 		this.buttonInitialisieren(gelbesHausObenRechts);
 		jButtonStartPositions[0] = gelbesHausObenRechts;
+		
+		yourName = new JLabel("Your Name: ");
+		yourName.setBounds(20, 11, 170, 28);
+		getContentPane().add(yourName);
 		
 		gelbesHausObenLinks = new JButton();
 		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
@@ -527,7 +532,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 		client.connect();
-		
 		File file = new File("Einstellungen.txt");
 		Scanner sc = null;
 		try {
@@ -546,13 +550,8 @@ public class Spielbrett extends JFrame implements ActionListener {
 		sc.close();
 		String toServer = "[INIT],"+name+","+color;
 		client.writeToServer(toServer); 
-
-		
 	}
-	
-	
-	
-	
+
 	public void gameUpdate(String board){
 		player1.setText(board);
 	}
@@ -864,8 +863,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 
 	public void update(String board) {
 		clearBoard();
-		System.out.println("BOARD:" + board);
-		
 		String[] token = board.split(",");
 		int tokenID = 0;
 		String tokenColor = "";
@@ -907,6 +904,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 			jButtonStartPositions[i].setOpaque(false);
 		}
 	}
+	
 	private void setToken(JButton feldx, String color){
 		String location = "";
 		switch(color){
@@ -916,7 +914,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 			case "gruen": location = "./images/Spielfigur-gruen.jpg"; break;
 			default: System.out.println("Farbe hat keinen Spielstein"); break;
 		}
-		
 		feldx.setHorizontalTextPosition(SwingConstants.CENTER);
 		feldx.setOpaque(true);
 		ImageIcon icon = new ImageIcon(location); //"./images/Spielfigur-gelb.jpg"
@@ -930,16 +927,12 @@ public class Spielbrett extends JFrame implements ActionListener {
 		player3.setText(update.split(";")[2]);
 		player4.setText(update.split(";")[3]);
 	}
-
-
-
-
+	
 	public void setPossibilities(String possibilities) {
 		// rechnet direkt die möglichen drückbaren felder aus und packt sie in das Array possibilities 
 		//this.possibilities = possibilities;
 		if(possibilities == null){ this.realPossibilities = null; return;}
 		String[] possibilityArray = possibilities.split(";");
-		
 		this.realPossibilities = new int[possibilityArray.length];
 		for(int i = 0; i < possibilityArray.length; i++){
 			int tmp = 0;
@@ -948,18 +941,14 @@ public class Spielbrett extends JFrame implements ActionListener {
 			}
 			else if(positions.get(Integer.parseInt(possibilityArray[i])) <= 39 && positions.get(Integer.parseInt(possibilityArray[i]))  + rollResult >= 40){
 				//realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult + (whoIsPlaying-1)*4;
-				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;
-				
+				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;	
 			}else{
 				realPossibilities[i]=positions.get(Integer.parseInt(possibilityArray[i]))+rollResult; // TODO if not haus  // TODO Startposition
 			}
-			
 		}
 		for(int i = 0; i< realPossibilities.length;i++){
 			System.out.println(realPossibilities[i]);
 		}
-		//realPossibilities.add();
-		
 	}
 	
 	public void gotRollResult(String rollResult) {
@@ -978,12 +967,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 			}
 		}
 	}
-
-
-
-
+	
 	public void playerTurn(String playerID) {
 		// Der hier ist gerade dran
+		rollResultLabel.setText("Result:  ");
 		this.whoIsPlaying = Integer.parseInt(playerID);
 		turnPlayer1.setVisible(false); 
 		turnPlayer2.setVisible(false); 
@@ -995,8 +982,13 @@ public class Spielbrett extends JFrame implements ActionListener {
 		case 3: turnPlayer3.setVisible(true); break;
 		case 4: turnPlayer4.setVisible(true); break;
 		default: break;
-		}
-		
+		}	
 	}
 	
+	public void initYourName(String name) {
+		yourName.setFont(new Font("Arial",Font.BOLD, 22));
+		yourName.setText("You are "+ name);
+		yourName.setVisible(true);
+		getContentPane().add(yourName);
+	}
 }

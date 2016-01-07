@@ -119,6 +119,9 @@ public class Client {
 		if(msg.contains("[TURN]")){
 			brett.playerTurn(msg.split(";")[1]);
 		}
+		if(msg.contains("YOU")){
+			brett.initYourName(msg.split(";")[1]);
+		}
 	}
 	
 	//inner class

@@ -52,6 +52,11 @@ public class BotPlayer implements Player{
 	
 	public int getPlayerDecision(Server server, int intMax) {
 		Random turn = new Random();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return turn.nextInt(intMax);
 	}
 

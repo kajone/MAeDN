@@ -45,6 +45,11 @@ public class RealPlayer implements Player{
 		return tokens;
 	}
 	
+	
+	public void initRealPlayer(Server server){
+		server.writeToClient("[YOU];" + getName(), getClient().getSessionId());
+	}
+	
 	public int getPlayerDecision(Server server, int intMax){
 		int input = -1;
 		while(true){

@@ -17,11 +17,17 @@ public class MainClass {
 				  (4-server.getConnectedClients().size()) + " Computer-Spielern gespielt:\n";
 		for(int i = 0; i < player.length; i++) welcome += player[i].toString() + "\n"; 
 		server.writeToAll(welcome);
+		
 		String players = "[PLAYER]";
 		for(int i = 0; i < player.length; i++){
 			players += player[i].getName() + ";";
+			if(player[i] instanceof RealPlayer){
+				RealPlayer a = (RealPlayer )player[i];
+				a.initRealPlayer(server);
+			}
 		}
 		server.writeToAll(players);
+	
 		GameBoard mainBoard = new GameBoard(player);		
 		boolean checkWin = false;
 		String turnBegin = null;
