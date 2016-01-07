@@ -4,9 +4,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Scanner;
 import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
@@ -60,8 +62,25 @@ public class Einstellungen extends JFrame implements ActionListener{
 		spielerName.setFont(new Font("Arial",Font.BOLD, 18));
 		this.add(spielerName);
 		
+		//aktueller Spielername holen und als Standardwert ins Feld schreiben
+		File file = new File("Einstellungen.txt");
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		int i = 0;
+		String name = "";
+			if(sc.hasNextLine()){
+			name=sc.nextLine();
+			}
+		sc.close();
+
+		
 		spielerNameEingabe = new JTextField();
 		spielerNameEingabe.setBounds(250, 280, 100, 20);
+		spielerNameEingabe.setText(name);
 		this.add(spielerNameEingabe);
 		
 		speichern = new JButton("Speichern");
