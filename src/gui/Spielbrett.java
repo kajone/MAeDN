@@ -3,16 +3,16 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,6 +39,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JButton feld20, feld21, feld22, feld23, feld24, feld25, feld26, feld27, feld28, feld29;
 	private JButton feld30, feld31, feld32, feld33, feld34, feld35, feld36, feld37, feld38, feld39;
 	private JButton feld40, feld41, feld42, feld43, feld44, feld45, feld46, feld47, feld48, feld49, feld50, feld51, feld52, feld53, feld54, feld55;
+	private HashMap<String, JButton> jButtonMap = new HashMap();
 	
 	private Client client = null;
 	
@@ -180,234 +181,289 @@ public class Spielbrett extends JFrame implements ActionListener {
 		feld0 = new JButton();
 		feld0.setBounds(230, 230, 40, 40);
 		this.buttonInitialisieren(feld0);
+		jButtonMap.put("feld0", feld0);
 		
 		feld1 = new JButton();
 		feld1.setBounds(280, 230, 40, 40);
 		this.buttonInitialisieren(feld1);
+		jButtonMap.put("feld1", feld1);
 		
 		feld2 = new JButton();
 		feld2.setBounds(330, 230, 40, 40);
 		this.buttonInitialisieren(feld2);
+		jButtonMap.put("feld2", feld2);
 		
 		feld3 = new JButton();
 		feld3.setBounds(380, 230, 40, 40);
 		this.buttonInitialisieren(feld3);
+		jButtonMap.put("feld3", feld3);
 		
 		feld4 = new JButton();
 		feld4.setBounds(430, 230, 40, 40);
 		this.buttonInitialisieren(feld4);
+		jButtonMap.put("feld4", feld4);
 		
 		feld5 = new JButton();
 		feld5.setBounds(430, 180, 40, 40);
 		this.buttonInitialisieren(feld5);
+		jButtonMap.put("feld5", feld5);
 		
 		feld6 = new JButton();
 		feld6.setBounds(430, 130, 40, 40);
 		this.buttonInitialisieren(feld6);
+		jButtonMap.put("feld6", feld6);
 		
 		feld7 = new JButton();
 		feld7.setBounds(430, 80, 40, 40);
 		this.buttonInitialisieren(feld7);
+		jButtonMap.put("feld7", feld7);
 		
 		feld8 = new JButton();
 		feld8.setBounds(430, 30, 40, 40);
 		this.buttonInitialisieren(feld8);
+		jButtonMap.put("feld8", feld8);
 		
 		feld9 = new JButton();
 		feld9.setBounds(480, 30, 40, 40);
 		this.buttonInitialisieren(feld9);
+		jButtonMap.put("feld9", feld9);
 		
 		//Startpunkt gruenes Haus
 		feld10 = new JButton();
 		feld10.setBounds(530, 30, 40, 40);
 		this.buttonInitialisieren(feld10);
+		jButtonMap.put("feld10", feld10);
 		
 		feld11 = new JButton();
 		feld11.setBounds(530, 80, 40, 40);
 		this.buttonInitialisieren(feld11);
+		jButtonMap.put("feld11", feld11);
 		
 		feld12 = new JButton();
 		feld12.setBounds(530, 130, 40, 40);
 		this.buttonInitialisieren(feld12);
+		jButtonMap.put("feld12", feld12);
 		
 		feld13 = new JButton();
 		feld13.setBounds(530, 180, 40, 40);
 		this.buttonInitialisieren(feld13);
+		jButtonMap.put("feld13", feld13);
 		
 		feld14 = new JButton();
 		feld14.setBounds(530, 230, 40, 40);
 		this.buttonInitialisieren(feld14);
+		jButtonMap.put("feld14", feld14);
 		
 		feld15 = new JButton();
 		feld15.setBounds(580, 230, 40, 40);
 		this.buttonInitialisieren(feld15);
+		jButtonMap.put("feld15", feld15);
 		
 		feld16 = new JButton();
 		feld16.setBounds(630, 230, 40, 40);
 		this.buttonInitialisieren(feld16);
+		jButtonMap.put("feld16", feld16);
 		
 		feld17 = new JButton();
 		feld17.setBounds(680, 230, 40, 40);
 		this.buttonInitialisieren(feld17);
+		jButtonMap.put("feld17", feld17);
 		
 		feld18 = new JButton();
 		feld18.setBounds(730, 230, 40, 40);
 		this.buttonInitialisieren(feld18);
+		jButtonMap.put("feld18", feld18);
 		
 		feld19 = new JButton();
 		feld19.setBounds(730, 280, 40, 40);
 		this.buttonInitialisieren(feld19);
+		jButtonMap.put("feld19", feld19);
 		
 		//Startpunkt rotes Haus
 		feld20 = new JButton();
 		feld20.setBounds(730, 330, 40, 40);
 		this.buttonInitialisieren(feld20);
+		jButtonMap.put("feld20", feld20);
 		
 		feld21 = new JButton();
 		feld21.setBounds(680, 330, 40, 40);
 		this.buttonInitialisieren(feld21);
+		jButtonMap.put("feld21", feld21);
 		
 		feld22 = new JButton();
 		feld22.setBounds(630, 330, 40, 40);
 		this.buttonInitialisieren(feld22);
+		jButtonMap.put("feld22", feld22);
 		
 		feld23 = new JButton();
 		feld23.setBounds(580, 330, 40, 40);
 		this.buttonInitialisieren(feld23);
+		jButtonMap.put("feld23", feld23);
 		
 		feld24 = new JButton();
 		feld24.setBounds(530, 330, 40, 40);
 		this.buttonInitialisieren(feld24);
+		jButtonMap.put("feld24", feld24);
 		
 		feld25 = new JButton();
 		feld25.setBounds(530, 380, 40, 40);
 		this.buttonInitialisieren(feld25);
+		jButtonMap.put("feld25", feld25);
 		
 		feld26 = new JButton();
 		feld26.setBounds(530, 430, 40, 40);
 		this.buttonInitialisieren(feld26);
+		jButtonMap.put("feld26", feld26);
 		
 		feld27 = new JButton();
 		feld27.setBounds(530, 480, 40, 40);
 		this.buttonInitialisieren(feld27);
+		jButtonMap.put("feld27", feld27);
 		
 		feld28 = new JButton();
 		feld28.setBounds(530, 530, 40, 40);
 		this.buttonInitialisieren(feld28);
+		jButtonMap.put("feld28", feld28);
 		
 		feld29 = new JButton();
 		feld29.setBounds(480, 530, 40, 40);
 		this.buttonInitialisieren(feld29);
+		jButtonMap.put("feld29", feld29);
 		
 		//Startpunkt schwarzes Haus
 		feld30 = new JButton();
 		feld30.setBounds(430, 530, 40, 40);
 		this.buttonInitialisieren(feld30);
-
+		jButtonMap.put("feld30", feld30);
+		
 		feld31 = new JButton();
 		feld31.setBounds(430, 480, 40, 40);
 		this.buttonInitialisieren(feld31);
+		jButtonMap.put("feld31", feld31);
 		
 		feld32 = new JButton();
 		feld32.setBounds(430, 430, 40, 40);
 		this.buttonInitialisieren(feld32);
+		jButtonMap.put("feld32", feld32);
 		
 		feld33 = new JButton();
 		feld33.setBounds(430, 380, 40, 40);
 		this.buttonInitialisieren(feld33);
+		jButtonMap.put("feld33", feld33);
 		
 		feld34= new JButton();
 		feld34.setBounds(430, 330, 40, 40);
 		this.buttonInitialisieren(feld34);
+		jButtonMap.put("feld34", feld34);
 		
 		feld35= new JButton();
 		feld35.setBounds(380, 330, 40, 40);
 		this.buttonInitialisieren(feld35);
+		jButtonMap.put("feld35", feld35);
 		
 		feld36 = new JButton();
 		feld36.setBounds(330, 330, 40, 40);
 		this.buttonInitialisieren(feld36);
+		jButtonMap.put("feld36", feld36);
 		
 		feld37 = new JButton();
 		feld37.setBounds(280, 330, 40, 40);
 		this.buttonInitialisieren(feld37);
-	
+		jButtonMap.put("feld37", feld37);
+		
 		feld38 = new JButton();
 		feld38.setBounds(230, 330, 40, 40);
 		this.buttonInitialisieren(feld38);
+		jButtonMap.put("feld38", feld38);
 		
 		feld39 = new JButton();
 		feld39.setBounds(230, 280, 40, 40);
 		this.buttonInitialisieren(feld39);
+		jButtonMap.put("feld39", feld39);
 		
 		//Endhaus gelb
 		feld40 = new JButton();
 		feld40.setBounds(285, 285, 32, 32);
 		this.buttonInitialisieren(feld40);
+		jButtonMap.put("feld40", feld40);
 		
 		feld41 = new JButton();
 		feld41.setBounds(335, 285, 32, 32);
 		this.buttonInitialisieren(feld41);
+		jButtonMap.put("feld41", feld41);
 		
 		feld42 = new JButton();
 		feld42.setBounds(385, 285, 32, 32);
 		this.buttonInitialisieren(feld42);
+		jButtonMap.put("feld42", feld42);
 		
 		feld43 = new JButton();
 		feld43.setBounds(435, 285, 32, 32);
 		this.buttonInitialisieren(feld43);
+		jButtonMap.put("feld43", feld43);
 		
 		//Endhaus gruen
 		feld44 = new JButton();
 		feld44.setBounds(485, 85, 32, 32);
 		this.buttonInitialisieren(feld44);
+		jButtonMap.put("feld44", feld44);
 		
 		feld45 = new JButton();
 		feld45.setBounds(485, 135, 32, 32);
 		this.buttonInitialisieren(feld45);
+		jButtonMap.put("feld45", feld45);
 		
 		feld46 = new JButton();
 		feld46.setBounds(485, 185, 32, 32);
 		this.buttonInitialisieren(feld46);
+		jButtonMap.put("feld46", feld46);
 		
 		feld47 = new JButton();
 		feld47.setBounds(485, 235, 32, 32);
 		this.buttonInitialisieren(feld47);
+		jButtonMap.put("feld47", feld47);
 		
 		//Endhaus rot
 		feld48 = new JButton();
 		feld48.setBounds(685, 285, 32, 32);
 		this.buttonInitialisieren(feld48);
+		jButtonMap.put("feld48", feld48);
 		
 		feld49 = new JButton();
 		feld49.setBounds(635, 285, 32, 32);
 		this.buttonInitialisieren(feld49);
+		jButtonMap.put("feld49", feld49);
 		
 		feld50 = new JButton();
 		feld50.setBounds(585, 285, 32, 32);
 		this.buttonInitialisieren(feld50);
+		jButtonMap.put("feld50", feld50);
 		
 		feld51 = new JButton();
 		feld51.setBounds(535, 285, 32, 32);
 		this.buttonInitialisieren(feld51);
+		jButtonMap.put("feld51", feld51);
 		
 		//Endhaus schwarz
 		feld52 = new JButton();
 		feld52.setBounds(485, 485, 32, 32);
 		this.buttonInitialisieren(feld52);
+		jButtonMap.put("feld52", feld52);
 		
 		feld53 = new JButton();
 		feld53.setBounds(485, 435, 32, 32);
 		this.buttonInitialisieren(feld53);
+		jButtonMap.put("feld53", feld53);
 		
 		feld54 = new JButton();
 		feld54.setBounds(485, 385, 32, 32);
 		this.buttonInitialisieren(feld54);
+		jButtonMap.put("feld54", feld54);
 		
 		feld55 = new JButton();
 		feld55.setBounds(485, 335, 32, 32);
 		this.buttonInitialisieren(feld55);
-				
+		jButtonMap.put("feld55", feld55);		
 		
 		try {
 			client = new Client(5000, "127.0.0.1", this);
@@ -759,30 +815,75 @@ public class Spielbrett extends JFrame implements ActionListener {
 
 
 	public void update(String board) {
+		clearBoard();
+		System.out.println("BOARD:" + board);
 		
-//		Scanner sc = new Scanner(board);
-//		String[] token = null;
-//		int tokenPosition = 0;
-//		while(sc.hasNextLine()){
-//			token = sc.nextLine().split(";");
-//			tokenPosition = Integer.parseInt(token[2]);
-//			if(tokenPosition >= 0){
-//				
-//			}
-//			
-//			
-//		}
-		System.out.println("YEAAAHHH");
-		feld0.setHorizontalTextPosition(SwingConstants.CENTER);
+		String[] token = board.split(",");
+		int tokenID = 0;
+		String tokenColor = "";
+		int tokenPosition = 0;
 		
+		for(int i = 0; i< token.length; i++){
+//			System.out.println("STRINGELINGELING: " + yay);
+			tokenID = Integer.parseInt(token[i].split(";")[0]);
+			tokenColor = token[i].split(";")[1];
+			tokenPosition = Integer.parseInt(token[i].split(";")[2]);
+//			System.out.println("UPDATETRALALALA " + tokenPosition + " " + tokenColor);
+			if(tokenPosition >= 0){
+				setToken(jButtonMap.get("feld" + tokenPosition), tokenColor);
+			}
+			
+			
+		}
+	}
+	
+	private void clearBoard() {
+		Set<String> keys = jButtonMap.keySet();
+		for (String singleKey : keys) {
+			jButtonMap.get(singleKey).setIcon(null);
+			jButtonMap.get(singleKey).setOpaque(false);
+		}
+	}
+
+
+
+
+	private void setToken(JButton feldx, String color){
+		String location = "";
+		System.out.println("COLOR!  " +color);
+		switch(color){
+			case "gelb": location = "./images/Spielfigur-gelb.jpg"; break;
+			case "schwarz": location = "./images/Spielfigur-schwarz.jpg"; break;
+			case "2": location = "./images/Spielfigur-schwarz.jpg"; break;
+			case "rot": location = "./images/Spielfigur-rot.jpg"; break;
+			case "1": location = "./images/Spielfigur-rot.jpg"; break;
+			case "gruen": location = "./images/Spielfigur-gruen.jpg"; break;
+			default: System.out.println("Farbe hat keinen Spielstein"); break;
+		}
 		
-		feld0.setOpaque(true);
-		feld0.setContentAreaFilled(true);
-		feld0.setBorderPainted(true);
-		feld0.setIcon((Icon) new ImageIcon("Spielfigur-gelb.jpg"));
-		
-		
-		
+		feldx.setHorizontalTextPosition(SwingConstants.CENTER);
+		feldx.setOpaque(true);
+		ImageIcon icon = new ImageIcon(location); //"./images/Spielfigur-gelb.jpg"
+		icon.setImage(icon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		feldx.setIcon(icon);
 	}
 
 }
+
+
+
+// Diese Methode einen Spielstein über ein Label anzuzeigen läuft nicht..
+//JLabel spielstein = new JLabel();
+//spielstein.setBounds(feld0.getBounds());
+//spielstein.setHorizontalTextPosition(SwingConstants.CENTER);
+//Image image = null;
+//try {
+//	image = ImageIO.read(new File("./images/Spielfigur-gelb.jpg"));
+//} catch (IOException e) {
+//	e.printStackTrace();
+//}
+//
+//spielstein.setIcon(new ImageIcon(image));
+//spielstein.setVisible(true);
+//feld0.add(spielstein);
+//this.add(feld0);

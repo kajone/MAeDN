@@ -20,7 +20,7 @@ public class GameTokens {
 	public String toString(){
 		String s = "";
 		for(int i = 0; i < tokenArray.length; i++){
-			s += tokenArray[i].getId() + ";" + tokenArray[i].getColor() + ";" + tokenArray[i].getPosition() + "\n";
+			s += tokenArray[i].getId() + ";" + tokenArray[i].getColor() + ";" + tokenArray[i].getPosition() + ",";
 		}
 		return s;
 	}
