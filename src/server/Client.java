@@ -106,6 +106,10 @@ public class Client {
 			brett.update(msg.split("]")[1]);
 		}
 		
+		if(msg.contains("[PLAYER]")){
+			brett.playerUpdate(msg.split("]")[1]);
+		}
+		
 	}
 	
 	//inner class

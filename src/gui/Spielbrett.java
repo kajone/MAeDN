@@ -72,28 +72,28 @@ public class Spielbrett extends JFrame implements ActionListener {
 		
 		player1 = new JLabel();
 		player1.setBounds(20, 50, 100, 20);
-		player1.setText("Player1"); 						//TODO: Spielername vom Server holen 
+		player1.setText("Player1"); 						
 		player1.setFont(new Font("Arial",Font.BOLD, 22));
 		player1.setForeground(Color.YELLOW);
 		this.add(player1);
 		
 		player2 = new JLabel();
 		player2.setBounds(20, 100, 100, 20);
-		player2.setText("Player2");							//TODO: Spielername vom Server holen
+		player2.setText("Player2");							
 		player2.setFont(new Font("Arial",Font.BOLD, 22));
 		player2.setForeground(Color.GREEN);
 		this.add(player2);
 		
 		player3 = new JLabel();
 		player3.setBounds(20, 150, 100, 20);
-		player3.setText("Player3");							//TODO: Spielername vom Server holen			
+		player3.setText("Player3");									
 		player3.setFont(new Font("Arial",Font.BOLD, 22));
 		player3.setForeground(Color.RED);
 		this.add(player3);
 		
 		player4 = new JLabel();
 		player4.setBounds(20, 200, 100, 20);
-		player4.setText("Player4");							//TODO: Spielername vom Server holen
+		player4.setText("Player4");							
 		player4.setFont(new Font("Arial",Font.BOLD, 22));
 		this.add(player4);
 		
@@ -501,9 +501,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		player1.setText(board);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 		if(e.getSource() == gelbesHausObenLinks) {
 			System.out.println("gelbesHausObenLinks");
@@ -797,11 +795,8 @@ public class Spielbrett extends JFrame implements ActionListener {
 			//TODO: Hier mit der wuerfelfunktion der Logik verbunden
 			
 			client.roll();
-			
-			
 		}
 	}
-	
 	public void buttonInitialisieren(JButton button)
 	{
 		button.addActionListener(this);
@@ -810,9 +805,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 		button.setBorderPainted(false);
 		this.add(button);
 	}
-
-
-
 
 	public void update(String board) {
 		clearBoard();
@@ -831,9 +823,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 //			System.out.println("UPDATETRALALALA " + tokenPosition + " " + tokenColor);
 			if(tokenPosition >= 0){
 				setToken(jButtonMap.get("feld" + tokenPosition), tokenColor);
-			}
-			
-			
+			}	
 		}
 	}
 	
@@ -844,13 +834,8 @@ public class Spielbrett extends JFrame implements ActionListener {
 			jButtonMap.get(singleKey).setOpaque(false);
 		}
 	}
-
-
-
-
 	private void setToken(JButton feldx, String color){
 		String location = "";
-		System.out.println("COLOR!  " +color);
 		switch(color){
 			case "gelb": location = "./images/Spielfigur-gelb.jpg"; break;
 			case "schwarz": location = "./images/Spielfigur-schwarz.jpg"; break;
@@ -868,22 +853,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 		feldx.setIcon(icon);
 	}
 
+	public void playerUpdate(String update) {
+		player1.setText(update.split(";")[0]);
+		player2.setText(update.split(";")[1]);
+		player3.setText(update.split(";")[2]);
+		player4.setText(update.split(";")[3]);
+	}
 }
-
-
-
-// Diese Methode einen Spielstein über ein Label anzuzeigen läuft nicht..
-//JLabel spielstein = new JLabel();
-//spielstein.setBounds(feld0.getBounds());
-//spielstein.setHorizontalTextPosition(SwingConstants.CENTER);
-//Image image = null;
-//try {
-//	image = ImageIO.read(new File("./images/Spielfigur-gelb.jpg"));
-//} catch (IOException e) {
-//	e.printStackTrace();
-//}
-//
-//spielstein.setIcon(new ImageIcon(image));
-//spielstein.setVisible(true);
-//feld0.add(spielstein);
-//this.add(feld0);
