@@ -27,8 +27,7 @@ public class Einstellungen extends JFrame implements ActionListener{
 	private JButton speichern;
 	
 	private String[] farben = {"gelb", "gruen", "rot", "schwarz"};
-	JComboBox<String> farbenAuswahl;
-	public static Preferences userPrefs;
+	private JComboBox<String> farbenAuswahl;
 
 	public Einstellungen(String titel) {
 		

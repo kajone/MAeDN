@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -24,10 +25,10 @@ public class MainClass extends JFrame implements ActionListener {
 
 	JLabel spielerAnzahl;
 	JLabel passwort;
-	JTextField spielerAnzahlEingabe;
+	JComboBox<String> spielerAnzahlEingabe;
 	JTextField passwortEingabe;
 	JButton erstellen;
-	
+	String [] spieler = {"2", "3", "4"};
 	
 	public static void main(String[] args) {
 	
@@ -57,7 +58,7 @@ public class MainClass extends JFrame implements ActionListener {
 		passwort.setFont(new Font("Arial",Font.BOLD, 11));
 		this.add(passwort);
 		
-		spielerAnzahlEingabe = new JTextField();
+		spielerAnzahlEingabe = new JComboBox<String>(spieler);
 		spielerAnzahlEingabe.setBounds(350, 60, 100, 20);
 		this.add(spielerAnzahlEingabe);
 		
@@ -75,7 +76,7 @@ public class MainClass extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == erstellen) {
-			int minSpieler =  Integer.parseInt(spielerAnzahlEingabe.getText());
+			int minSpieler =  Integer.parseInt((String) spielerAnzahlEingabe.getSelectedItem());
 			String password = passwortEingabe.getText();
 			
 			System.out.println("Fuer dieses Spiel sind mindestens " +minSpieler + " Spieler benoetiget.");
