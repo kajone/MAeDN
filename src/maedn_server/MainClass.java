@@ -1,11 +1,10 @@
 package maedn_server;
 
-import gui.MainMenue;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -97,10 +96,8 @@ public class MainClass extends JFrame implements ActionListener {
 //				
 //				// Auf minSpieler connects warten..  
 				
-				boolean hansWurst = true;
 				while(server.getConnectedClients().size() < minSpieler){
-					
-					Thread.sleep(1000); // wartet 5 Sekunden
+					Thread.sleep(1000); // wartet eine Sekunde
 				}
 			} catch (IOException | InterruptedException e1) {
 				System.out.println("Error bei Server (init)");
@@ -112,23 +109,70 @@ public class MainClass extends JFrame implements ActionListener {
 			int playerCounter = 0;
 			player = new Player[4];
 			//RealPlayer erzeugen und sortiert einfuegen
-			for(int i = 1; i<=server.getConnectedClients().size(); i++){
-				for(ConnectedClient client : server.getConnectedClients().values()){
-					if(client.getId() == i) {
-						player[playerCounter] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
-						playerCounter++;
-						break;
-					}
+			// Wenn mehrere die gleiche Farbe beanspruchen (entspricht gleicher id), muss auf eine freie Farbe ge‰ndert werden
+//			for(int i = 1; i<=server.getConnectedClients().size(); i++){
+//				for(ConnectedClient client : server.getConnectedClients().values()){
+//					if(client.getId() == i) {
+//						player[playerCounter] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
+//						playerCounter++;
+//						break;
+//					}
+//				}
+//			}
+			
+			ArrayList<String> color = new ArrayList<String>();
+			color.add("gelb");color.add("gruen");color.add("rot");color.add("schwarz");
+			
+			for(ConnectedClient client : server.getConnectedClients().values()){
+				//Wenn Platz belegt, ist scheiﬂe
+				if(player[client.getId()-1] != null && !color.contains(client.getColor())){
+					// besser andere Farbe ausw‰hlen oder so
+					// Wunschfarbe ist n‰mlich belegt, besser mal freie Farbe w‰hlen
+					client.setColor(color.get(0));
+					System.out.println("RealPlayer erzeugen mit aenderung: " +client.getName()+  client.getColor()+ client.getId());
+					player[client.getId()-1] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
+					color.remove(0);
+					playerCounter++;
+				}else{
+					// Farbe ist noch frei 
+					System.out.println("RealPlayer erzeugen ohne aenderung: " +client.getName()+  client.getColor()+ client.getId());
+					player[client.getId()-1] = new RealPlayer(client.getName(), client.getColor(), client.getId(), client);
+					color.remove(client.getColor());
+					playerCounter++;
 				}
 			}
-//			// restliche BotPlayer erzeugen
-			while(playerCounter < 4){
-				player[playerCounter] = new BotPlayer(
-						"Bot" + (playerCounter - server.getConnectedClients().size()+1), 
-						(playerCounter - server.getConnectedClients().size()+1) + "",
-						playerCounter+1);
-				playerCounter++;
+			// restliche BotPlayer erzeugen
+			for(int i = 0; i < player.length; i++){
+				if(player[i] == null){
+					// Bot Player erzeugen
+					System.out.println("BotPlayer erzeugen  ");
+					String colorString ="";
+					switch(i){
+						case 0: colorString = "gelb"; break;
+						case 1: colorString = "gruen"; break;
+						case 2: colorString = "rot"; break;
+						case 3: colorString = "schwarz"; break;
+						default:System.out.println("Error Bot Initt"); break;
+					}
+					player[i] = new BotPlayer("Bot" + (playerCounter - server.getConnectedClients().size()+1), colorString);
+					color.remove(colorString);
+					playerCounter++;
+				}
 			}
+			
+
+			for(int i = 0; i < player.length; i++){
+				System.out.println(player[i]);
+			}
+			
+
+//			while(playerCounter < 4){
+//				player[playerCounter] = new BotPlayer(
+//						"Bot" + (playerCounter - server.getConnectedClients().size()+1), 
+//						(playerCounter - server.getConnectedClients().size()+1) + "",
+//						playerCounter+1);
+//				playerCounter++;
+//			}
 			
 			logik.MainClass game = new logik.MainClass(server, player); // Startet das Spiel
 			this.dispose();	// Schliesst die Lobby

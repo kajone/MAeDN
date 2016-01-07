@@ -39,12 +39,9 @@ public class SpielLobby extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == spielBeitreten){
-			
-			//  TODO Eingabewerte Name und Farbe über Eingabemaske 
-			//  mit color chooser oder so verknuepfen
-			Spielbrett brett = new Spielbrett("Spiel");	
-				
 	
+			Spielbrett brett = new Spielbrett("Spiel");	
+			
 			this.dispose();
 		}
 	}

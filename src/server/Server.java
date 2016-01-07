@@ -75,7 +75,8 @@ public class Server {
 		if(msg.split(",")[0].equals("[INIT]")){
 			connectedClient.setName((msg.split(",")[1]));
 			connectedClient.setColor((msg.split(",")[2]));
-			connectedClient.setId(connectedClients.size()); //Bsp.: 1 wird dem ersten Spieler zugewiesen
+
+			//connectedClient.setId(connectedClients.size()); //Bsp.: 1 wird dem ersten Spieler zugewiesen
 		}
 	}
 	

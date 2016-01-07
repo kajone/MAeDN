@@ -10,10 +10,16 @@ public class BotPlayer implements Player{
 	private String name;
 	private String color;
 	
-	public BotPlayer(String name, String color, int id){
+	public BotPlayer(String name, String color){
 		this.name = name;
 		this.color = color;
-		this.id = id;
+		switch(color){
+		case "gelb": this.id = 1; break;
+		case "gruen": this.id = 2; break;
+		case "rot": this.id = 3; break;
+		case "schwarz": this.id = 4; break;
+		default: break;
+		}
 	}
 	
 	public ConnectedClient getClient() {

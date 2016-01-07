@@ -29,6 +29,15 @@ public class ConnectedClient {
 	}
 
 	public void setColor(String color) {
+		
+		// Je nach dem welche Farbe man gewählt hat, ändert sich die ID
+		switch(color){
+		case "gelb": setId(1); break;
+		case "gruen": setId(2); break;
+		case "rot": setId(3); break;
+		case "schwarz": setId(4); break;
+		default: break;
+		}
 		this.color = color;
 	}
 
