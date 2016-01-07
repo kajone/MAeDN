@@ -32,14 +32,9 @@ public class MainClass extends JFrame implements ActionListener {
 	
 	public static void main(String[] args) {
 	
-		MainClass mainMenue = new MainClass("Server");
-		mainMenue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		mainMenue.setSize(400, 400);
-		
-		mainMenue.setLayout(null);
-		mainMenue.setVisible(true);
-		
+		MainClass mainclass = new MainClass("Server");
+		mainclass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
 	}
 
 
