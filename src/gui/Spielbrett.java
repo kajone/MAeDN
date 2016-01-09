@@ -60,7 +60,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JLabel turnPlayer4;
 	private JLabel yourName;
 	
-	public Spielbrett(String titel)
+	public Spielbrett(String titel, String ipInput)
 	{
 		super(titel);
 		
@@ -526,8 +526,11 @@ public class Spielbrett extends JFrame implements ActionListener {
 		this.buttonInitialisieren(feld55);
 		jButtonMap.put("feld55", feld55);		
 		
+		if(ipInput.equals("")){
+			ipInput = "127.0.0.1";
+		}
 		try {
-			client = new Client(5000, "127.0.0.1", this);
+			client = new Client(5000, ipInput , this); //TODO Wippien Address hier rein! 
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

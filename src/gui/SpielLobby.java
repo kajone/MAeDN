@@ -9,11 +9,15 @@ import javax.swing.JFrame;
 
 import logik.MainClass;
 import server.Client;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class SpielLobby extends JFrame implements ActionListener{
 	
 	private JButton spielBeitreten;
 	private JButton aktualisieren;
+	private JTextField ipInput;
 
 	public SpielLobby(String titel) {
 
@@ -34,13 +38,22 @@ public class SpielLobby extends JFrame implements ActionListener{
 		aktualisieren.addActionListener(this);
 		getContentPane().add(aktualisieren);
 		
+		ipInput = new JTextField();
+		ipInput.setBounds(10, 197, 160, 20);
+		getContentPane().add(ipInput);
+		ipInput.setColumns(10);
+		
+		JLabel iPLabel = new JLabel("IP:");
+		iPLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		iPLabel.setBounds(10, 176, 76, 20);
+		getContentPane().add(iPLabel);
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == spielBeitreten){
-	
-			Spielbrett brett = new Spielbrett("Mensch Aergere Dich Nicht");	
+			Spielbrett brett = new Spielbrett("Mensch Aergere Dich Nicht", ipInput.getText());	
 			
 			this.dispose();
 		}

@@ -63,11 +63,27 @@ public class Einstellungen extends JFrame implements ActionListener{
 		
 		//aktueller Spielername holen und als Standardwert ins Feld schreiben
 		File file = new File("Einstellungen.txt");
+		if(!file.exists()){
+			// Wenn File nicht existiert, neu anlegen
+
+			try {
+				file.createNewFile();
+				try {
+					FileWriter fw = new FileWriter(file);
+					fw.write("PlayerX\ngelb");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			} catch (IOException e) {
+				System.out.println("Einstellungen.txt konnte nicht angelegt werden");;
+			}
+			
+		}
 		Scanner sc = null;
 		try {
 			sc = new Scanner(file);
 		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
+			System.out.println("Es wurde noch keine Datei EInstellungen.txt angelegt");
 		}
 		int i = 0;
 		String name = "";
