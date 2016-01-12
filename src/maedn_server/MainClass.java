@@ -28,7 +28,7 @@ public class MainClass extends JFrame implements ActionListener {
 	JComboBox<String> spielerAnzahlEingabe;
 	JTextField passwortEingabe;
 	JButton erstellen;
-	String [] spieler = {"2", "3", "4"};
+	String [] spieler = {"1", "2", "3", "4"};
 	
 	public static void main(String[] args) {
 	
@@ -50,25 +50,30 @@ public class MainClass extends JFrame implements ActionListener {
 		spielerAnzahl.setBounds(20, 50, 200, 40);
 		spielerAnzahl.setText("Mindestanzahl Spieler(max. 4)");
 		spielerAnzahl.setFont(new Font("Arial",Font.BOLD, 11));
+		spielerAnzahl.setVisible(true);
 		this.add(spielerAnzahl);
 		
 		passwort = new JLabel();
 		passwort.setBounds(20, 150, 200, 40);
 		passwort.setText("Passwort(optional)");
 		passwort.setFont(new Font("Arial",Font.BOLD, 11));
+		passwort.setVisible(true);
 		this.add(passwort);
 		
 		spielerAnzahlEingabe = new JComboBox<String>(spieler);
 		spielerAnzahlEingabe.setBounds(350, 60, 100, 20);
+		spielerAnzahlEingabe.setVisible(true);
 		this.add(spielerAnzahlEingabe);
 		
 		passwortEingabe = new JTextField();
 		passwortEingabe.setBounds(350, 160, 100, 20);
+		passwortEingabe.setVisible(true);
 		this.add(passwortEingabe);
 		
 		erstellen = new JButton("erstellen");
 		erstellen.setBounds(200, 230, 100, 20);
 		erstellen.addActionListener(this);
+		erstellen.setVisible(true);
 		this.add(erstellen);
 		
 	}
