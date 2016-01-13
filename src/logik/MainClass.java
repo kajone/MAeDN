@@ -85,7 +85,9 @@ public class MainClass {
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
 		String possibilitiyString = ""; 
 		for (Token t : possibilities) {
-			possibilitiyString += t.getId()+ ";";
+			//possibilitiyString += t.getId()+ ";";
+			possibilitiyString += t.getPossibleNewPosition()+ ";";
+			//System.out.println(t.getPossibleNewPosition());
 		}
 		possibilitiyString = "Du hast folgende Moeglichkeiten:"+ possibilitiyString;
 		if(player[playerId] instanceof RealPlayer)server.writeToClient(possibilitiyString, player[playerId].getClient().getSessionId());

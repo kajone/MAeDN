@@ -40,6 +40,7 @@ public class GameBoard {
 		int housePosition = ((playerID + 3) % 4) * 10 + 9;
 		for(Token t : tokens){
 			int pos = moveToken(t, rollResult);
+			t.setPossibleNewPosition(pos); // malsehn ob das geht
 			if(pos==-2)continue;
 			MoveResult moveResult = checkMove(t, pos);
 			if(moveResult==MoveResult.OWN || moveResult==MoveResult.HOUSEOVERJUMP){

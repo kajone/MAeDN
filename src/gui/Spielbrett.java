@@ -932,23 +932,34 @@ public class Spielbrett extends JFrame implements ActionListener {
 	public void setPossibilities(String possibilities) {
 		// rechnet direkt die möglichen drückbaren felder aus und packt sie in das Array possibilities 
 		//this.possibilities = possibilities;
+//		if(possibilities == null){ this.realPossibilities = null; return;}
+//		String[] possibilityArray = possibilities.split(";");
+//		this.realPossibilities = new int[possibilityArray.length];
+//		for(int i = 0; i < possibilityArray.length; i++){
+//			if(positions.get(Integer.parseInt(possibilityArray[i])) == -1){ //Startposition
+//				realPossibilities[i] = whoIsPlaying*10-10;		
+//			}
+//			
+//			//else ifs für die einzelnen Farben..Häuser und so..wird blöd mit houseoverjump
+//			
+//			
+//			else if(positions.get(Integer.parseInt(possibilityArray[i])) <= 39 && positions.get(Integer.parseInt(possibilityArray[i]))  + rollResult >= 40){
+//				//realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult + (whoIsPlaying-1)*4;
+//				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;	
+//			}else{
+//				realPossibilities[i]=positions.get(Integer.parseInt(possibilityArray[i]))+rollResult; // TODO if haus
+//			}
+//		}
+//		for(int i = 0; i< realPossibilities.length;i++){
+//			System.out.println(realPossibilities[i]);
+//		}
+
+		
 		if(possibilities == null){ this.realPossibilities = null; return;}
 		String[] possibilityArray = possibilities.split(";");
 		this.realPossibilities = new int[possibilityArray.length];
 		for(int i = 0; i < possibilityArray.length; i++){
-			int tmp = 0;
-			if(positions.get(Integer.parseInt(possibilityArray[i])) == -1){ //Startposition
-				realPossibilities[i] = whoIsPlaying*10-10;		
-			}
-			else if(positions.get(Integer.parseInt(possibilityArray[i])) <= 39 && positions.get(Integer.parseInt(possibilityArray[i]))  + rollResult >= 40){
-				//realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult + (whoIsPlaying-1)*4;
-				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;	
-			}else{
-				realPossibilities[i]=positions.get(Integer.parseInt(possibilityArray[i]))+rollResult; // TODO if not haus  // TODO Startposition
-			}
-		}
-		for(int i = 0; i< realPossibilities.length;i++){
-			System.out.println(realPossibilities[i]);
+			realPossibilities[i] = Integer.parseInt(possibilityArray[i]);
 		}
 	}
 	

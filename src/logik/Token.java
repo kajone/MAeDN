@@ -7,6 +7,16 @@ public class Token {
 	private int id;
 	private String color;
 	
+	private int possibleNewPosition = 0;
+	
+	public int getPossibleNewPosition() {
+		return possibleNewPosition;
+	}
+
+	public void setPossibleNewPosition(int possibleNewPosition) {
+		this.possibleNewPosition = possibleNewPosition;
+	}
+
 	public Token(int id, String color){
 		this.id = id;
 		this.color = color;
