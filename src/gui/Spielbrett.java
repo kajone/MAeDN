@@ -850,8 +850,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == wuerfel) {
-			//TODO: Hier mit der wuerfelfunktion der Logik verbunden
-			
 			client.roll();
 		}
 	}
@@ -911,10 +909,10 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private void setToken(JButton feldx, String color){
 		String location = "";
 		switch(color){
-			case "gelb": location = "./images/Spielfigur-gelb.jpg"; break;
-			case "schwarz": location = "./images/Spielfigur-schwarz.jpg"; break;
-			case "rot": location = "./images/Spielfigur-rot.jpg"; break;
-			case "gruen": location = "./images/Spielfigur-gruen.jpg"; break;
+			case "gelb": location = "./images/Spielfigur-gelb.png"; break;
+			case "schwarz": location = "./images/Spielfigur-schwarz.png"; break;
+			case "rot": location = "./images/Spielfigur-rot.png"; break;
+			case "gruen": location = "./images/Spielfigur-gruen.png"; break;
 			default: System.out.println("Farbe hat keinen Spielstein"); break;
 		}
 		feldx.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -957,7 +955,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	public void gotRollResult(String rollResult) {
 		this.rollResult = Integer.parseInt(rollResult);
 		rollResultLabel.setText("Result: " + rollResult);
-		getContentPane().add(rollResultLabel);
+	//	getContentPane().add(rollResultLabel);
 	}
 	
 	private void checkClickedField(int j){
@@ -973,7 +971,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	
 	public void playerTurn(String playerID) {
 		// Der hier ist gerade dran
-		rollResultLabel.setText("Result:  ");
+		//rollResultLabel.setText("Result:  ");
 		this.whoIsPlaying = Integer.parseInt(playerID);
 		turnPlayer1.setVisible(false); 
 		turnPlayer2.setVisible(false); 
