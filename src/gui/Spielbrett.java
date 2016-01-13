@@ -160,7 +160,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		jButtonStartPositions[0] = gelbesHausObenRechts;
 		
 		yourName = new JLabel("Your Name: ");
-		yourName.setBounds(20, 11, 170, 28);
+		yourName.setBounds(10, 11, 170, 28);
 		getContentPane().add(yourName);
 		
 		gelbesHausObenLinks = new JButton();
@@ -987,9 +987,9 @@ public class Spielbrett extends JFrame implements ActionListener {
 	}
 	
 	public void initYourName(String name) {
-		yourName.setFont(new Font("Arial",Font.BOLD, 22));
+		yourName.setFont(new Font("Arial",Font.BOLD, 18));
 		yourName.setText("You are "+ name);
 		yourName.setVisible(true);
-		getContentPane().add(yourName);
+		//getContentPane().add(yourName);
 	}
 }
