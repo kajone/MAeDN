@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JLabel feld;
 	private JButton wuerfel;
 	private JLabel rollResultLabel;
+	private JLabel rollAnimation;
 	private JButton gelbesHausObenLinks, gruenesHausObenLinks, rotesHausObenLinks, schwarzesHausObenLinks;
 	private JButton gelbesHausObenRechts, gruenesHausObenRechts, rotesHausObenRechts, schwarzesHausObenRechts;
 	private JButton gelbesHausUntenLinks, gruenesHausUntenLinks, rotesHausUntenLinks, schwarzesHausUntenLinks;
@@ -115,23 +117,23 @@ public class Spielbrett extends JFrame implements ActionListener {
 		getContentPane().add(player4);
 		
 		wuerfel = new JButton();
-		wuerfel.setBounds(20, 450, 100, 100);
+		wuerfel.setBounds(31, 415, 124, 32);
 		
-		try{
-			Image image = ImageIO.read(new File("./images/wuerfel.jpg"));
-			wuerfel.setIcon(new ImageIcon(image));
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
+//		try{
+//			Image image = ImageIO.read(new File("./images/wuerfel.jpg"));
+//			wuerfel.setIcon(new ImageIcon(image));
+//		} catch(IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+		wuerfel.setText(">> Würfeln! <<");
 		wuerfel.setVisible(true);
 		wuerfel.addActionListener(this);
 		getContentPane().add(wuerfel);
 		
 					
 		this.rollResultLabel = new JLabel("Result:  ");
-		rollResultLabel.setBounds(20, 555, 79, 27);
+		rollResultLabel.setBounds(31, 553, 79, 27);
 		getContentPane().add(rollResultLabel);
 		
 		turnPlayer1 = new JLabel("<--");
@@ -162,6 +164,11 @@ public class Spielbrett extends JFrame implements ActionListener {
 		yourName = new JLabel("Your Name: ");
 		yourName.setBounds(10, 11, 170, 28);
 		getContentPane().add(yourName);
+		
+		rollAnimation = new JLabel("");
+		rollAnimation.setBounds(41, 458, 98, 98);
+		getContentPane().add(rollAnimation);
+		rollAnimation.setVisible(false);
 		
 		gelbesHausObenLinks = new JButton();
 		gelbesHausObenLinks.setBounds(235, 35, 32, 32);
@@ -939,7 +946,38 @@ public class Spielbrett extends JFrame implements ActionListener {
 	}
 	
 	public void gotRollResult(String rollResult) {
+		rollAnimation.setVisible(true);
 		this.rollResult = Integer.parseInt(rollResult);
+		File img = null;
+		BufferedImage bufferedImage = null;
+		for(int i = 0; i < 40; i++){
+			img = new File("./images/dice"+((i%6)+1) + ".png");
+			try {
+				bufferedImage = ImageIO.read(img);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			ImageIcon imageIcon = new ImageIcon(bufferedImage);
+			rollAnimation.setIcon(imageIcon);
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Crazy Animation
+		
+		img = new File("./images/dice"+ rollResult + ".png");
+		try {
+			bufferedImage = ImageIO.read(img);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ImageIcon imageIcon = new ImageIcon(bufferedImage);
+		rollAnimation.setIcon(imageIcon);
+		
+		
 		rollResultLabel.setText("Result: " + rollResult);
 	}
 	
