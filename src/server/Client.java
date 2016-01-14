@@ -111,7 +111,12 @@ public class Client {
 			brett.playerUpdate(msg.split("]")[1]);
 		}
 		if(msg.contains("Du hast folgende Moeglichkeiten")){
-			brett.setPossibilities(msg.split(":")[1]);
+			try{
+				brett.setPossibilities(msg.split(":")[1]);
+			}catch(ArrayIndexOutOfBoundsException e){
+				// Hier muss nichts passieren. 
+				// Spierler hat keine Zugmöglichkeiten, nächster ist dran
+			}
 		}
 		if(msg.contains("[ERGEBNIS]")){
 			brett.gotRollResult(msg.split(":")[1]);

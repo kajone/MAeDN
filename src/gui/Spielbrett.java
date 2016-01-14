@@ -31,7 +31,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 	private JLabel player1, player2, player3, player4;
 	private JLabel feld;
 	private JButton wuerfel;
-	private JLabel rollResultLabel;
 	private JLabel rollAnimation;
 	private JButton gelbesHausObenLinks, gruenesHausObenLinks, rotesHausObenLinks, schwarzesHausObenLinks;
 	private JButton gelbesHausObenRechts, gruenesHausObenRechts, rotesHausObenRechts, schwarzesHausObenRechts;
@@ -117,7 +116,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		getContentPane().add(player4);
 		
 		wuerfel = new JButton();
-		wuerfel.setBounds(31, 415, 124, 32);
+		wuerfel.setBounds(20, 415, 142, 32);
 		
 //		try{
 //			Image image = ImageIO.read(new File("./images/wuerfel.jpg"));
@@ -132,9 +131,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		getContentPane().add(wuerfel);
 		
 					
-		this.rollResultLabel = new JLabel("Result:  ");
-		rollResultLabel.setBounds(31, 553, 79, 27);
-		getContentPane().add(rollResultLabel);
+
 		
 		turnPlayer1 = new JLabel("<--");
 		turnPlayer1.setBounds(116, 50, 46, 14);
@@ -946,6 +943,8 @@ public class Spielbrett extends JFrame implements ActionListener {
 	}
 	
 	public void gotRollResult(String rollResult) {
+		this.wuerfel.setEnabled(false);
+		this.wuerfel.setText("Es wird gewürfelt");
 		rollAnimation.setVisible(true);
 		this.rollResult = Integer.parseInt(rollResult);
 		File img = null;
@@ -976,9 +975,9 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		ImageIcon imageIcon = new ImageIcon(bufferedImage);
 		rollAnimation.setIcon(imageIcon);
+		this.wuerfel.setEnabled(true);
+		this.wuerfel.setText(">> Würfeln! <<");
 		
-		
-		rollResultLabel.setText("Result: " + rollResult);
 	}
 	
 	private void checkClickedField(int j){
