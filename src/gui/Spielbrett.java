@@ -917,7 +917,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		}
 		feldx.setHorizontalTextPosition(SwingConstants.CENTER);
 		feldx.setOpaque(true);
-		ImageIcon icon = new ImageIcon(location); //"./images/Spielfigur-gelb.jpg"
+		ImageIcon icon = new ImageIcon(location);
 		icon.setImage(icon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		feldx.setIcon(icon);
 	}
@@ -929,32 +929,7 @@ public class Spielbrett extends JFrame implements ActionListener {
 		player4.setText(update.split(";")[3]);
 	}
 	
-	public void setPossibilities(String possibilities) {
-		// rechnet direkt die möglichen drückbaren felder aus und packt sie in das Array possibilities 
-		//this.possibilities = possibilities;
-//		if(possibilities == null){ this.realPossibilities = null; return;}
-//		String[] possibilityArray = possibilities.split(";");
-//		this.realPossibilities = new int[possibilityArray.length];
-//		for(int i = 0; i < possibilityArray.length; i++){
-//			if(positions.get(Integer.parseInt(possibilityArray[i])) == -1){ //Startposition
-//				realPossibilities[i] = whoIsPlaying*10-10;		
-//			}
-//			
-//			//else ifs für die einzelnen Farben..Häuser und so..wird blöd mit houseoverjump
-//			
-//			
-//			else if(positions.get(Integer.parseInt(possibilityArray[i])) <= 39 && positions.get(Integer.parseInt(possibilityArray[i]))  + rollResult >= 40){
-//				//realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult + (whoIsPlaying-1)*4;
-//				realPossibilities[i] = positions.get(Integer.parseInt(possibilityArray[i]))+rollResult-40;	
-//			}else{
-//				realPossibilities[i]=positions.get(Integer.parseInt(possibilityArray[i]))+rollResult; // TODO if haus
-//			}
-//		}
-//		for(int i = 0; i< realPossibilities.length;i++){
-//			System.out.println(realPossibilities[i]);
-//		}
-
-		
+	public void setPossibilities(String possibilities) {	
 		if(possibilities == null){ this.realPossibilities = null; return;}
 		String[] possibilityArray = possibilities.split(";");
 		this.realPossibilities = new int[possibilityArray.length];
@@ -966,7 +941,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 	public void gotRollResult(String rollResult) {
 		this.rollResult = Integer.parseInt(rollResult);
 		rollResultLabel.setText("Result: " + rollResult);
-	//	getContentPane().add(rollResultLabel);
 	}
 	
 	private void checkClickedField(int j){
@@ -981,8 +955,6 @@ public class Spielbrett extends JFrame implements ActionListener {
 	}
 	
 	public void playerTurn(String playerID) {
-		// Der hier ist gerade dran
-		//rollResultLabel.setText("Result:  ");
 		this.whoIsPlaying = Integer.parseInt(playerID);
 		turnPlayer1.setVisible(false); 
 		turnPlayer2.setVisible(false); 
@@ -1001,6 +973,24 @@ public class Spielbrett extends JFrame implements ActionListener {
 		yourName.setFont(new Font("Arial",Font.BOLD, 18));
 		yourName.setText("You are "+ name);
 		yourName.setVisible(true);
-		//getContentPane().add(yourName);
+	}
+
+	public void gameIsOver(String whoHasWon) {
+		
+		boolean tmp = false;
+		if(whoHasWon.equals(yourName.getText().replaceFirst("You are ", ""))){
+			// Er hier hat gewonnen!
+			tmp = true;			
+		}
+		
+		GameOver yoo = new GameOver("Spiel beendet", whoHasWon, tmp);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.dispose();
+		
 	}
 }

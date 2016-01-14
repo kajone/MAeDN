@@ -122,6 +122,9 @@ public class Client {
 		if(msg.contains("YOU")){
 			brett.initYourName(msg.split(";")[1]);
 		}
+		if(msg.contains("[WIN]")){
+			brett.gameIsOver(msg.split(";")[1]);
+		}
 	}
 	
 	//inner class

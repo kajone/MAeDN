@@ -1,5 +1,6 @@
 package logik;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 import server.Server;
@@ -68,7 +69,7 @@ public class MainClass {
 					int win = mainBoard.checkWin();
 					if(win != 0){
 						checkWin=true;
-						server.writeToAll(player[win].getName()+ " hat gewonnen!\n"+mainBoard.toString());
+						server.writeToAll("[WIN];"+player[win].getName()+";"+mainBoard.toString());
 						break;
 					}
 					if (roll == 6) {
@@ -78,6 +79,12 @@ public class MainClass {
 				}
 			}
 		}
+		// Spiel vorbei, Server killn 
+		try {
+			server.stop();
+		} catch (IOException e) {
+			System.out.println("Fehler beim Server schlieﬂen");
+		}
 	}
 
 	
@@ -85,9 +92,7 @@ public class MainClass {
 		LinkedList<Token> possibilities = mainBoard.getAllMoves(playerId, roll);
 		String possibilitiyString = ""; 
 		for (Token t : possibilities) {
-			//possibilitiyString += t.getId()+ ";";
 			possibilitiyString += t.getPossibleNewPosition()+ ";";
-			//System.out.println(t.getPossibleNewPosition());
 		}
 		possibilitiyString = "Du hast folgende Moeglichkeiten:"+ possibilitiyString;
 		if(player[playerId] instanceof RealPlayer)server.writeToClient(possibilitiyString, player[playerId].getClient().getSessionId());
